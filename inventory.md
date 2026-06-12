@@ -130,3 +130,22 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 25. **Палитра: Neutral/100 #FFFFFF дублирует White/100%** — два белых в разных коллекциях.
 26. **border/hack_do-not-implement** в выгрузке не встретился — но метод отдаёт только используемые переменные, удаление подтвердить вручную (A3).
 27. **heading/l 32/38 существует** — в задокументированной шкале ASSETS.md его не было, добавлен в tokens.css.
+
+## Файл иконок (Untitled UI Icons, снято 13.06.2026)
+
+Страницы: **Icons** (0:1) и **Emoji** (1369:556).
+
+**Icons:** 1467 компонентов. 1197 шт — 24×24 (лайн-иконки Untitled UI), 266 шт — 100×100 (страновые флаги по ISO-кодам). Категории: General, Arrows, Finance & eCommerce, Users, Maps & travel, Education, Security, Communication, Charts, Editor, Media & devices, Weather, Time, Images, Files, Shapes, Alerts & feedback, Layout, Development, Gamification, Flag.
+Кастом поверх стока: 5 survey-фейсов (face-angry/bad/normal/smile/happy-survey), `mark`, экспортные наборы `Charts_Unity` и `Flag - Unity` (для Unity-прототипа Бибы).
+Полный список имён — **icons-index.txt** в корне репо (для подбора иконки без MCP).
+
+**Emoji:** 3961 компонент в 8 категориях (Flags 261, Symbols, Objects, Travel & Places, Activity, Food & Drink, Animals & Nature, Smileys & People) — сток-пак целиком.
+
+## Аудит-лист — файл иконок
+
+28. **Два внутренних базовых компонента флагов: `_flagBase` и `_baseFlag`** — имя меняется посреди алфавита (примерно с hu). Один и тот же смысл, два имени — слить в один.
+29. **Флаги задублированы между страницами**: эмодзи-флаги «Flag <Страна>» (261 шт, Emoji) и ISO-флаги `kz`/`ru`/`uz`… (266 шт, Icons). Какая система каноническая для UI (поле телефона, выбор страны)?
+30. **Дубль имени `colors`** — компонент существует и в Editor, и в Images (сток-проблема Untitled UI, но ломает поиск/свопы).
+31. **Безымянный фрейм `Frame 1`** среди категорий; категория **Gamification на вид пустая** — проверить и заполнить/удалить.
+32. **Конвенция имён категорий смешана**: `Finance & eCommerce` рядом с `Finance_eCommerce`, `Maps_and_travel`, `Charts_Unity` — амперсанды против андерскоров.
+33. **Emoji-пак 3961 шт лежит целиком** — если реально используются единицы (стрик, подарок), сток-балласт стоит вынести в отдельный файл или archive, чтобы не грузить библиотеку.
