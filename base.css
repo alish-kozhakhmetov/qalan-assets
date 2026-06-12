@@ -274,3 +274,14 @@ input,button{font-family:inherit}
 }
 .text-secondary { color: var(--text-secondary); }
 .text-tertiary { color: var(--text-tertiary); }
+/* === Полная типографическая шкала из Figma variables (13.06.2026) === */
+.display-xl { font: 700 64px/72px var(--font-heading); }
+.display-l { font: 700 48px/56px var(--font-heading); }
+.heading-l { font: 700 32px/38px var(--font-heading); }
+.body-xl-bold { font: 700 24px/29px var(--font-body); }
+.body-xl { font: 400 24px/29px var(--font-body); }
+.body-l-bold { font: 700 20px/25px var(--font-body); }
+.body-l { font: 400 20px/25px var(--font-body); }
+.caption-m-bold { font: 700 14px/18px var(--font-body); }
+.caption-m { font: 400 14px/18px var(--font-body); }
+.label-m-regular { font: 400 14px/18px var(--font-body); text-transform: uppercase; letter-spacing: 1px; }

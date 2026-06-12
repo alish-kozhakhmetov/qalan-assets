@@ -1,30 +1,96 @@
-/* Qalan — токены DS. Источник: подтверждённые значения (ASSETS.md / Figma DS).
-   Не дополнять по памяти — только из Figma MCP или с подтверждения Алиша. */
+/* Qalan — токены DS. Выгружено из Figma variables через get_variable_defs (13.06.2026),
+   страницы: Colors, Typography, Grid, Content Blocks. Метод отдаёт используемые переменные,
+   поэтому набор может быть неполным — дополнять только из Figma, не по памяти. */
 
 :root {
-  /* Colors */
-  --brand:          #0066fe;
-  --canvas:         #f5f5f5;
-  --surface:        #ffffff;
-  --text-primary:   #0a0a0a;
+  /* ===== BG ===== */
+  --bg-canvas: #f5f5f5;
+  --bg-surface: #ffffff;
+  --bg-subtle: #eaeaea;
+  --bg-disabled: #eaeaea;
+  --bg-disabled-strong: #d6d6d6;
+  --bg-inverse: #0a0a0a;
+  --bg-brand: #0066fe;
+  --bg-brand-pressed: #004fc5;
+  --bg-brand-disabled: #b6d3ff;
+  --bg-status-success: #00b53f;
+  --bg-status-success-light: #dffae8;
+  --bg-status-error-light: #ffe7e7;
+  --bg-status-warning-light: #fff9da;
+  --bg-status-info-light: #ddebff;
+  --bg-accent-orange: #ff752c;
+  --bg-accent-orange-light: #ffe5d7;
+  --bg-accent-purple: #8b2cff;
+  --bg-accent-purple-light: #f1e6ff;
+  --bg-accent-yellow: #fed702;
+  --bg-accent-yellow-light: #fff9da;
+
+  /* ===== TEXT ===== */
+  --text-primary: #0a0a0a;
   --text-secondary: #4a4a4a;
-  --text-tertiary:  #b4b4b4;
-  --border:         #eaeaea;
-  --mastery-green:  #4caf1e;
-  --accent-orange:  #ff752c;
+  --text-tertiary: #b4b4b4;
+  --text-disabled: #d6d6d6;
+  --text-brand: #0066fe;
+  --text-brand-pressed: #004fc5;
+  --text-error: #ff4a4a;
+  --text-on-brand-primary: #ffffff;
+  --text-on-brand-secondary: #b6d3ff;
+  --text-on-brand-disabled: #ffffff80;
+  --text-on-inverse-primary: #ffffff;
+  --text-status-error: #ff4a4a;
+  --text-status-warning: #fed702;
+  --text-status-success: #00b53f;
+  --text-status-info: #0066fe;
+  --text-accent-orange: #ff752c;
+  --text-accent-purple: #8b2cff;
+  --text-accent-yellow: #fed702;
 
-  /* Radius */
-  --r-8: 8px;  --r-12: 12px;  --r-16: 16px;  --r-24: 24px;  --r-pill: 999px;
+  /* ===== BORDER ===== */
+  --border-default: #eaeaea;
+  --border-strong: #d6d6d6;
+  --border-subtle: #f5f5f5;
+  --border-focus: #0066fe;
+  --border-white: #ffffff;
+  --border-status-error: #ff4a4a;
+  --border-status-warning: #fed702;
+  --border-status-success: #00b53f;
+  --border-status-info: #0066fe;
+  --border-accent-orange: #ff752c;
+  --border-accent-purple: #8b2cff;
+  --border-accent-yellow: #fed702;
 
-  /* Layout (экран 375×812) */
-  --screen-w: 375px;
-  --statusbar-h: 52px;       /* не 44 */
-  --side-pad: 16px;
-  --content-w: 343px;
-  --bottomnav-h: 68px;
-  --safe-bottom: 20px;
+  /* ===== PALETTE (для справки; в макетах использовать семантические) ===== */
+  --brand-200: #b6d3ff; --brand-300: #79affe; --brand-500: #0066fe; --brand-600: #004fc5;
+  --graphit-50: #fafafa; --graphit-300: #d6d6d6; --graphit-500: #7a7a7a;
+  --graphit-600: #4a4a4a; --graphit-800: #1a1a1a; --graphit-900: #0a0a0a;
+  --red-300: #ffa5a5; --red-400: #ff7575; --red-500: #ff4a4a; --red-600: #c12424;
+  --green-400: #33d266; --green-500: #00b53f; --green-600: #0a7f32;
+  --orange-50: #fff4ec; --orange-100: #ffe5d7; --orange-200: #ffd2ba; --orange-300: #ffb48c;
+  --orange-400: #ff955c; --orange-500: #ff752c; --orange-600: #c34f1b; --orange-900: #4d1f08;
+  --yellow-50: #fffef3; --yellow-100: #fff9da; --yellow-200: #fff5b8; --yellow-300: #ffee85;
+  --yellow-400: #ffe24a; --yellow-500: #fed702; --yellow-600: #e1b502; --yellow-800: #b88501; --yellow-900: #a77000;
+  --purple-300: #cfa8ff; --purple-400: #ae6bff; --purple-600: #6e00f5;
 
-  /* Fonts */
+  /* ===== RADIUS (в Figma: xs/s/m/l/xl/xxl) ===== */
+  --r-xs: 4px; --r-s: 8px; --r-m: 12px; --r-l: 16px; --r-xl: 24px; --r-xxl: 999px;
+
+  /* ===== SPACING (в Figma — числовая коллекция) ===== */
+  --sp-2: 2px; --sp-4: 4px; --sp-8: 8px; --sp-10: 10px; --sp-12: 12px; --sp-16: 16px;
+  --sp-20: 20px; --sp-24: 24px; --sp-32: 32px; --sp-40: 40px; --sp-48: 48px; --sp-64: 64px;
+
+  /* ===== TYPOGRAPHY (font: weight size/lineHeight family) ===== */
   --font-heading: "Platform LC", sans-serif;
   --font-body: "Halvar Mittelschrift", sans-serif;
+  /* display/xl 64/72 · display/l 48/56 · heading/l 32/38 · heading/m 28/34 · heading/s 24/28 (Platform LC Bold)
+     body/xl 24/29 · body/l 20/25 · body/m 18/23 · body/s 16/21 (Halvar bold/regular/link)
+     label/m 14/18 ls1 · caption/m 14/18 */
+
+  /* ===== LAYOUT (экран 375×812, из спек ASSETS.md) ===== */
+  --screen-w: 375px; --statusbar-h: 52px; --side-pad: 16px; --content-w: 343px;
+  --bottomnav-h: 68px; --safe-bottom: 20px;
+
+  /* ===== LEGACY-алиасы (для совместимости kit/preview; не использовать в новом коде) ===== */
+  --brand: var(--bg-brand); --canvas: var(--bg-canvas); --surface: var(--bg-surface);
+  --border: var(--border-default); --mastery-green: #4caf1e; --accent-orange: var(--bg-accent-orange);
+  --r-8: 8px; --r-12: 12px; --r-16: 16px; --r-24: 24px; --r-pill: 999px;
 }
