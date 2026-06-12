@@ -1,0 +1,30 @@
+/* Qalan — шрифты DS. Family names взяты из метаданных файлов. */
+
+@font-face {
+  font-family: "Platform LC";
+  src: url("Platform-Regular-Desktop.woff2") format("woff2"),
+       url("Platform-Regular-Desktop.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Platform LC";
+  src: url("Platform-Bold-Desktop.woff2") format("woff2"),
+       url("Platform-Bold-Desktop.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Halvar Mittelschrift";
+  src: url("HalvarMittel-Rg.woff2") format("woff2"),
+       url("HalvarMittel-Rg.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Halvar Mittelschrift";
+  src: url("HalvarMittel-Bd.woff2") format("woff2"),
+       url("HalvarMittel-Bd.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}

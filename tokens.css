@@ -1,0 +1,30 @@
+/* Qalan — токены DS. Источник: подтверждённые значения (ASSETS.md / Figma DS).
+   Не дополнять по памяти — только из Figma MCP или с подтверждения Алиша. */
+
+:root {
+  /* Colors */
+  --brand:          #0066fe;
+  --canvas:         #f5f5f5;
+  --surface:        #ffffff;
+  --text-primary:   #0a0a0a;
+  --text-secondary: #4a4a4a;
+  --text-tertiary:  #b4b4b4;
+  --border:         #eaeaea;
+  --mastery-green:  #4caf1e;
+  --accent-orange:  #ff752c;
+
+  /* Radius */
+  --r-8: 8px;  --r-12: 12px;  --r-16: 16px;  --r-24: 24px;  --r-pill: 999px;
+
+  /* Layout (экран 375×812) */
+  --screen-w: 375px;
+  --statusbar-h: 52px;       /* не 44 */
+  --side-pad: 16px;
+  --content-w: 343px;
+  --bottomnav-h: 68px;
+  --safe-bottom: 20px;
+
+  /* Fonts */
+  --font-heading: "Platform LC", sans-serif;
+  --font-body: "Halvar Mittelschrift", sans-serif;
+}

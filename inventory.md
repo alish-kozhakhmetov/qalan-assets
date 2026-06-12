@@ -1,0 +1,119 @@
+# Qalan DS — Инвентарь (Фаза 0)
+
+> Источник: обход DS `kplQ9O09pktrTZYzsihSrr` через Figma MCP, 13 июня 2026.
+> ✅ снято · ⬜ в очереди
+
+## Карта страниц
+Foundations: Grid/spacings/radius `2975:7588` ⬜ · Colors `25:307` ⬜ · Typography `1:243` ⬜ (фаза 1, через get_variable_defs)
+Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · Trainer Blocks `7325:8125` ⬜ · Style guide `1:16` ⬜ · Archive `2882:6945` —
+
+## Компоненты (Controls / Navigation)
+
+| Компонент | Сет | Пропы | Вариантов | Внутренние |
+|---|---|---|---|---|
+| Button | 12:2263 | State(4) × Type(Primary/Secondary/Tertiary/Text/Text-critical) × Size(L58/M40/S30) | 60/60 ✅ | — |
+| Tabs | 494:477 | Type(Segmented/Underlined) × Size(M/S) | 4 | _Tab-component 249:1527 (8), _Affix 254:1517 (Star/Icon/Avatar × Active) |
+| Text field | 19:6301 | Type(Text Field/Multiline) × State | 8+6=14 | _Prefix 19:6419 (Icon/Text/Flag/Radio Button/Checkbox/Avatar), _Suffix 19:6426 (Icon/Text/Switch/Count) |
+| Pill | 3393:6443 | одиночный `Pills` | 1 | _Pill-component 1518:6514 (Default/Active/Disabled) |
+| Radio Button | 96:2273 | Size(S/M) × State(Default/Hover/Checked/Disabled) | 8 | — |
+| Checkbox | 94:2005 | Size(S/M) × State(Default/Hover/Checked/Indeterminate/Disabled) | 10 | — |
+| Switch | 130:258 | State(On/Off) × Disabled(T/F) × Size(M/S) | 8/8 ✅ | — |
+| List Item | 94:829 | Type(Checkbox/Radio Button/Navigation/Profile) × State | 21 (CB/RB/Nav по 6: Default/Pressed/Disabled/Active/Success/Error; Profile 3: без Active/Success/Error) | потребляет _Prefix/_Suffix из Text field |
+| Date picker | 3343:1853 | одиночный | 1 | _Calendar day 1300:16286 (Current month × Default/Hover/Selected/Disabled) |
+| Label | 3189:21959 | Text Case(Upper/Standard) × Weight(Reg/Bold) × Accent(T/F) | 8/8 ✅ | — |
+| Progress Bar | 916:24522 | Style=Default | 1 | _Progress-indicator 90:529 (Active T/F) |
+| Progress-button | 2837:11673 | Progress(1%/30%/90%/100%) | 4 | — |
+| Divider | 3182:11814 | Emphasis(Strong/Middle/Subtle) × Orientation(H/V) | 6/6 ✅ | — |
+| Keyboard iOS | 18:6027 | Slot(Numeric/Text) | 2 | — |
+| Scrollbar | 950:28783 | одиночный | 1 | — |
+| State icon | 3189:22153 | Success/Warning/Error/Info/Neutral/Brand/Ability + Hero success/failed/offline | 10 | Hero — 168×250, остальные 100×100 |
+| Avatar | 181:820 | Type(Default/Initial/Character/Student/Parent) × Size(XS24/S32/M40/L52/XL80) | 25/25 ✅ | — |
+| Banner | 4975:6825 | Type(Info/Error/Warning/Neutral) × Style(Default/Playful) | 8/8 ✅ | — |
+| Status Bar | 89:881 | Background(T/F), 375×52 | 2 | — |
+| Top Navigation | 7108:548 | Sub page(T/F), 108px | 2 | _Main page 181:809 (Role Student/Parent), _Sub page 4131:2242 (Default/Trainer/Shop), _Sticky-container 4997:5054 |
+| Bottom Navigation | 306:4104 | Role(Student/Parent/Alternative) | 3 | _Bottom-tab 18:6189 (State×Type Text only/Text+Icon), Badge 1824:6613 (S12/M22), Navigation Safe-area 123:3777 |
+| CTA Dock | 3156:9870 | Layout(Single 82/Row 152/Column 82) | 3 | ⚠️ см. аудит 8 |
+| Chat Input Dock | 3162:10303 | State(Default/Typing) | 2 | — |
+| Dots Indicator | 905:10324 | одиночный | 1 | _Dot-indicator 5065:4417 (Active T/F) |
+| Brand/Logo | 89:898 | Theme(Light/Dark) × Variant(Full/Short) | 4 | + App icon 4164:6030 (Default/Full) |
+
+## Аудит-лист
+
+1. **Prize banner не существует в ДС** — на экранах россыпь автолейаута. Кандидат в Content Blocks.
+2. **Text field / Multiline без ReadOnly и Error** (у Text Field 8 состояний, у Multiline 6). Осознанно?
+3. **_Prefix уже содержит Type=Radio Button и Checkbox** — фолдинг, отложенный для List Item, в донорах сделан. Проверить потребителей.
+4. **Hover в мобильной ДС**: Text field, Radio, Checkbox, _Calendar day. Тач-платформа — Hover мёртвый груз или задел под веб?
+5. **List Item: высоты вариантов** — Navigation 78, Profile 76, CB/RB 58. Nav vs Profile 2px — проверить, осознанно ли.
+6. **List Item / Profile** без Active/Success/Error — асимметрия с остальными типами.
+7. **Секция «Переделать» на странице List Item**: Draft-Tenge (6 номиналов 500–20 000) и Draft-Checkbox picture — черновики живут в библиотеке.
+8. **CTA Dock: Row=152px, Column=82px** — подозрение, что имена перепутаны (колонка из кнопок должна быть выше ряда) либо именование по числу кнопок. Проверить.
+9. **Рабочий мусор на канвасах**: instance Radio Button `8325:3116`, instance Divider `6241:3099`, instance _Bottom-tab `8205:3595`, два безымянных фрейма Logo на App Icon.
+10. **Dropdown-list `4074:2087`** — одиночный компонент на странице List Item, без вариантов и категории.
+11. **Banner/Invite from parent** (решение от 08.05) на странице Banner отсутствует — либо не создан, либо в Content Blocks. Проверить при обходе.
+12. Из CHANGELOG (проверить на месте в Content Blocks): Superare-опечатка, 4× [old], Accuracy, Course / Card с пробелом, lineHeight 100, border/hack_do-not-implement.
+
+## Trainer Blocks (`7325:8125`)
+
+| Компонент | Пропы / варианты |
+|---|---|
+| Trainer Keyboard 4765:9969 | Full view On/Off |
+| _Trainer Keyboard-types 891:5971 | Basic / Advanced / Additional / abc / ABC (5) |
+| _Trainer Keyboard-section 865:5856 | Type(Primary-symbol/Number/Symbol/Letter) × Disabled (8) |
+| _Trainer Expanded-keys 901:12699 | Root/Parentheses/Comma/Less-than/More-than/Sin/Cos/Tan/Ctg (9) |
+| _Trainer Section-container 865:5866 | text/icon/nesting-icon/nesting-text/nesting-small_text (5) |
+| _Trainer Hearts 1072:6088 | Size(M/S) × State(Default/If loss) (4) |
+| Trainer Task Container 915:14944 | одиночный |
+| _Trainer Task Content Text / Fraction / Text+Media | одиночные; Media 4173:8485 (Single/Stack/Grid) |
+| _Trainer Fraction 4906:5735 | одиночный |
+| _Trainer Answer Row 4800:5701 | одиночный |
+| _Trainer Answer Slot Radiobutton / Checkbox | одиночные |
+| _Trainer Answer Slot Text Field 4800:5867 | Layout(Stack/Grid) × Count(1/2/3/4+) (8) |
+
++ секция Task's examples: ~60 растров задач (это те самые «~50 фреймов» из P11, живут здесь).
+
+## Content Blocks (`17:2449`)
+
+| Компонент | Пропы / варианты |
+|---|---|
+| Trainer Block 242:3056 | Role × Subscription × Link × Phase(Promo/Upgrade/Ready/InProgress/Completed/Scheduled/Frozen/Checkpoint) = 19. Phase=Invite from parent убран ✅ (A7 выполнена) |
+| Metric Icon 242:4461 | Type(Streak/Accuracy/Time/Score/Task) × State(Off/On/Frozen) = 15/15 ✅ |
+| Metric Row 7187:4324, Feature Row 7325:10125 | одиночные |
+| Feature Icon 7096:4177 | Type(Hero/Trainer/Mentors/Analysis/Courses/Tests/Cashback/AI-chat) × On/Off = 16/16. State=Off для Courses/Tests/Cashback/AI-chat есть ✅ (A5 выполнена) |
+| Speech Bubble 555:10752 | Author(Recipient/Sender) × Type(Default/Small/Accent/Video/Image/Voice/Voice-active/File) = 16/16 ✅ |
+| _Speech Bubble Time, _Bubble Button(Play/Stop/File), Video | — |
+| Character Image 254:1461 | Type(23 персонажа) × Level(1–4) × Locked(T/F); у большинства 8/8 |
+| Character Card 2433:7240 | Size(M/S) × State(Default/Favorite/Disabled/New/Sale) = 10/10 ✅ |
+| Character Label 3189:21978 | Rarity: Common/Rare/Super-rare/Epic/Legendary/Mythical (6). Super-rare без опечатки ✅ |
+| Character Badge 6719:3640 | Type(New/Sale) × Size(L/M/S) = 6 |
+| Character Full-view 1161:7628 | одиночный |
+| Resource Icon 1283:6879 | Сoin/Diamond/Point (⚠️ аудит 17) |
+| Resource Button 5328:2899 | Coin/Diamond/Combinated |
+| Ability Button 5663:3883 | Active/Disabled |
+| League Button 7713:1631 | Default/Duel |
+| Streak 5242:2782 | Off: 9 состояний (1-13/14-30/31-61/62-92/93+/Skipped/Frozen/Gift/Gift-done); On: 7 (⚠️ аудит 14) |
+| Streak Item 6063:4522 | Empty/Done/Frozen/Locked/x2/x3 (A4: регистр x2/x3 не унифицирован) |
+| Streak Report 6408:2861 | Property 1=Default (⚠️ аудит 15) |
+| Course Item 5956:4867 | Free(5) / Optimum(5) / Trainer(4) состояний = 14, матрица осознанно асимметрична |
+| Course Card 295:8915, Product Card 7586:1903 | одиночные (Product Card шириной 163.5 — дробная) |
+| Promo Banner 439:4319 | Character/Default |
+| State Screen 7187:4459 | Type: Status / Edu success / Streak / Overlay (4) — в доке заявлено 3 типа с другими именами |
+| Plan Selector 7260:7914, Plan Screen 7466:7149 (Free/Optimum/Premium) | — |
+| Leaderboard Top/Stage/List, Stage(Place 1-3 × Active), Zone Status(Up/Downgrade), League's Trophy(Wooden/Iron/Bronze × On/Off), Trophy Row | Лиги, в работе |
+| Text Block 18:5597 | одиночный |
+
+## Аудит-лист (продолжение)
+
+13. **Feature Icon: Type=Hero** в ДС, но подпись в компоненте «Персонажи» (скрытые тексты-остатки переименования рядом). Ассеты в репо названы `feat-characters-*` по подписи. Привести к одному имени.
+14. **Streak: Gift и Gift-done существуют только в Full Screen=Off** — на On их нет. Дыра или осознанно?
+15. **Streak Report: проп `Property 1`** — дефолтное имя, переименовать (State/Type).
+16. **Trainer Block (сет) живёт внутри док-фрейма «Модуль тренажера / State»** — компонент-сет вложен в оформительский фрейм. Вынести на канвас.
+17. **Resource Icon: Type=Сoin** — «С» кириллическая (Сoin vs Coin в Resource Button). Скрытая опечатка, ломает поиск.
+18. **Character Image: `infernus`** с маленькой буквы — единственный из 23.
+19. **Мусор на Content Blocks**: 4 расс-компоненченных фрейма Character Badge (7453:*), 4 фрейма League's Trophy + Wood [Vectorized] + скрытый Bronze (WIP векторизация), telegram-cloud-photo растр, image 5/6, пустой Frame 8012:2553, инстансы Streak_for_Unity/Streak/Character Image ×5 россыпью, 16 скрытых текстов у Feature Icon.
+20. **Из CHANGELOG не обнаружены** (вероятно вычищены Никой): Accuracy, Course / Card с пробелом, [old]-компоненты, Superare. Снять с TASKS после подтверждения.
+21. **CTA Dock Row/Column** (аудит 8) и **Metric frozen-ассеты**: Frozen-иконки метрик в ДС есть, в репо PNG их нет — доэкспортировать.
+
+## Осталось (фаза 1+)
+- Foundations: Colors / Typography / Grid через `get_variable_defs` → честный tokens.css
+- **Файл иконок** (отдельный) — нужно переключение вкладки Алишем
+- Style guide `1:16` — снять

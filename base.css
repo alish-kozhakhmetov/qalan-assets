@@ -1,0 +1,276 @@
+/* Qalan — base.css. Компонентный CSS, перенесённый из верифицированного
+   qalan-prototype.html (прошёл попиксельную приёмку). Подключать после fonts.css и tokens.css.
+   Правки — только через сверку с Figma-нодой, см. ASSETS.md. */
+
+:root{
+  --space-4:4px;--space-8:8px;--space-12:12px;--space-16:16px;--space-20:20px;--space-24:24px;--space-32:32px;--space-40:40px;--space-48:48px;--space-64:64px;
+  --radius-xs:4px;--radius-s:8px;--radius-m:12px;--radius-l:16px;--radius-xl:24px;--radius-xxl:999px;
+  --bg-canvas:#f5f5f5;--bg-surface:#ffffff;--bg-subtle:#eaeaea;--bg-inverse:#0a0a0a;
+  --bg-brand:#0066fe;--bg-brand-pressed:#0052cc;--bg-brand-disabled:#b3ccff;
+  --text-primary:#0a0a0a;--text-secondary:#4a4a4a;--text-tertiary:#b4b4b4;--text-disabled:#c4c4c4;--text-brand:#0066fe;--text-error:#ff4d4d;
+  --text-on-brand-primary:#ffffff;
+  --border-default:#eaeaea;--border-strong:#d6d6d6;--border-subtle:#f5f5f5;--border-focus:#0066fe;--border-error:#ff4d4d;
+  --font-display:"Platform LC","Archivo",system-ui,sans-serif;
+  --font-body:"Halvar Mittelschrift","Hanken Grotesk",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{background:#1c1c1e;font-family:var(--font-body);color:var(--text-primary);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;flex-wrap:wrap;gap:24px}
+input,button{font-family:inherit}
+
+.phone{width:375px;height:812px;background:var(--bg-canvas);border-radius:44px;position:relative;overflow:hidden;box-shadow:0 0 0 12px #000,0 30px 60px rgba(0,0,0,.5);flex:0 0 auto}
+.screens{position:absolute;inset:0}
+
+/* ===== SCREEN = vertical flex: topbar(fixed) + body(fill) + dock(bottom) ===== */
+.screen{position:absolute;inset:0;background:var(--bg-canvas);display:none;flex-direction:column;overflow:hidden}
+.screen.active{display:flex}
+.statusbar{height:44px;flex:0 0 44px;display:flex;align-items:center;justify-content:space-between;padding:0 22px 0 30px;font-weight:700;font-size:15px}
+.statusbar .ico{display:flex;align-items:center;gap:7px}
+.topbar{flex:0 0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px;min-height:64px}
+.topbar.center{justify-content:center;position:relative}
+.topbar.center .iconbtn{position:absolute;left:16px}
+.iconbtn{width:48px;height:48px;border-radius:var(--radius-xxl);background:var(--bg-surface);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:0 0 auto;color:var(--text-primary)}
+.topbar .title{font-weight:700;font-size:18px}
+.langbtn{margin-left:auto;height:48px;padding:0 20px;border-radius:var(--radius-xxl);background:var(--bg-surface);border:none;font-weight:700;font-size:16px;cursor:pointer}
+
+/* body fills remaining height and scrolls if needed */
+.body{flex:1 1 auto;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding:0 16px}
+.body::-webkit-scrollbar{display:none}
+.body.center-list{justify-content:flex-end} /* list sits low like in mocks */
+
+/* dock pinned to bottom, outside scroll */
+.dock{flex:0 0 auto;padding:12px 16px calc(12px + env(safe-area-inset-bottom,8px));background:var(--bg-canvas)}
+
+/* typography helpers */
+.h-l{font-family:var(--font-display);font-weight:700;font-size:32px;line-height:38px;letter-spacing:-.01em}
+.sub{font-weight:400;font-size:18px;line-height:23px;color:var(--text-secondary);margin-top:8px}
+
+/* list item */
+.list{display:flex;flex-direction:column;gap:8px}
+.litem{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-m);min-height:64px;display:flex;align-items:center;gap:12px;padding:0 16px;cursor:pointer;font-size:18px;font-weight:400;width:100%;text-align:left;color:var(--text-primary)}
+.litem .flag{width:28px;height:28px;flex:0 0 auto;display:flex}
+.litem .lbl{flex:1}
+.litem .chev{color:var(--text-primary);flex:0 0 auto;display:flex}
+.litem.sel{border-color:var(--border-focus);border-width:2px;padding:0 15px}
+.litem .radio{width:24px;height:24px;border-radius:999px;border:2px solid var(--border-strong);flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.litem.sel .radio{border-color:var(--bg-brand)}
+.litem.sel .radio::after{content:"";width:12px;height:12px;border-radius:999px;background:var(--bg-brand)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+/* grid pinned to bottom: heading area above fills, items stay 58px (DS List/M Hug) */
+.grid2.fill{flex:0 0 auto;margin-top:auto}
+.grid2.fill .litem{height:58px;min-height:58px}
+
+/* buttons */
+.btn{font-weight:700;border:none;border-radius:var(--radius-xxl);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.btn.L{height:58px;font-size:18px}
+.btn-primary{background:var(--bg-brand);color:var(--text-on-brand-primary)}
+.btn-primary:active{background:var(--bg-brand-pressed)}
+.btn-primary.disabled{background:var(--bg-brand-disabled);cursor:default;pointer-events:none}
+
+/* fields — real system inputs */
+.field{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-m);height:60px;display:flex;align-items:center;padding:0 20px;width:100%}
+.field:focus-within{border-color:var(--border-focus);border-width:2px;padding:0 19px}
+.field input{border:none;outline:none;background:transparent;font-size:18px;width:100%;color:var(--text-primary)}
+.field input::placeholder{color:var(--text-tertiary)}
+.phonerow{display:flex;gap:8px}
+.phonerow .cc{flex:0 0 auto;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-m);height:60px;display:flex;align-items:center;gap:8px;padding:0 16px;font-size:18px}
+.phonerow .cc .flag{width:28px;height:28px;display:flex}
+.phonerow .field{flex:1}
+
+.consent{display:flex;gap:12px;margin-top:24px;align-items:flex-start}
+.cbox{width:24px;height:24px;border-radius:6px;border:2px solid var(--border-strong);flex:0 0 auto;cursor:pointer;margin-top:1px;display:flex;align-items:center;justify-content:center;color:#fff}
+.cbox.on{background:var(--bg-brand);border-color:var(--bg-brand)}
+.cbox:not(.on) svg{display:none}
+.consent .txt{font-size:14px;line-height:19px;color:var(--text-secondary)}
+.consent .txt u{color:var(--text-primary);text-decoration-thickness:1px;text-underline-offset:2px}
+
+/* otp */
+.otp{display:flex;gap:12px}
+.otp input{flex:1;height:64px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-m);text-align:center;font-size:24px;font-weight:700;outline:none;color:var(--text-primary)}
+.otp input:focus{border-color:var(--border-focus);border-width:2px}
+.resend{margin-top:24px;height:58px;border-radius:var(--radius-xxl);background:var(--bg-subtle);color:var(--text-tertiary);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px}
+
+/* welcome */
+#sc-welcome{background:var(--bg-brand);align-items:center;justify-content:center}
+#sc-welcome .logo{font-family:var(--font-display);font-weight:700;font-size:56px;color:#fff;letter-spacing:-.02em}
+#sc-welcome .statusbar{position:absolute;top:0;left:0;right:0;color:#fff}
+
+.mt8{margin-top:8px}.mt12{margin-top:12px}.mt16{margin-top:16px}.mt24{margin-top:24px}.mt32{margin-top:32px}
+
+/* SAFE AREA (home indicator) */
+.safearea{flex:0 0 20px;height:20px;background:transparent}
+
+/* iOS KEYBOARD (visual on desktop; hidden on mobile where real kb takes over) */
+.kbph{flex:0 0 auto;background:#d1d5db;padding:6px 3px 0;user-select:none;font-family:-apple-system,"SF Pro Text",system-ui,sans-serif}
+.kbph .krow{display:flex;justify-content:center;gap:6px;margin-bottom:11px;padding:0 3px}
+.kbph .k{flex:1;min-width:0;height:42px;background:#fff;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:400;box-shadow:0 1px 0 rgba(0,0,0,.32);cursor:pointer;color:#000}
+.kbph .k:active{background:#a4abb6}
+.kbph .k.wide{flex:1.4;background:#aeb3bd;font-size:18px}
+.kbph .k.go{background:var(--bg-brand);color:#fff;font-weight:600}
+.kbph .k.space{flex:5}
+.kbph .row-bottom{padding:0 3px 3px}
+/* numeric pad styles */
+.kbph.num .k{font-size:24px;font-weight:400;height:42px}
+.kbph.num .k.dot{background:#aeb3bd}
+.kbph.num .k.empty{background:transparent;box-shadow:none;cursor:default}
+/* on mobile (touchscreen) hide drawn kb — real one will appear */
+@media (pointer:coarse){.kbph{display:none}}
+
+/* OTP fix — prevent overflow */
+.otp{display:flex;gap:8px}
+.otp input{flex:1 1 0;min-width:0;height:64px}
+
+
+/* ===== TOP NAV — Main page (Student) ===== */
+.tnav-main{padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:64px}
+
+
+
+
+
+
+
+
+/* ===== HOME body — explicit padding because cards span full edge spacing ===== */
+.home-body{padding:8px 16px;gap:24px}
+
+/* ===== TRAINER BLOCK (Promo state) ===== */
+
+
+
+.trainer-block .h-m{font-family:var(--font-display);font-weight:700;font-size:28px;line-height:34px;letter-spacing:-.01em;color:var(--text-primary)}
+
+
+
+.feat-ico img{width:60px;height:60px;display:block;object-fit:contain}
+
+
+
+/* ===== CHARACTER CARD (Promo Banner slot) ===== */
+
+
+
+
+
+
+
+
+/* ===== BOTTOM NAV (Student) ===== */
+.bottomnav{flex:0 0 68px;height:68px;background:var(--bg-canvas);border-top:1px solid var(--border-default);display:flex;align-items:center;justify-content:space-around;padding:0 8px}
+.bn-item{background:transparent;border:none;font-family:var(--font-body);font-weight:700;font-size:18px;color:var(--text-tertiary);cursor:pointer;padding:8px 12px;position:relative;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bn-item.active{color:var(--text-primary)}
+.bn-item .dot{width:4px;height:4px;border-radius:999px;background:var(--text-primary);position:absolute;bottom:6px;left:50%;transform:translateX(-50%)}
+
+
+/* ===== PROMO BANNER (Character) — transparent, Amina overflows up ===== */
+.promo-banner{position:relative;height:200px;margin-top:8px;border-radius:16px;overflow:visible;cursor:pointer}
+.pb-text{display:flex;flex-direction:column;justify-content:space-between;gap:8px;height:100%;width:175px;padding:16px;position:relative;z-index:2}
+.pb-heading{display:flex;flex-direction:column;gap:4px}
+.pb-title{display:flex;flex-direction:column;gap:4px;padding-left:8px}
+.rarity-label{font-family:var(--font-body);font-weight:700;font-size:14px;line-height:18px;letter-spacing:1px;text-transform:uppercase;color:var(--text-primary)}
+.char-name{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:28px;color:var(--text-primary)}
+.stars{display:flex;gap:2px;height:32px;align-items:center}
+.star{width:24px;height:24px;flex:0 0 auto;background-repeat:no-repeat;background-position:center;background-size:contain}
+.star{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2.2l2.85 6.06 6.65.62-5 4.45 1.46 6.52L12 16.9 6.04 20.37l1.46-6.52-5-4.45 6.65-.62z' fill='%23EAEAEA'/></svg>")}
+.star.on{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 2.2l2.85 6.06 6.65.62-5 4.45 1.46 6.52L12 16.9 6.04 20.37l1.46-6.52-5-4.45 6.65-.62z' fill='%23FFD200' stroke='%23E1B502' stroke-width='1' stroke-linejoin='round'/></svg>")}
+.btn-pump{background:var(--bg-brand);color:#fff;border:none;border-radius:999px;height:40px;width:107px;font-family:var(--font-body);font-weight:700;font-size:16px;cursor:pointer}
+.pb-char{position:absolute;width:168px;height:236px;left:calc(50% + 87.5px - 168px/2);top:calc(50% - 18px - 236px/2);z-index:1;display:flex;align-items:flex-end;justify-content:center}
+.pb-char svg{height:236px;width:auto;display:block}
+
+
+/* ===== TOP NAV (Student) per DS ===== */
+.tnav-main{padding:8px 16px;display:flex;align-items:center;gap:8px;min-height:56px}
+.avatar{width:40px;height:40px;border-radius:999px;background:var(--bg-surface);display:flex;align-items:center;justify-content:center;font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--text-primary);cursor:pointer;flex:0 0 auto}
+.tnav-right{display:flex;align-items:center;gap:8px}
+.league-btn{width:40px;height:40px;border:none;background:var(--bg-surface);border-radius:var(--radius-m);cursor:pointer;padding:0;background-repeat:no-repeat;background-position:center;background-size:28px 28px}
+.balance-pill{display:flex;align-items:center;height:40px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:999px;cursor:pointer;overflow:hidden}
+.bal-seg{display:flex;align-items:center;gap:4px;padding:0 6px 0 12px;font-family:var(--font-body);font-weight:700;font-size:16px;color:var(--text-primary);height:40px}
+.bal-seg+.bal-seg{border-left:1px solid var(--border-default)}
+.bal-ic{width:26px;height:26px;background-repeat:no-repeat;background-position:center;background-size:contain;flex:0 0 auto}
+
+/* ===== COURSES (Free) ===== */
+.courses-body{padding:0 16px;gap:0}
+.prod-row{display:flex;gap:12px;padding-top:8px}
+.prod-card{flex:1;min-width:0;background:var(--bg-subtle);border-radius:var(--radius-l);padding:12px;display:flex;flex-direction:column;gap:10px}
+.prod-head{display:flex;align-items:center;gap:8px}
+.prod-ico{width:30px;height:30px;font-size:26px;line-height:30px;flex:0 0 auto;text-align:center}
+.prod-title{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:22px;color:var(--text-primary)}
+.prod-inner{background:var(--bg-surface);border-radius:var(--radius-m);padding:12px;display:flex;flex-direction:column;gap:12px;flex:1}
+.prod-sub{font-size:14px;line-height:18px;color:var(--text-secondary)}
+.prod-cta{display:flex;align-items:center;gap:4px;font-weight:700;font-size:15px;color:var(--text-primary);margin-top:auto;cursor:pointer}
+.prod-cta svg{width:18px;height:18px}
+
+.ctabs{display:flex;gap:20px;overflow-x:auto;border-bottom:1px solid var(--border-default);margin-top:8px}
+.ctabs::-webkit-scrollbar{display:none}
+.ctab{flex:0 0 auto;padding:12px 0;font-weight:700;font-size:16px;color:var(--text-tertiary);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none}
+.ctab.active{color:var(--text-primary);border-bottom-color:var(--text-primary)}
+
+.chap-title{font-family:var(--font-display);font-weight:700;font-size:24px;line-height:28px;color:var(--text-primary);margin-top:24px;margin-bottom:12px}
+
+.task-list{background:var(--bg-surface);border-radius:var(--radius-l);overflow:hidden;margin-bottom:16px}
+.prize{background:var(--bg-subtle);display:flex;align-items:center;gap:8px;padding:12px 16px}
+.prize-ico{font-size:20px;line-height:1;flex:0 0 auto}
+.prize-lbl{flex:1;font-weight:700;font-size:15px;color:var(--text-primary)}
+.reward-pill{display:flex;align-items:center;gap:4px;background:var(--bg-surface);border:1px solid var(--border-default);border-radius:var(--radius-xxl);padding:4px 10px 4px 12px;font-weight:700;font-size:14px;color:var(--text-primary)}
+.reward-pill .bal-ic{width:18px;height:18px}
+
+.citem{display:flex;flex-direction:column;gap:12px;padding:14px 12px}
+.citem+.citem{border-top:1px solid var(--border-default)}
+.citem-row{display:flex;align-items:flex-start;gap:10px}
+.citem-check{flex:0 0 auto;color:var(--border-strong);margin-top:1px;display:flex}
+.citem-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.citem-title{font-weight:700;font-size:18px;line-height:22px;color:var(--text-primary)}
+.citem-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.meta-tag{display:flex;align-items:center;gap:4px;font-weight:400;font-size:14px;line-height:18px;letter-spacing:1px;text-transform:uppercase;color:var(--text-primary)}
+.meta-tag.dim{color:var(--text-disabled)}
+.meta-tag svg{width:16px;height:16px;flex:0 0 auto}
+.citem-cta{align-self:flex-start;background:var(--bg-brand);color:var(--text-on-brand-primary);height:40px;border-radius:var(--radius-xxl);padding:0 16px;display:inline-flex;align-items:center;gap:4px;font-weight:700;font-size:15px;border:none;cursor:pointer}
+.citem-cta:active{background:var(--bg-brand-pressed)}
+.citem-cta svg{width:18px;height:18px}
+.citem.locked .citem-title{color:var(--text-tertiary)}
+
+
+
+/* ===== TRAINER BLOCK with tab bg shape ===== */
+
+
+
+
+
+
+
+
+/* ===== TRAINER BLOCK (Free Promo) — Figma 1587:39168 ===== */
+.trainer-block{position:relative;width:343px;height:305px;align-self:center;display:flex;flex-direction:column;gap:12px;padding:0 20px 20px;border-radius:24px;overflow:visible;background:transparent;box-shadow:none}
+.tb-bg{position:absolute;left:0;top:0;width:343px;height:305px;z-index:0;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.05))}
+.tb-bg svg{width:343px;height:305px;display:block}
+.tb-heading{position:relative;z-index:1;display:flex;flex-direction:column;gap:4px;width:100%}
+.tb-pill{display:flex;align-items:center;padding:8px 16px;border-radius:999px;width:max-content}
+.label-blue{font-family:var(--font-body);font-weight:700;font-size:14px;line-height:18px;letter-spacing:1px;text-transform:uppercase;color:#0a0a0a}
+.tb-title{font-family:var(--font-display);font-weight:700;font-size:28px;line-height:34px;color:var(--text-primary);margin:0}
+.features{position:relative;z-index:1;display:flex;gap:8px;align-items:center;width:100%}
+.feat{display:flex;flex-direction:column;gap:8px;align-items:center;flex:1 0 0;min-width:0;height:101px;justify-content:flex-start;cursor:pointer}
+.feat-ico{width:70px;height:70px;display:flex;align-items:center;justify-content:center}
+.feat-ico img{width:70px;height:70px;display:block;object-fit:contain}
+.feat-lbl{font-family:var(--font-body);font-weight:700;font-size:18px;line-height:23px;color:var(--text-primary);text-align:center}
+.trainer-block>.btn{position:relative;z-index:1;width:100%}
+
+/* streak (top nav) — grey off, no number */
+.streak-tn{position:relative;width:34px;height:40px;background-repeat:no-repeat;background-position:center;background-size:contain;cursor:pointer}
+
+.devtag{position:fixed;top:12px;left:12px;color:#888;font-size:12px}
+
+/* === Утилиты типографики (из задокументированных спек) === */
+.heading-s { font: 700 24px/28px var(--font-heading); }
+.body-m-bold { font: 700 18px/23px var(--font-body); }
+.body-m { font: 400 18px/23px var(--font-body); }
+.body-s-bold { font: 700 16px/21px var(--font-body); }
+.body-s { font: 400 16px/21px var(--font-body); }
+.label-m {
+  font: 700 14px/18px var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
