@@ -162,3 +162,32 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 - п.25 Neutral/100 vs White/100% — убрать дубль, **позже / Ника**
 - п.29 Флаги: канон для UI — **ISO-набор** (kz/ru/uz); эмодзи-флаги только для контента
 - алмаз/монета: канон — **мастер 30×30, экспорт @2x = 60×60** (свежая пачка). В kit base64-остатки заменены на файлы репо
+
+## Фаза 2 — List Item пересобран (13.06.2026)
+
+Мастер 94:829 (21 вариант: Checkbox/Radio Button/Navigation/Profile × 6 состояний, Profile без Active/Success/Error).
+
+**Корневой диагноз бага высоты (3 дефекта):**
+1. Radio Button в Active/Success/Error имел `h-58` FIXED вместо min-h — обрезал бы 2 строки.
+2. Вертикальное выравнивание гуляло: Navigation items-start, Profile items-center — при min-h давало ±2px между типами.
+3. gap-токен `--8` с дефолт-фолбэком **0** (а не 8) — схлопывал зазор у Checkbox.
+Корень: 4 типа собраны 4 разными скелетами (Nav/Profile через слой Content+flex-1, Checkbox/Radio — потроха в руте; Checkbox/Default вообще вложенным компонентом).
+
+**Рецепт пересборки (в base.css, класс .li):** единый каркас для всех типов — рут `min-h-58 + items-center + gap-8 + py-16 + Hug`, обязательный слой Content(flex-1), контролы как слоты prefix/suffix. Тип меняет начинку, не структуру. Результат рендера: все однострочные = 58px, все с описанием = 80px, разнобой устранён (проверено Playwright).
+
+**Задача в Figma (TASKS):** применить рецепт к мастеру — убрать h-58 fixed у Radio Active/Success/Error, выровнять items-center, свести 4 типа к единому слою Content, gap-фолбэк 8.
+
+**Открыто:** Checkbox/Error — чек залит красным (эталон) или пустой (валидация непоставленной галки)? Уточнить у Алиша.
+
+## Фаза 2 — Button пересобран (13.06.2026)
+Мастер 12:2263, 60 вариантов (Type: Primary/Secondary/Tertiary/Text/Text-critical × State: Default/Pressed/Disabled/Loading × Size: L58/M40/S30). Единый класс .btn + модификаторы. Loading = спиннер вместо контента, Text/Text-critical без паддингов и фона. Высоты L все 58 (проверено). Иконочные слоты left/right опциональны. Заметка: gap-фолбэк токенов та же болячка что в List Item, но в вебе решена прямым gap:4px.
+
+## Фаза 2 — Партия 1 контролов (13.06.2026)
+Пересобраны от мастеров: Text field (19:6301, 8 сост.), Multiline (6 сост.), Switch (130:258, 8), Tabs (494:477, Segmented/Underlined × M/S), Checkbox (94:2005), Radio (96:2273), Pill (3393:6443, 3 сост.). Все в base.css + kit. Сверка по эталону пройдена.
+
+## Аудит-лист (продолжение)
+34. **Multiline help-text на шрифте `Gerbera`** (font-['Gerbera:Regular'], 12px) — у обычного Text field тот же help на Halvar 14px. Чужой шрифт + другой размер в одном компоненте. Привести к Halvar 14.
+35. **Multiline/Focus: бордер захардкожен `#ebeaec`** мимо токена (у Active правильный --border/focus). Заменить на токен.
+36. **Tabs/Underlined использует токен `--text/placeholder`**, а Segmented — `--text/tertiary` для неактивного таба. Один смысл (неактивный текст), два токена. Свести.
+37. **Text field _Prefix/_Suffix дефолтные иконки**: search-sm (prefix), calendar (suffix), у Disabled/ReadOnly — slash-circle. Консистентно, ок.
+38. **Label gap-токен `--p-sapce-200`** — опечатка в имени переменной (sapce → space). Та же коллекция спейсинга что в аудите 22.
