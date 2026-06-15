@@ -595,3 +595,58 @@ input,button{font-family:inherit}
 
 /* Navigation Safe-area — мастер 123:3777 (нижний safe-area спейсер, ~20px) */
 .nav-safe { width:375px; height:20px; }
+
+/* ============================================================================
+   ПАРТИЯ 3 — КОНТЕНТ-БЛОКИ (пересборка от мастеров DS, 13.06.2026)
+   ============================================================================ */
+
+/* === Metric Icon — мастер 242:4461 (Type Streak/Accuracy/Time/Score/Task × On/Off/Frozen) ===
+   PNG metric-{type}-{state} 70px + ЗНАЧЕНИЕ оверлеем ВНУТРИ иконки + лейбл снизу.
+   ⚠ Frozen: в репо нет frozen-PNG (только on/off) — показываем On/Off, Frozen — пробел (аудит 19). */
+.metric { display:flex; flex-direction:column; gap:8px; align-items:center; width:76px; font-family:var(--font-body); }
+.metric__ico { position:relative; width:70px; height:70px; flex-shrink:0; }
+.metric__ico img { width:70px; height:70px; display:block; }
+.metric__val { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font:700 20px/25px var(--font-body); font-variant-numeric:tabular-nums lining-nums;
+  color:var(--text-primary); white-space:nowrap; }
+.metric--streak .metric__val { top:auto; bottom:8px; transform:translateX(-50%); color:var(--text-on-brand-primary); }
+.metric__label { font:700 18px/23px var(--font-body); color:var(--text-primary); text-align:center; }
+.metric--off .metric__val { display:none; }
+.metric--off .metric__label { color:var(--text-disabled); }
+
+/* === Feature Icon — мастер 7096:4177 (8 типов × On/Off) ===
+   В Figma — бесповый вектор на тип; репо даёт растры feat-{type}-{on/off}. Иконка 70 + лейбл. */
+.feat { display:flex; flex-direction:column; gap:8px; align-items:center; height:101px; font-family:var(--font-body); }
+.feat__ico { width:70px; height:70px; flex-shrink:0; }
+.feat__ico img { width:70px; height:70px; display:block; }
+.feat__label { font:700 18px/23px var(--font-body); color:var(--text-primary); text-align:center; }
+.feat--off .feat__label { color:var(--text-disabled); }
+
+/* === Feature Row — мастер 7325:10125 (ряд Feature Icon, flex-1 each) === */
+.feat-row { display:flex; gap:8px; align-items:center; width:327px; }
+.feat-row .feat { flex:1 0 0; min-width:0; width:auto; }
+
+/* === Metric Row — мастер 7187:4324 (ряд из 3 Metric Icon) ===
+   ⚠ точная ширина/гэп сняты по аналогии с Feature Row (MCP-таймаут на снятии) — сверить (аудит 20). */
+.metric-row { display:flex; gap:8px; align-items:flex-start; width:327px; }
+.metric-row .metric { flex:1 0 0; min-width:0; width:auto; }
+
+/* === Trainer Block — мастер 242:3056 (главный блок главной, 19 фаз) ===
+   Notched-карточка: фон Back (SVG-язычок сверху-слева под пилюлю) + контент фазы.
+   Корпус: rounded-24, padding 0 20 20 (pt=0), gap12, w343. Фон масштабируется по высоте
+   (язычок+углы фикс, тело тянется) — путь генерится под высоту фазы. */
+.tblock { position:relative; width:343px; box-sizing:border-box; padding:0 20px 20px;
+  display:flex; flex-direction:column; gap:12px; align-items:center;
+  border-radius:24px; overflow:hidden; font-family:var(--font-body); }
+.tblock__back { position:absolute; left:0; top:0; width:343px; z-index:0; pointer-events:none; }
+.tblock__back svg { display:block; width:343px; height:auto;
+  filter:drop-shadow(0 1px 2px rgba(10,10,10,.04)); }
+.tblock > *:not(.tblock__back) { position:relative; z-index:1; width:100%; box-sizing:border-box; }
+.tblock__head { display:flex; flex-direction:column; gap:4px; align-items:flex-start; }
+.tblock__pill { display:inline-flex; align-items:center; gap:4px; height:30px;
+  padding:8px 16px; box-sizing:border-box; border-radius:var(--r-xxl); }
+.tblock__pill span { font:700 14px/18px var(--font-body); text-transform:uppercase;
+  letter-spacing:1px; color:var(--text-primary); white-space:nowrap; }
+.tblock__title { font:700 28px/34px var(--font-heading); color:var(--text-primary); margin:0; }
+.tblock__cta { display:flex; flex-direction:column; gap:12px; align-items:center; width:100%; }
+.tblock__cta .cta__btn { width:100%; }
