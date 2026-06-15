@@ -650,3 +650,27 @@ input,button{font-family:inherit}
 .tblock__title { font:700 28px/34px var(--font-heading); color:var(--text-primary); margin:0; }
 .tblock__cta { display:flex; flex-direction:column; gap:12px; align-items:center; width:100%; }
 .tblock__cta .cta__btn { width:100%; }
+
+/* Trainer Block — внутренние элементы фаз (Ready/InProgress/…) */
+.tblock .metric-row { width:100%; }
+.tblock__info { display:flex; align-items:center; justify-content:space-between; width:100%; cursor:pointer; }
+.tblock__info-btn { display:flex; align-items:center; height:32px; color:var(--text-tertiary); }
+.tblock__info-btn svg { width:24px; height:24px; display:block; }
+.tblock__rewards { display:flex; gap:12px; align-items:center; }
+.tblock__reward { display:flex; gap:4px; align-items:center; font:700 18px/23px var(--font-body); color:var(--text-primary); }
+.tblock__reward img { width:24px; height:24px; display:block; }
+
+/* Progress-button — мастер 2837:11673 (Progress 1%/30%/90%/100%) ===
+   Серая пилюля h58 + синяя заливка прогресса (rounded-8) + лейбл-проценты белым.
+   ⚠ при низком прогрессе белый лейбл на сером — слабый контраст (как в мастере) — аудит 24. */
+.progbtn { position:relative; width:100%; height:58px; box-sizing:border-box; border-radius:var(--r-xxl);
+  background:var(--bg-subtle); overflow:hidden; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+.progbtn__fill { position:absolute; left:0; top:0; height:58px; border-radius:var(--r-s); background:var(--bg-brand); min-width:10px; }
+.progbtn__label { position:relative; z-index:1; font:700 18px/23px var(--font-body); color:var(--text-on-brand-primary); }
+
+/* metric Frozen — off-иконка + последнее значение, приглушённое (заморожено) */
+.metric--frozen .metric__val { display:block; color:var(--text-disabled); }
+.metric--frozen .metric__label { color:var(--text-disabled); }
+/* Trainer CTA: disabled (Checkpoint — старт только с телефона родителя) + подпись под кнопкой */
+.cta__btn--disabled { background:var(--bg-subtle,#eaeaea); color:var(--text-disabled); cursor:default; box-shadow:none; }
+.tblock__cta-caption { font:400 18px/23px var(--font-body); color:var(--text-secondary); text-align:center; }

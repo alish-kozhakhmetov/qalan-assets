@@ -70,6 +70,8 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 
 23. **Trainer Block notch-фон параметрический** — мастер 242:3056 кладёт единый Back-SVG 343×**409** и клипает по высоте фазы. В репо shapes/trainer-back.svg = 343×**305** (только под Promo). Решено: генерю notch-путь параметрически под высоту каждой фазы (язычок+углы фикс, тело тянется) — точнее фикс-SVG и кроет все фазы 305–350. Сам SVG-путь в base.css не хранится: генерится в разметке инстанса (как Back-инстанс в мастере).
 
+24. **Progress-button — контраст при низком прогрессе** — мастер 2837:11673: лейбл-проценты белым (text-on-brand) поверх серой пилюли с частичной синей заливкой. При 1–20% белый текст лежит на сером фоне → слабый контраст. Собрал как в мастере (белый); если AA важен — на низких % лейбл лучше в primary. На усмотрение.
+
 ## Trainer Blocks (`7325:8125`)
 
 | Компонент | Пропы / варианты |
@@ -209,3 +211,6 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 36. **Tabs/Underlined использует токен `--text/placeholder`**, а Segmented — `--text/tertiary` для неактивного таба. Один смысл (неактивный текст), два токена. Свести.
 37. **Text field _Prefix/_Suffix дефолтные иконки**: search-sm (prefix), calendar (suffix), у Disabled/ReadOnly — slash-circle. Консистентно, ок.
 38. **Label gap-токен `--p-sapce-200`** — опечатка в имени переменной (sapce → space). Та же коллекция спейсинга что в аудите 22.
+
+25. **Trainer Block — фазы: находки** — (а) Phase=Upgrade (Student, Link=Sent/Received, Sub=False) визуально идентичен Phase=Promo Student — отдельный specimen не нужен. (б) Phase=Checkpoint: CTA **disabled** (bg/subtle, текст disabled) + подпись «Только с телефона родителя» (body/m/regular, secondary) — старт только с телефона родителя. (в) Phase=Frozen: метрики показывают последние значения в disabled-цвете на off-иконке (frozen ≠ off). (г) Parent-варианты активных фаз (Ready/InProgress/Completed/Scheduled/Frozen/Checkpoint 6462:18852=315) ещё не сняты — переиспользуют корпуса, отличаются CTA/копирайтом.
+
