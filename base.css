@@ -433,3 +433,165 @@ input,button{font-family:inherit}
   background: var(--bg-subtle); color: var(--text-secondary); font: 700 16px/21px var(--font-body); border: none; cursor: pointer; }
 .pill--active { background: var(--bg-brand); color: var(--text-on-brand-primary); }
 .pill--disabled { background: var(--bg-disabled); color: var(--text-disabled); cursor: default; }
+
+/* ============================================================================
+   ПАРТИЯ 2 — НАВИГАЦИЯ (пересборка от мастеров DS, 13.06.2026)
+   ============================================================================ */
+
+/* === Status Bar — мастер 89:881 (Background T/F, 375×52) ===
+   iOS-чром. Время слева (Inter/SF Semibold 15, ls -0.3), кластер справа.
+   Глифы signal/wifi/battery — инлайн (системный OS-чром, не Qalan-ассет). */
+.sbar { display:flex; align-items:center; justify-content:space-between;
+  height:52px; width:375px; box-sizing:border-box; padding:0 19px 0 31px;
+  background:transparent; }
+.sbar--bg { background:var(--bg-canvas); }
+.sbar__time { font-family:-apple-system,"SF Pro Text","Inter",var(--font-body);
+  font-weight:600; font-size:15px; letter-spacing:-0.3px; color:var(--text-primary); }
+.sbar__ico { display:flex; align-items:center; gap:6px; color:var(--text-primary); }
+.sbar__ico svg { display:block; }
+
+/* === Top Navigation — мастер 7108:548 (Sub page T/F, 108px) ===
+   Колонка: System-bar (52) + контент-ряд (py8 вокруг ряда 40 = 56). 52+56=108.
+   Фон прозрачный — поверхность даёт экран/контейнер. */
+.tnav { width:375px; box-sizing:border-box; font-family:var(--font-body); }
+.tnav__bar { display:flex; align-items:center; box-sizing:border-box;
+  padding:8px 16px; min-height:56px; }
+.tnav__bar--main { justify-content:space-between; }
+.tnav__bar--sub  { gap:8px; }
+.tnav__left  { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.tnav__right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+
+/* control-кнопки nav: белая пилюля h40, иконка-only ≈52 (px16+20), текст — авто */
+.tnav-btn { display:inline-flex; align-items:center; justify-content:center; gap:4px;
+  height:40px; min-width:40px; box-sizing:border-box; padding:0 16px;
+  background:var(--bg-surface); border:1px solid var(--border-default);
+  border-radius:var(--r-xxl); cursor:pointer; color:var(--text-primary);
+  font:700 16px/21px var(--font-body); }
+.tnav-btn svg { display:block; }
+.tnav-btn--ability { padding:0; width:40px; border-radius:var(--r-m); }
+.tnav-btn--ability svg { color:var(--bg-brand); }
+
+/* аватар 40 round */
+.tnav-ava { width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; box-sizing:border-box;
+  background:var(--bg-surface); border:1px solid var(--border-default);
+  color:var(--text-secondary); font:700 16px/1 var(--font-body); overflow:hidden; }
+.tnav-ava img { width:100%; height:100%; object-fit:cover; }
+.tnav-ava svg { color:var(--text-secondary); }
+
+/* лига — мастер: белая 40 rounded-12, иконка повёрнута -10° */
+.tnav-league { width:40px; height:40px; border-radius:var(--r-m);
+  background:var(--bg-surface); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0; overflow:hidden; }
+.tnav-league img { width:28px; height:28px; transform:rotate(-10deg); }
+
+/* баланс — две сегмент-пилюли joined (мастер ResourceButton Combinated) */
+.tnav-bal { display:flex; align-items:center; flex-shrink:0; }
+.tnav-bal__seg { display:flex; align-items:center; gap:4px; height:40px; box-sizing:border-box;
+  background:var(--bg-surface); border:1px solid var(--border-default);
+  font:700 16px/21px var(--font-body); color:var(--text-primary); white-space:nowrap; }
+.tnav-bal__seg--l { padding:8px 6px 8px 12px; border-radius:var(--r-xxl) 0 0 var(--r-xxl); margin-right:-1px; }
+.tnav-bal__seg--r { padding:8px 6px; border-radius:0 var(--r-xxl) var(--r-xxl) 0; }
+.tnav-bal__seg img { width:30px; height:30px; display:block; }
+
+/* стрик в nav — флейм 34×40 + число (мастер _Main streak) */
+.tnav-streak { position:relative; width:34px; height:40px; flex-shrink:0; }
+.tnav-streak img { width:34px; height:40px; display:block; }
+.tnav-streak span { position:absolute; left:50%; top:11px; transform:translateX(-50%);
+  font:700 16px/21px var(--font-body); color:var(--text-on-brand-primary); }
+
+/* заголовок sub-page (мастер Title body/m/bold 18/23, центр) */
+.tnav-title { flex:1 0 0; min-width:0; display:flex; align-items:center; justify-content:center;
+  font:700 18px/23px var(--font-body); color:var(--text-primary); white-space:nowrap; }
+.tnav-title--trainer { flex:0 0 auto; gap:4px; padding-bottom:0;
+  border-bottom:1px solid var(--border-strong); }
+
+/* progress bar sub-page (5 сегментов h3, первый brand) */
+.tnav-progress { flex:1 0 0; min-width:0; display:flex; gap:2px; }
+.tnav-progress i { flex:1 0 0; height:3px; border-radius:8px; background:var(--bg-disabled); }
+.tnav-progress i.on { background:var(--bg-brand); }
+
+/* TrainerHearts — мастер 914:14844 (сердце + число жизней). ⚠ ассет сердца не в репо */
+.tnav-hearts { position:relative; width:32px; height:32px; flex-shrink:0; }
+.tnav-hearts svg { width:32px; height:32px; display:block; color:var(--bg-brand); }
+.tnav-hearts span { position:absolute; left:50%; top:50%; transform:translate(-50%,-55%);
+  font:400 18px/23px var(--font-body); color:var(--text-on-brand-primary); }
+
+/* === Bottom Navigation — мастер 306:4104 (Role Student/Parent/Alternative) ===
+   Фон canvas, border-top (кроме Alt), px8 py12. Ряд табов flex gap8. */
+.bnav { width:375px; box-sizing:border-box; background:var(--bg-canvas);
+  display:flex; flex-direction:column; align-items:center; padding:12px 8px;
+  border-top:1px solid var(--border-default); font-family:var(--font-body); }
+.bnav--alt { border-top:0; }
+.bnav__row { display:flex; gap:8px; align-items:center; width:100%; }
+
+/* _Bottom-tab — мастер 18:6189 (Type Text only / Text+Icon × state × badge) */
+.btab { flex:1 0 0; min-width:0; position:relative; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:4px; }
+.btab--text { height:44px; padding:0 8px; }
+.btab--icon { flex-direction:column; padding:0 8px; }
+.btab__label { font:700 18px/23px var(--font-body); color:var(--text-tertiary); white-space:nowrap; }
+.btab--icon .btab__label { font:700 14px/18px var(--font-body); }
+.btab--on .btab__label { color:var(--text-primary); }
+.btab__ico { width:24px; height:28px; flex-shrink:0; color:var(--text-tertiary);
+  display:flex; align-items:flex-start; justify-content:center; }
+.btab--on .btab__ico { color:var(--text-primary); }
+.btab__ico svg { width:24px; height:24px; display:block; }
+/* индикатор активного (только Text only): точка 8px под лейблом */
+.btab__dot { position:absolute; left:calc(50% + 1px); top:calc(50% + 14px);
+  transform:translate(-50%,-50%); width:8px; height:8px; border-radius:50%; background:var(--text-primary); }
+/* активный Text+Icon — иконка залитая (мастер: active тянет filled-ассет imgIcon1≠imgIcon).
+   Приближено тёмным сквирклом + белый глиф; точный filled-набор UUI — экспорт (аудит 18). */
+.btab--icon.btab--on .btab__ico { width:32px; height:32px; align-items:center;
+  background:var(--text-primary); border-radius:var(--r-s); color:var(--text-on-brand-primary); }
+
+/* Badge — мастер 1824:6613 (M22 счётчик / S12 точка), фон error */
+.badge { background:var(--bg-status-error); color:var(--text-on-brand-primary);
+  border-radius:var(--r-xxl); display:inline-flex; align-items:center; justify-content:center; box-sizing:border-box; }
+.badge--m { min-width:22px; height:22px; padding:0 5px 2px; font:700 14px/18px var(--font-body); letter-spacing:1px; }
+.badge--s { width:12px; height:12px; }
+
+/* === CTA Dock — мастер 3156:9870 (Single 82 / Row 152 / Column 82) ===
+   ⚠ нейминг контринтуитивен: Row = кнопки стопкой (вертикаль), Column = в один ряд (горизонталь). */
+.cta { width:375px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center;
+  gap:12px; padding:12px 16px; font-family:var(--font-body); }
+.cta__btn { height:58px; box-sizing:border-box; width:100%; display:flex; align-items:center; justify-content:center;
+  gap:4px; padding:8px 32px 10px; border-radius:var(--r-xxl); cursor:pointer;
+  font:700 18px/23px var(--font-body); white-space:nowrap; }
+.cta__btn--brand { background:var(--bg-brand); color:var(--text-on-brand-primary); border:0; }
+.cta__btn--secondary { background:var(--bg-surface); border:1px solid var(--border-default); color:var(--text-primary); }
+.cta__row { display:flex; gap:12px; width:100%; }
+.cta__row .cta__btn { flex:1 0 0; min-width:0; }
+.cta__caption { font:400 18px/23px var(--font-body); color:var(--text-secondary); text-align:center; width:100%; }
+
+/* === Chat Input Dock — мастер 3162:10303 (Default / Typing) === */
+.cidock { width:375px; box-sizing:border-box; display:flex; flex-direction:column; align-items:flex-start;
+  gap:12px; padding:8px 16px; font-family:var(--font-body); }
+.cidock__row { display:flex; align-items:center; gap:4px; width:100%; }
+.cidock__field { flex:1 0 0; min-width:0; display:flex; align-items:center; gap:8px;
+  height:58px; box-sizing:border-box; padding:12px; background:var(--bg-surface);
+  border:1px solid var(--border-default); border-radius:var(--r-l); }
+.cidock__field--typing { border:2px solid var(--border-focus); padding:11px; }
+.cidock__field > svg { width:24px; height:24px; display:block; color:var(--text-secondary); flex-shrink:0; }
+.cidock__input { flex:1 0 0; min-width:0; display:flex; align-items:center;
+  font:400 18px/23px var(--font-body); color:var(--text-tertiary);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.cidock__field--typing .cidock__input { color:var(--text-primary); }
+.cidock__caret { display:inline-block; width:1px; height:24px; background:var(--text-primary);
+  margin-left:1px; animation:cidock-blink 1s steps(1) infinite; }
+@keyframes cidock-blink { 50% { opacity:0; } }
+.cidock__send { width:58px; height:58px; flex-shrink:0; border-radius:var(--r-xxl); cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--bg-surface); border:1px solid var(--border-default); }
+.cidock__send svg { width:24px; height:24px; display:block; color:var(--text-primary); }
+.cidock__send--brand { background:var(--bg-brand); border:0; }
+.cidock__send--brand svg { color:var(--text-on-brand-primary); }
+
+/* === Dots Indicator — мастер 905:10324 (слот 16, точка 8) === */
+.dots { display:flex; gap:2px; align-items:center; padding:4px 0; }
+.dots i { width:16px; height:16px; display:flex; align-items:center; justify-content:center; }
+.dots i::before { content:""; width:8px; height:8px; border-radius:50%; background:var(--bg-disabled); }
+.dots i.on::before { background:var(--bg-brand); }
+
+/* Navigation Safe-area — мастер 123:3777 (нижний safe-area спейсер, ~20px) */
+.nav-safe { width:375px; height:20px; }
