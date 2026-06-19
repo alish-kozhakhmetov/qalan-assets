@@ -138,17 +138,30 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 - **Файл иконок** (отдельный) — нужно переключение вкладки Алишем
 - Style guide `1:16` — снять
 
-## Фаза 1 — Токены (снято 13.06.2026)
+## Фаза 1 — Токены (снято 13.06.2026, обновлено 19.06.2026)
 
-Выгружены в tokens.css: семантика bg/text/border, палитра (Brand/Graphit/Red/Green/Orange/Yellow/Purple), радиусы xs–xxl (4/8/12/16/24/999), спейсинг 2–64, типографика display→caption.
+Выгружены в tokens.css: семантика bg/text/border, палитра (Brand/Graphit/Red/Green/Orange/Yellow/Purple), радиусы xs–full (4/8/12/16/24/999), спейсинг 2–128, типографика display→caption.
+
+**Коллекции (6):** Palette (90 цветов) / Colors (59, Light+Dark) / Radius (7) / Spacing (13) / Stroke (2) / Size (4).
+
+**Rename pass 19.06.2026:**
+- Коллекции: Pallete→Palette, Raduis→Radius, Collection→Stroke.
+- Radius: xxl→full (значение 999).
+- Colors error→critical: text/status/error→critical, bg/status/error→critical, bg/status/error-light→critical-light, border/status/error→critical.
+- Colors System→system: System/bg-canvas→system/bg-canvas, System/bg-surface→system/bg-surface, System/text→system/text, System/bg-surface-subtle→system/bg-surface-subtle.
+- Stroke: border (alias Spacing/2) → m (raw 2); создан hairline=1.
+- Создана коллекция Size: control/s=30, control/m=40, control/l=58, control/xl=64.
+- Карантин _deprecated/: Boolean, border-hack (был border/hack_do-not-implement), text-error (был text/error).
+
+Полный дамп: `qalan-docs/tokens-raw.json`.
 
 **Закрытые задачи:** A2 выполнена полностью — heading/m 34 ✅, heading/s 28 ✅, body/l/regular в variables ✅. Снять из TASKS.
 
-22. **Спейсинг-коллекция: голые имена** («4»…«64») и при этом дубль `Space/24` рядом с «24». Привести к одной конвенции.
-23. **Токен `Number` = 128** — безымянный, назначение неизвестно.
-24. **Радиусы: голые буквы** (xs/s/m/l/xl/xxl без namespace) — конфликтуют по именам с Size-пропами компонентов при поиске.
-25. **Палитра: Neutral/100 #FFFFFF дублирует White/100%** — два белых в разных коллекциях.
-26. **border/hack_do-not-implement** в выгрузке не встретился — но метод отдаёт только используемые переменные, удаление подтвердить вручную (A3).
+22. ~~**Спейсинг-коллекция: голые имена** («4»…«64») и при этом дубль `Space/24` рядом с «24».~~ **VOID** — дубля Space/24 не существует, проверено 19.06; имена голые осознанно.
+23. ~~**Токен `Number` = 128** — безымянный, назначение неизвестно.~~ **VOID** — такого токена нет; «128» — штатный спейсинг в коллекции Spacing.
+24. **Радиусы: голые буквы** (xs/s/m/l/xl/full без namespace) — конфликтуют по именам с Size-пропами компонентов при поиске.
+25. ~~**Палитра: Neutral/100 #FFFFFF дублирует White/100%**~~ **VOID** — Neutral/100 не существует, проверено 19.06.
+26. **border/hack_do-not-implement** — ✅ карантинирован как `_deprecated/border-hack` (19.06).
 27. **heading/l 32/38 существует** — в задокументированной шкале ASSETS.md его не было, добавлен в tokens.css.
 
 ## Файл иконок (Untitled UI Icons, снято 13.06.2026)
