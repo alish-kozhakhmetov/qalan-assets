@@ -187,6 +187,11 @@
     { "name": "control/s", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 30 } },
     { "name": "control/m", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 40 } },
     { "name": "control/l", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 58 } },
-    { "name": "control/xl", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 64 } }
+    { "name": "control/xl", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 64 } },
+    { "name": "avatar/xs", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 24 } },
+    { "name": "avatar/s", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 32 } },
+    { "name": "avatar/m", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 40 } },
+    { "name": "avatar/l", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 52 } },
+    { "name": "avatar/xl", "collection": "Size", "type": "FLOAT", "valuesByMode": { "Mode 1": 80 } }
   ]
 }

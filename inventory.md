@@ -142,7 +142,7 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 
 Выгружены в tokens.css: семантика bg/text/border, палитра (Brand/Graphit/Red/Green/Orange/Yellow/Purple), радиусы xs–full (4/8/12/16/24/999), спейсинг 2–128, типографика display→caption.
 
-**Коллекции (6):** Palette (90 цветов) / Colors (59, Light+Dark) / Radius (7) / Spacing (13) / Stroke (2) / Size (4).
+**Коллекции (6):** Palette (90 цветов) / Colors (59, Light+Dark) / Radius (7) / Spacing (13) / Stroke (2) / Size (9).
 
 **Rename pass 19.06.2026:**
 - Коллекции: Pallete→Palette, Raduis→Radius, Collection→Stroke.
@@ -152,6 +152,16 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 - Stroke: border (alias Spacing/2) → m (raw 2); создан hairline=1.
 - Создана коллекция Size: control/s=30, control/m=40, control/l=58, control/xl=64.
 - Карантин _deprecated/: Boolean, border-hack (был border/hack_do-not-implement), text-error (был text/error).
+
+**Bind pass 19.06.2026 — привязка raw-значений к переменным (~2300 привязок, 20 страниц):**
+- Size: добавлены avatar/xs=24, avatar/s=32, avatar/m=40, avatar/l=52, avatar/xl=80.
+- List Item minHeight: 60→58 (=control/l), утверждено — 3 ноды.
+- Phase 1 Spacing: 212 привязок (padding+gap→Spacing/*).
+- Phase 2 Stroke weight: 200 привязок (1→hairline, 2→m).
+- Phase 3 Sizing: 122 привязки (minW/minH→control/* и avatar/*).
+- Phase 4 Colors: 1078 привязок (fill→bg/*/text/*, stroke→border/*).
+- cornerRadius (ранее): 689 привязок (4→xs, 8→s, 12→m, 16→l, 24→xl, 999/100/80/130→full).
+- Не привязано (ambiguous/off-scale): gap=10 (~272 ноды, нет токена), rgb(234,234,234) bg (bg/subtle vs bg/disabled), rgb(255,255,255) bg/text (несколько кандидатов), rgb(0,102,254) (bg/brand vs bg/status/info), sw=3 (~390, Content Blocks иконки), rgb(139,211,252) (300, Speech Bubble — нет токена), rgb(222,177,112) (48, золото — нет токена).
 
 Полный дамп: `qalan-docs/tokens-raw.json`.
 
