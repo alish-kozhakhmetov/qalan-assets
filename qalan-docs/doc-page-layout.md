@@ -1,7 +1,21 @@
-# Component documentation page — layout spec
+# Qalan DS — стандарт документации компонентов
 
-> Exemplar: **Button** page (`12:195`), frame `Button — Docs` (`8989:26`).
-> All future component doc pages follow this template exactly.
+> Документация организована вокруг решений читателя, а не внутренней структуры компонента.
+> Включай только те секции, которые применимы. Порядок фиксирован.
+
+## Принцип
+
+Читатель приходит с вопросом «какой компонент использовать и как». Документация отвечает:
+1. Что это и когда использовать (Header + When to use)
+2. Какие типы бывают и когда какой (Types — только если типы реальные)
+3. Как выглядит в продукте (Examples in context)
+4. Из чего состоит (Anatomy)
+5. Какие состояния и поведение (States)
+6. Полная матрица вариантов (Variants — справочник)
+7. Размеры и отступы (Specs)
+8. Что менялось (Changelog)
+
+---
 
 ## Outer frame
 
@@ -14,84 +28,139 @@
 | Padding | 80 all sides |
 | Item spacing | 64 between sections |
 | Fill | `bg/canvas` variable |
-| Horizontal align | MIN (left) |
+| Content max width | ~1040 (padding constrains; text/tables never full-bleed) |
 
 ## Page organization
 
-| Frame | Purpose |
+| Frame | Contents |
 |---|---|
-| `{Component} — Docs` | Documentation frame, left side of canvas |
-| `_Source` | Contains the master component set + any internal helpers. Positioned to the RIGHT of the docs frame (x = docs.width + 200). No fill, just a container. |
+| `{Component} — Docs` | Doc frame, left side of canvas |
+| `_Source` | Master component set + internal helpers. Right of doc frame (x = doc.width + 200). No fill. Internal components (_Prefix, _Suffix, _Tab-component, _Affix, _Calendar day, _Progress-indicator…) live here, NOT in the doc as co-equal sections. |
 
-## Sections (order matters)
+---
+
+## Sections (include only what applies; order fixed)
 
 ### 01 Header
 
-- **Title**: Component name, Inter Bold 40, `text/primary`.
-- **Description**: 1–2 sentences summarizing the component's purpose and variant axes. Inter Regular 18, `text/secondary`. Full width, auto-height.
-- **Pills row**: Horizontal auto-layout, gap 12. Each pill: `bg/surface` fill, `border/default` stroke (hairline), full corner radius. Label in Inter Semi Bold 12 `text/tertiary` + value in Inter Medium 12 `text/primary`. Standard pills: Platform, Status, Updated — leave values `—` until confirmed.
-- **Divider**: 1px rectangle, `border/default` fill, full width.
+- **Title**: Component name, `heading/l` (Platform LC Bold 32/38), `text/primary`.
+- **Purpose**: One line in Russian — what it is and what it does. `body/m/regular` (Halvar 18/23), `text/secondary`.
+- **Pills row**: H auto-layout, gap 12. **Always filled, never blank.**
+  - Platform: `iOS` / `Android` / `Web` (as applicable)
+  - Status: `Stable` / `Beta` / `Draft`
+  - Updated: date (e.g. `22.06.2026`)
+  - Pill: `bg/surface` fill, `border/default` stroke (hairline), `radius/full`. Label `caption/m/bold` `text/tertiary` + value `caption/m/regular` `text/primary`.
+- **Divider**: 1px rect, `border/default`, full width.
 
-### 02 Anatomy
+### 02 When to use
 
-- **Section title**: "Anatomy", Inter Bold 28, `text/primary`.
-- **Diagram container**: Horizontal auto-layout, `bg/surface` fill, corner radius `l` (16), padding 40, gap 80.
-  - **Left**: A real component instance (largest size, default state, all optional slots visible) inside a plain frame with absolutely-positioned numbered callout badges.
-  - **Callout badge**: 24×24 `bg/brand` circle + white bold 12 number centered.
-  - **Right**: Vertical legend with numbered rows (20×20 badge + Inter Regular 14 label).
+- **Heading**: `heading/s`, `text/primary`.
+- **Body**: 1–3 short RU paragraphs. `body/m/regular`, `text/secondary`, auto-height, max-width ~1040.
+  - What it's for.
+  - When to reach for it.
+  - When NOT to use it / the alternative (e.g. "Для бинарного вкл/выкл — Switch, не Checkbox").
 
-### 03 Variants
+### 03 Types (ONLY for components with genuinely different types)
 
-- **Section title**: "Variants", Inter Bold 28, `text/primary`.
-- **Layout**: Vertical stack of **size blocks**, gap 40 between blocks.
-- **Each size block**: Vertical auto-layout, `bg/surface` fill, corner radius `l`, padding 24, gap 16.
-  - Block title: `"Size {X} — {height} px"`, Inter Semi Bold 18.
-  - **Grid**: Vertical auto-layout, gap 12.
-    - Header row: Horizontal, 90px spacer + type labels (Inter Medium 12 `text/tertiary`, each in a 130px-wide cell, centered).
-    - Data rows: Horizontal, state label (Inter Medium 12 `text/secondary`, 90px wide) + one real button instance per type in a 130px fixed-width centered cell.
-  - States top→bottom: Default, Pressed, Disabled, Loading.
-  - Types left→right: Primary, Secondary, Tertiary, Text, Text-critical.
-  - Size blocks top→bottom: L, M, S.
+Include ONLY if the component has types that change BEHAVIOR or USE CASE — not mere visual variants.
+Examples: List Item (Checkbox / Radio / Navigation / Profile), Text Field (Text Field / Multiline),
+Tabs (Segmented / Underlined), Banner (Info / Error / Warning / Neutral), Top Nav (Main / Sub).
 
-### 04 Usage
+Do NOT include for atoms without real types: Divider, Scrollbar, Avatar, Checkbox, Radio, Switch, Label.
 
-- **Section title**: "Usage guidelines", Inter Bold 28, `text/primary`.
-- **Pairs container**: Vertical auto-layout, gap 24, full width.
-- **Each pair**: Horizontal auto-layout, gap 24, full width. Two cards side by side.
-  - **Card**: Vertical auto-layout, `bg/surface` fill, corner radius `m` (12), padding 20, gap 12. FILL width.
-    - Badge: Horizontal pill, `bg/status/success` (Do) or `bg/status/critical` (Don't), full corner radius, padding 4/10. Text: Inter Bold 12, `text/on-brand/primary`. Content: `"✓  Do"` / `"✗  Don't"`.
-    - Caption: Inter Regular 14, `text/secondary`, auto-height, full width. Prefix with `DRAFT — ` for unreviewed copy.
-- Aim for 2–3 pairs covering the most common misuse patterns.
+- Each type: real instance + RU "когда использовать" line.
+- A type with no "use when" rationale is not a type — drop it.
 
-### 05 Specs
+### 04 Examples in context
 
-- **Section title**: "Specs", Inter Bold 28, `text/primary`.
-- **Table**: Vertical auto-layout, `bg/surface` fill, corner radius `m`, `border/default` stroke (hairline), full width.
-  - **Rows**: Horizontal auto-layout, padding 12/16. Bottom stroke `border/default` (hairline) on all rows except last.
-  - **Header row**: Column labels in Inter Semi Bold 13, `text/tertiary`. Columns: Property, then one per size.
-  - **Data rows**: Property name in Inter Medium 13 `text/primary`, values in Inter Regular 13 `text/secondary`. All cells FILL width.
-- Standard properties to document: Height, Min width, Padding H, Padding V, Gap, Corner radius, Border width.
+- Real Qalan content, not "Label" / "Placeholder" dummies.
+- Examples: List Item → "Арманжан · 3 класс · Premium"; Banner → "Подписка истекает через 3 дня".
+- Pull real strings, avatars, icon names from the product.
+- 2–4 examples showing the component in typical Qalan use.
 
-## Conventions
+### 05 Anatomy
 
-- **Typography**: Text styles from the DS (Platform LC headings, Halvar Mittelschrift body/label/caption). Plugin API workaround: create text with Inter, set all layout properties, then apply `textStyleId` as the LAST operation (overrides font without requiring font loading).
-- **Language**: All prose in Russian (descriptions, anatomy legend, Do/Don't, section headings = Анатомия / Варианты / Использование / Характеристики). English preserved for: variant property names/values (State/Type/Default/Primary…), all layer/frame names, and spec table property names where English is standard.
-- All colors, radii, spacing, and stroke weights are **variable-bound** (no raw values).
-- Real component instances — never screenshots or detached copies.
-- `_Source` frame keeps the master alive on the same page; never delete or detach it.
-- Section names are numbered (`01`, `02`, …) so they sort predictably in the layers panel.
-- **FAMILY layout** (multiple component sets on one page): ONE doc frame, each component its own titled sub-section in logical order (public first), `_internal` helpers grouped LAST with "Internal:" prefix.
-- **CATALOG layout** (Content Blocks / Trainer Blocks with 15+ components): Header + catalog table listing all component sets with variant count, no full variant grids.
+- **Heading**: "Анатомия", `heading/s`.
+- **COMPLETE** — inspect the actual component and label every real part (e.g. Label includes its ICON,
+  not just text; List Item includes prefix/suffix/content/divider).
+- Diagram: `bg/surface` card, `radius/l`, padding 40, gap 80.
+  - Left: real instance (largest size, default state, all optional slots visible) in a plain frame
+    with absolutely-positioned callout badges (24×24 `bg/brand` circle + white `caption/m/bold` number).
+  - Right: vertical legend — numbered rows (20×20 badge + `label/m/regular` RU label).
 
-## Text style mapping
+### 06 States / behavior
 
-| Role | Style ID | Font |
+- Include only states that exist and matter.
+- Brief RU explanation for each state: what triggers it, what changes visually.
+- Clean grid: state label left + instance right, one row per state.
+
+### 07 Variants
+
+- Full grid for completeness — this is REFERENCE, not the spine of the page.
+- Block per axis with the fewest values (e.g. Size), inside: rows × columns grid.
+- Labels: `label/m/bold` (headers), `label/m/regular` (row labels).
+- Real instances in centered fixed-width cells.
+- Wrap rows; never overflow/clip.
+
+### 08 Specs
+
+- **Table width**: constrained to ~720–840 px (NOT full-bleed 1280).
+- **Header row**: `label/m/bold`, `text/tertiary`.
+- **Data rows**: property name `label/m/bold` `text/primary`, values `label/m/regular` `text/secondary`.
+- **Row separators**: `border/default` hairline, included in layout.
+- **Padding**: 12 top/bottom, 16 left/right.
+- Standard properties: Height, Min width, Padding, Gap, Corner radius, Border width.
+
+### 09 Changelog (per page)
+
+- Short list: `дата · что изменилось · тип (Added / Changed / Fixed / Deprecated)`.
+- Seeds from git history + manual notes.
+
+---
+
+## Typography (CRITICAL)
+
+Every text node MUST have `textStyleId` bound to a published style. No raw Inter, no unbound Halvar.
+
+| Role | Text style | Resolves to |
 |---|---|---|
-| Title (component name) | `heading/l` | Platform LC Bold 32/38 |
+| Title | `heading/l` | Platform LC Bold 32/38 |
 | Section heading | `heading/s` | Platform LC Bold 24/28 |
-| Description | `body/m/regular` | Halvar Mittelschrift 18/23 |
+| Body / description / "when to use" | `body/m/regular` | Halvar Mittelschrift 18/23 |
 | Block title | `body/s/bold` | Halvar Mittelschrift Bold 16/21 |
-| Grid / table labels | `label/m/bold` | Halvar Mittelschrift Bold 14/18 |
-| Grid / table values | `label/m/regular` | Halvar Mittelschrift 14/18 |
+| Grid / table header | `label/m/bold` | Halvar Mittelschrift Bold 14/18 |
+| Grid / table value | `label/m/regular` | Halvar Mittelschrift 14/18 |
 | Pill label | `caption/m/bold` | Halvar Mittelschrift Bold 14/18 |
 | Pill value | `caption/m/regular` | Halvar Mittelschrift 14/18 |
+
+**Plugin API workaround**: create text with Inter (loadable), set all layout properties (textAutoResize, resize, textAlignHorizontal), then apply `textStyleId` as the LAST step. Verify after build: read `textStyleId` on every text node — any unbound or Inter-resolving node is a bug.
+
+## Language
+
+- **Russian** for all prose: purpose, when-to-use, anatomy legend, state descriptions, type rationale, changelog entries, section headings (Анатомия / Варианты / Использование / Характеристики / Когда использовать / Типы / Примеры / Состояния / Журнал изменений).
+- **English** for: variant property names/values (State / Type / Default / Primary…), layer/frame names, spec property names where English is standard.
+
+## Internal helpers
+
+`_Prefix`, `_Suffix`, `_Tab-component`, `_Affix`, `_Calendar day`, `_Progress-indicator`, `_Dot-indicator`, `_Bottom-tab` etc. are NOT family members. They live in `_Source` or a clearly separated "Internal" appendix at the very end of the doc (never co-equal sections).
+
+**Reclassification:**
+- **SINGLE + internals** (doc as one component; internals in appendix): Pill, Text Field, Tabs, Progress Bar, Date Picker, Dots Indicator, Switch, Checkbox, Radio, Label, Avatar, Banner, Divider, Scrollbar, State Icon, Status Bar, Keyboard.
+- **FAMILY** (each genuine component gets its own sub-section with where/when): List Item page (List Item + List + Dropdown), Bottom Navigation (Bottom Nav + CTA Dock + Chat Input Dock + Navigation Safe-area), Top Navigation (Main page bar + Sub page bar).
+
+## Patterns pages (Content Blocks / Trainer Blocks)
+
+Do NOT dump in a flat stack. Structure:
+1. **Index table** at top — component name, variant count, short purpose.
+2. **Grouped sections by job/purpose** — e.g. "Персонажи" (Character Image + Card + Label + Badge + Full-view), "Чат" (Speech Bubble + _Bubble Button + Video), "Прогресс" (Streak + Streak Item + Streak Report).
+3. Each group: titled block with RU description of what it is and where it appears in the product, then its component instances.
+
+## Verification checklist (per page)
+
+- [ ] All text nodes have `textStyleId` set (not empty, not Inter)
+- [ ] All instances fit their containers (no clipping/overflow)
+- [ ] Pills filled (Platform, Status, Updated — never blank)
+- [ ] Tables constrained width (~720–840), not full-bleed
+- [ ] Internal helpers in _Source or appendix, not co-equal sections
+- [ ] Component model checked — if broken, fixed before documenting
+- [ ] Real Qalan content in examples (not "Label" / "Placeholder")
