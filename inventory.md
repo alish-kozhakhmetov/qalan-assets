@@ -235,5 +235,14 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 37. **Text field _Prefix/_Suffix дефолтные иконки**: search-sm (prefix), calendar (suffix), у Disabled/ReadOnly — slash-circle. Консистентно, ок.
 38. **Label gap-токен `--p-sapce-200`** — опечатка в имени переменной (sapce → space). Та же коллекция спейсинга что в аудите 22.
 
+## Фаза 3 — Документация компонентов (22.06.2026)
+
+**Стандарт**: `qalan-docs/doc-page-layout.md` — usage-first / decision-first.
+Секции: Header (заполненные pills) → Когда использовать → Типы (если есть) → Примеры в контексте → Анатомия → Состояния → Варианты → Характеристики → Журнал изменений.
+
+**Эталон 1 — Label**: полная пересборка. Включена иконка (Boolean Icon) в анатомию, примеры в контексте с описанием (Подписи секций, Статус с акцентом, Метаданные, Категория), состояния (Accent, Icon), таблица спеков 720px. Все textStyleId привязаны (0 unbound/Inter). Pills заполнены: Platform=iOS, Status=Stable, Updated=22.06.2026.
+
+**Эталон 2 — Content Blocks**: в работе.
+
 25. **Trainer Block — фазы: находки** — (а) Phase=Upgrade (Student, Link=Sent/Received, Sub=False) визуально идентичен Phase=Promo Student — отдельный specimen не нужен. (б) Phase=Checkpoint: CTA **disabled** (bg/subtle, текст disabled) + подпись «Только с телефона родителя» (body/m/regular, secondary) — старт только с телефона родителя. (в) Phase=Frozen: метрики показывают последние значения в disabled-цвете на off-иконке (frozen ≠ off). (г) Parent-варианты активных фаз (Ready/InProgress/Completed/Scheduled/Frozen/Checkpoint 6462:18852=315) ещё не сняты — переиспользуют корпуса, отличаются CTA/копирайтом.
 
