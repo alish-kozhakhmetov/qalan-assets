@@ -74,8 +74,24 @@
 
 ## Conventions
 
-- All text uses **Inter** (not the product font) — doc pages are documentation, not UI.
+- **Typography**: Text styles from the DS (Platform LC headings, Halvar Mittelschrift body/label/caption). Plugin API workaround: create text with Inter, set all layout properties, then apply `textStyleId` as the LAST operation (overrides font without requiring font loading).
+- **Language**: All prose in Russian (descriptions, anatomy legend, Do/Don't, section headings = Анатомия / Варианты / Использование / Характеристики). English preserved for: variant property names/values (State/Type/Default/Primary…), all layer/frame names, and spec table property names where English is standard.
 - All colors, radii, spacing, and stroke weights are **variable-bound** (no raw values).
 - Real component instances — never screenshots or detached copies.
 - `_Source` frame keeps the master alive on the same page; never delete or detach it.
 - Section names are numbered (`01`, `02`, …) so they sort predictably in the layers panel.
+- **FAMILY layout** (multiple component sets on one page): ONE doc frame, each component its own titled sub-section in logical order (public first), `_internal` helpers grouped LAST with "Internal:" prefix.
+- **CATALOG layout** (Content Blocks / Trainer Blocks with 15+ components): Header + catalog table listing all component sets with variant count, no full variant grids.
+
+## Text style mapping
+
+| Role | Style ID | Font |
+|---|---|---|
+| Title (component name) | `heading/l` | Platform LC Bold 32/38 |
+| Section heading | `heading/s` | Platform LC Bold 24/28 |
+| Description | `body/m/regular` | Halvar Mittelschrift 18/23 |
+| Block title | `body/s/bold` | Halvar Mittelschrift Bold 16/21 |
+| Grid / table labels | `label/m/bold` | Halvar Mittelschrift Bold 14/18 |
+| Grid / table values | `label/m/regular` | Halvar Mittelschrift 14/18 |
+| Pill label | `caption/m/bold` | Halvar Mittelschrift Bold 14/18 |
+| Pill value | `caption/m/regular` | Halvar Mittelschrift 14/18 |
