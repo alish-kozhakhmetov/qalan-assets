@@ -246,5 +246,11 @@ Controls: все ✅ (ниже) · Блоки: Content Blocks `17:2449` ⬜ · T
 
 **Типография**: textStyleId по семантическим ролям (не по font-size). heading/l → заголовок страницы, heading/s → заголовки секций, body/m/regular → описания, label/m → таблицы, caption/m → пилюли. Fallback по размеру УДАЛЁН.
 
+**Хирургические правки Label (23.06.2026)**:
+- Карточки примеров: 4-колоночная сетка, каждая 308×180 px, gap 16.
+- Удалена фикция Icon (Boolean-проп не существует): правлен текст «Когда использовать», удалена строка L1 в анатомии, удалено состояние Icon=True.
+- Таблицы Specs/Changelog: заголовок bg/subtle, padding 16, hairline-разделители. Changelog колонки 120/440/160 (без overflow).
+- Новые/изменённые ноды: 31 шт — все с textStyleId по роли.
+
 25. **Trainer Block — фазы: находки** — (а) Phase=Upgrade (Student, Link=Sent/Received, Sub=False) визуально идентичен Phase=Promo Student — отдельный specimen не нужен. (б) Phase=Checkpoint: CTA **disabled** (bg/subtle, текст disabled) + подпись «Только с телефона родителя» (body/m/regular, secondary) — старт только с телефона родителя. (в) Phase=Frozen: метрики показывают последние значения в disabled-цвете на off-иконке (frozen ≠ off). (г) Parent-варианты активных фаз (Ready/InProgress/Completed/Scheduled/Frozen/Checkpoint 6462:18852=315) ещё не сняты — переиспользуют корпуса, отличаются CTA/копирайтом.
 
