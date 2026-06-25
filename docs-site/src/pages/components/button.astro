@@ -1,5 +1,17 @@
 ---
 import Docs from '../../layouts/Docs.astro';
+// Real app screens exported 2× from the Qalan App Figma file.
+import shotMain from './button/screenshots/main-trainer.png';
+import shotAxi from './button/screenshots/dr-axi-ability.png';
+import shotDuel from './button/screenshots/duel-result.png';
+import shotPaywall from './button/screenshots/paywall.png';
+
+const usageShots = [
+  { img: shotMain, tag: 'Primary · L · full-width', caption: 'Главная — карточка «Фокус дня». Основной CTA «Начать» занимает всю ширину дока.' },
+  { img: shotPaywall, tag: 'Primary · L · над сноской', caption: 'Пейволл — выбор тарифа и CTA «Попробовать на 7 дней» над мелким текстом условий.' },
+  { img: shotDuel, tag: 'Primary · accent', caption: 'Дуэль — экран результата. Акцентный CTA «Новая дуэль» в фирменном фиолетовом.' },
+  { img: shotAxi, tag: 'Primary · L · в модале', caption: 'Магазин — карточка способности персонажа. CTA «Понятно» закрывает модал.' },
+];
 
 const toc = [
   { id: 'playground', label: 'Песочница' },
@@ -239,30 +251,21 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
   <section id="usage" class="doc-section">
     <h2 class="doc-h2">Использование в контексте</h2>
     <p class="doc-body prose">
-      Скриншоты из приложения (App Figma, экспорт 2×). До экспорта — помеченные
-      слоты-плейсхолдеры.
+      Реальные экраны приложения Qalan (экспорт 2× из Figma) — как кнопка живёт
+      в продукте: главный CTA в доке, на пейволле, в игровом результате и в модале.
     </p>
-    <div class="shot-grid" style="margin-top:16px;">
-      <div class="shot">
-        <div class="shot__frame">Profile / Invite — full-width Primary CTA</div>
-        <span class="shot__tag shot__tag--do">✓ Do</span>
-        <span class="shot__caption">Profile · Primary CTA на всю ширину.</span>
-      </div>
-      <div class="shot">
-        <div class="shot__frame">CTA Dock — Primary + Secondary stacked</div>
-        <span class="shot__tag shot__tag--do">✓ Do</span>
-        <span class="shot__caption">Док · Primary + Secondary.</span>
-      </div>
-      <div class="shot">
-        <div class="shot__frame">Shop (Dr Axi) — Tertiary в карточке</div>
-        <span class="shot__tag shot__tag--do">✓ Do</span>
-        <span class="shot__caption">Магазин · Tertiary в карточке способности.</span>
-      </div>
-      <div class="shot">
-        <div class="shot__frame">Analytics Journal — Text-critical / control</div>
-        <span class="shot__tag shot__tag--do">✓ Do</span>
-        <span class="shot__caption">Аналитика · Text-critical как control.</span>
-      </div>
+    <div class="shot-grid" style="margin-top:28px;">
+      {usageShots.map((s) => (
+        <figure class="shot">
+          <div class="shot__device">
+            <img src={s.img.src} width={s.img.width} height={s.img.height} alt={s.caption} loading="lazy" />
+          </div>
+          <figcaption class="shot__meta">
+            <span class="shot__tag shot__tag--do">✓ Do · {s.tag}</span>
+            <span class="shot__caption">{s.caption}</span>
+          </figcaption>
+        </figure>
+      ))}
     </div>
   </section>
 

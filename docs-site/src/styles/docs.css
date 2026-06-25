@@ -401,28 +401,41 @@ strong { color: var(--text-primary); font-weight: 700; }
   justify-content: center;
 }
 
-/* usage screenshots (Do/Don't) — clean dashed slots until real exports land */
-.shot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; margin-top: 28px; }
-.shot { display: flex; flex-direction: column; gap: 12px; }
+/* usage screenshots — real app screens framed as devices */
+.shot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 32px; margin-top: 28px; }
+.shot { display: flex; flex-direction: column; gap: 16px; margin: 0; }
+.shot__device {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--bg-canvas);
+  box-shadow: 0 1px 2px var(--black-10), 0 18px 40px -16px var(--black-30);
+}
+.shot__device img { display: block; width: 100%; height: auto; }
+.shot__meta { display: flex; flex-direction: column; gap: 8px; }
+.shot__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+.shot__tag--do { color: var(--text-status-success); background: var(--bg-status-success-light); }
+.shot__tag--dont { color: var(--text-error); }
+.shot__caption { font-size: 14px; line-height: 21px; color: var(--text-secondary); }
+
+/* dashed placeholder kept for components without real exports yet */
 .shot__frame {
   aspect-ratio: 3 / 4;
   border: 1.5px dashed var(--border-strong);
   border-radius: var(--radius-l);
   background: var(--bg-canvas);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 20px;
-  color: var(--text-tertiary);
-  font-size: 13px;
-  line-height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 20px;
+  color: var(--text-tertiary); font-size: 13px; line-height: 18px;
 }
-.shot__frame img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-l); }
-.shot__tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; }
-.shot__tag--do { color: var(--text-status-success); }
-.shot__tag--dont { color: var(--text-error); }
-.shot__caption { font-size: 14px; line-height: 20px; color: var(--text-secondary); }
 
 /* do/don't two-up — soft stage, no card border, status line beneath */
 .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 24px; }
@@ -506,6 +519,7 @@ a.index-card:hover { border-color: var(--border-strong); }
   .docs { grid-template-columns: 1fr; }
   .content { padding: 80px 24px 120px; }
   .dodont { grid-template-columns: 1fr; }
+  .shot-grid { grid-template-columns: 1fr; }
 
   .topbar-mobile {
     position: sticky;
