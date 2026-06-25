@@ -1,0 +1,32 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import { nav } from '../../data/nav';
+---
+
+<Docs title="Foundations">
+  <section class="prose">
+    <h1 class="doc-h1">Foundations</h1>
+    <p class="doc-lead">
+      Базовые токены дизайн-системы: цвета, типографика, отступы, радиусы и
+      размеры контролов. Все значения читаются напрямую из <code>tokens.css</code>.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <div class="index-grid">
+      {nav.foundations.map((item) => (
+        item.status === 'ready' ? (
+          <a class="index-card" href={`/foundations/${item.slug}`}>
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status index-card__status--ready">Готово</span>
+          </a>
+        ) : (
+          <div class="index-card index-card--soon">
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status">Скоро</span>
+          </div>
+        )
+      ))}
+    </div>
+  </section>
+</Docs>

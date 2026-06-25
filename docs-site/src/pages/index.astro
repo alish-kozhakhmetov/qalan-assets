@@ -1,0 +1,62 @@
+---
+import Docs from '../layouts/Docs.astro';
+import { nav } from '../data/nav';
+
+const ready = (group: 'foundations' | 'components' | 'patterns') =>
+  nav[group].filter((i) => i.status === 'ready').length;
+---
+
+<Docs title="Главная">
+  <section class="prose">
+    <h1 class="doc-h1">Qalan Design System</h1>
+    <p class="doc-lead">
+      Документация и витрина дизайн-системы Qalan. Живые компоненты, токены и
+      правила — собраны из единого источника: <code>tokens.css</code>,
+      <code>base.css</code> и брендовых шрифтов в корне репозитория.
+    </p>
+    <p class="doc-body" style="margin-top:16px;">
+      Каждая страница компонента объединяет интерактивную «Песочницу» (props →
+      превью → копируемый код) с правилами применения и скриншотами в контексте.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <h2 class="doc-h2">Foundations</h2>
+    <p class="doc-body">Цвета, типографика, отступы, радиусы и размеры — прямо из токенов.</p>
+    <div class="index-grid">
+      {nav.foundations.map((item) => (
+        item.status === 'ready' ? (
+          <a class="index-card" href={`/foundations/${item.slug}`}>
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status index-card__status--ready">Готово</span>
+          </a>
+        ) : (
+          <div class="index-card index-card--soon">
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status">Скоро</span>
+          </div>
+        )
+      ))}
+    </div>
+  </section>
+
+  <section class="doc-section">
+    <h2 class="doc-h2">Components</h2>
+    <p class="doc-body">Кнопки, поля, списки и навигация — на реальных классах <code>base.css</code>.</p>
+    <div class="index-grid">
+      {nav.components.map((item) => (
+        item.status === 'ready' ? (
+          <a class="index-card" href={`/components/${item.slug}`}>
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status index-card__status--ready">Готово</span>
+          </a>
+        ) : (
+          <div class="index-card index-card--soon">
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status">Скоро</span>
+          </div>
+        )
+      ))}
+    </div>
+  </section>
+</Docs>

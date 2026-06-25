@@ -1,0 +1,32 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import { nav } from '../../data/nav';
+---
+
+<Docs title="Components">
+  <section class="prose">
+    <h1 class="doc-h1">Components</h1>
+    <p class="doc-lead">
+      Компоненты дизайн-системы на реальных классах <code>base.css</code>.
+      «Копировать код» в каждой песочнице отдаёт рабочую разметку.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <div class="index-grid">
+      {nav.components.map((item) => (
+        item.status === 'ready' ? (
+          <a class="index-card" href={`/components/${item.slug}`}>
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status index-card__status--ready">Готово</span>
+          </a>
+        ) : (
+          <div class="index-card index-card--soon">
+            <span class="index-card__title">{item.title}</span>
+            <span class="index-card__status">Скоро</span>
+          </div>
+        )
+      ))}
+    </div>
+  </section>
+</Docs>

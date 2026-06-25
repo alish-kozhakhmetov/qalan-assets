@@ -1,0 +1,457 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'playground', label: 'Песочница' },
+  { id: 'when', label: 'Когда использовать' },
+  { id: 'types', label: 'Типы и приоритет' },
+  { id: 'sizes', label: 'Размеры' },
+  { id: 'icons', label: 'Иконки' },
+  { id: 'anatomy', label: 'Анатомия' },
+  { id: 'variants', label: 'Все варианты' },
+  { id: 'usage', label: 'Использование в контексте' },
+  { id: 'placement', label: 'Размещение' },
+  { id: 'a11y', label: 'Доступность' },
+  { id: 'content', label: 'Контент' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+// Static markup helper for live prose examples (server-rendered, real classes).
+const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+---
+
+<Docs title="Button" active="button" toc={toc}>
+  <!-- ============================ 1. Hero (not in TOC) ================== -->
+  <section class="prose">
+    <h1 class="doc-h1">Button</h1>
+    <p class="doc-lead">
+      Кнопка запускает действие: основное на экране, подтверждение в доке,
+      второстепенный или текстовый выбор. Пять типов задают приоритет, три
+      размера — плотность, иконки и состояния — контекст.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 24.06.2026</span>
+    </div>
+  </section>
+
+  <!-- ============================ 2. Playground ========================= -->
+  <section id="playground" class="doc-section">
+    <h2 class="doc-h2">Песочница</h2>
+    <p class="doc-body">
+      Соберите вариант: тип, размер, состояние, иконки и текст. Превью обновляется
+      вживую, а блок кода ниже отдаёт готовую к копированию разметку на реальных
+      классах <code>base.css</code>.
+    </p>
+
+    <div class="stage stage--tall" style="margin-top:16px;">
+      <div class="btn-fit" id="pgPreview"></div>
+    </div>
+
+    <div class="controls">
+      <div class="control-row">
+        <span class="control-row__label">Тип</span>
+        <div class="segmented" data-axis="type">
+          <button data-val="primary" aria-pressed="true">Primary</button>
+          <button data-val="secondary" aria-pressed="false">Secondary</button>
+          <button data-val="tertiary" aria-pressed="false">Tertiary</button>
+          <button data-val="text" aria-pressed="false">Text</button>
+          <button data-val="critical" aria-pressed="false">Critical</button>
+        </div>
+      </div>
+      <div class="control-row">
+        <span class="control-row__label">Размер</span>
+        <div class="segmented" data-axis="size">
+          <button data-val="l" aria-pressed="true">L · 58</button>
+          <button data-val="m" aria-pressed="false">M · 40</button>
+          <button data-val="s" aria-pressed="false">S · 30</button>
+        </div>
+      </div>
+      <div class="control-row">
+        <span class="control-row__label">Состояние</span>
+        <div class="segmented" data-axis="state">
+          <button data-val="default" aria-pressed="true">Default</button>
+          <button data-val="pressed" aria-pressed="false">Pressed</button>
+          <button data-val="disabled" aria-pressed="false">Disabled</button>
+          <button data-val="loading" aria-pressed="false">Loading</button>
+        </div>
+      </div>
+      <div class="control-row">
+        <span class="control-row__label">Иконки</span>
+        <button class="toggle-chip" id="tglLeft" aria-pressed="false">Слева</button>
+        <button class="toggle-chip" id="tglRight" aria-pressed="false">Справа</button>
+      </div>
+      <div class="control-row">
+        <span class="control-row__label">Текст</span>
+        <input class="text-input" id="pgLabel" type="text" value="Начать" maxlength="40" />
+      </div>
+    </div>
+
+    <div class="codeblock">
+      <button class="copy-btn" id="pgCopy">Копировать</button>
+      <pre id="pgCode"></pre>
+    </div>
+  </section>
+
+  <!-- ============================ 3. When ============================== -->
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <h3 class="doc-h3">Используйте</h3>
+    <ul>
+      <li>Для главного действия экрана — один <strong>Primary</strong> на смысловой блок.</li>
+      <li>Для подтверждения в доке внизу — Primary + Secondary в паре.</li>
+      <li>Для второстепенных и обратимых действий — Secondary или Tertiary.</li>
+      <li>Для встроенных ссылочных действий внутри текста и карточек — Text.</li>
+    </ul>
+    <h3 class="doc-h3">Не используйте</h3>
+    <ul>
+      <li>Не ставьте две Primary рядом — приоритет размывается.</li>
+      <li>Не заменяйте навигацию кнопкой — для переходов есть ссылки и навигация.</li>
+      <li>Не используйте Critical для нейтральных действий — он только для разрушающих.</li>
+    </ul>
+  </section>
+
+  <!-- ============================ 4. Types ============================= -->
+  <section id="types" class="doc-section">
+    <h2 class="doc-h2">Типы и приоритет</h2>
+    <p class="doc-body prose">
+      Тип задаёт визуальный вес. Сверху вниз приоритет убывает: Primary →
+      Secondary → Tertiary → Text → Critical.
+    </p>
+    <div class="example-grid" style="margin-top:16px;">
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--primary btn--m"><span class="btn__label">Primary</span></button></div>
+        <div class="example__caption"><b>Primary</b> — главное действие, один на блок. <code>.btn--primary</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--secondary btn--m"><span class="btn__label">Secondary</span></button></div>
+        <div class="example__caption"><b>Secondary</b> — рядом с Primary. <code>.btn--secondary</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--tertiary btn--m"><span class="btn__label">Tertiary</span></button></div>
+        <div class="example__caption"><b>Tertiary</b> — тихое действие в карточке. <code>.btn--tertiary</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--text btn--m"><span class="btn__label">Text</span></button></div>
+        <div class="example__caption"><b>Text</b> — ссылочное действие. <code>.btn--text</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--critical btn--m"><span class="btn__label">Удалить</span></button></div>
+        <div class="example__caption"><b>Critical</b> — только разрушающие. <code>.btn--critical</code></div>
+      </div>
+    </div>
+
+    <h3 class="doc-h3">Do / Don't</h3>
+    <div class="dodont">
+      <div class="dodont__cell">
+        <div class="dodont__stage btn-fit" style="gap:12px;">
+          <button class="btn btn--primary btn--m"><span class="btn__label">Сохранить</span></button>
+          <button class="btn btn--secondary btn--m"><span class="btn__label">Отмена</span></button>
+        </div>
+        <div class="dodont__bar dodont__bar--do">✓ Одна Primary задаёт явный приоритет, рядом — Secondary.</div>
+      </div>
+      <div class="dodont__cell">
+        <div class="dodont__stage btn-fit" style="gap:12px;">
+          <button class="btn btn--primary btn--m"><span class="btn__label">Сохранить</span></button>
+          <button class="btn btn--primary btn--m"><span class="btn__label">Отмена</span></button>
+        </div>
+        <div class="dodont__bar dodont__bar--dont">✕ Две Primary конкурируют — непонятно, что главное.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 5. Sizes ============================= -->
+  <section id="sizes" class="doc-section">
+    <h2 class="doc-h2">Размеры</h2>
+    <p class="doc-body prose">Три высоты под плотность контекста.</p>
+    <div class="example-grid" style="margin-top:16px;">
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--primary btn--l"><span class="btn__label">Large</span></button></div>
+        <div class="example__caption"><b>L — 58px</b>, текст 18/23. Главные CTA и док. <code>.btn--l</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--primary btn--m"><span class="btn__label">Medium</span></button></div>
+        <div class="example__caption"><b>M — 40px</b>, текст 16/21. Карточки и формы. <code>.btn--m</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit"><button class="btn btn--primary btn--s"><span class="btn__label">Small</span></button></div>
+        <div class="example__caption"><b>S — 30px</b>, текст 14/18. Плотные списки и пилюли. <code>.btn--s</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 6. Icons ============================= -->
+  <section id="icons" class="doc-section">
+    <h2 class="doc-h2">Иконки</h2>
+    <ul class="prose">
+      <li>Иконка — аксессуар к лейблу, оборачивается в <code>.btn__icon</code>; gap до текста 4px.</li>
+      <li>Размер иконки следует за размером кнопки: L 24 · M 20 · S 16.</li>
+      <li>Ведущая иконка усиливает смысл действия; завершающая — направление перехода.</li>
+      <li>Кнопка без лейбла (только иконка) — это отдельный паттерн icon-button, не Button.</li>
+    </ul>
+    <div class="example-grid" style="margin-top:16px;">
+      <div class="example">
+        <div class="example__preview btn-fit">
+          <button class="btn btn--primary btn--m"><span class="btn__icon" set:html={ICON}></span><span class="btn__label">Ведущая</span></button>
+        </div>
+        <div class="example__caption"><b>Иконка слева</b> — усиливает действие.</div>
+      </div>
+      <div class="example">
+        <div class="example__preview btn-fit">
+          <button class="btn btn--primary btn--m"><span class="btn__label">Завершающая</span><span class="btn__icon" set:html={ICON}></span></button>
+        </div>
+        <div class="example__caption"><b>Иконка справа</b> — направление перехода.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 7. Anatomy =========================== -->
+  <section id="anatomy" class="doc-section">
+    <h2 class="doc-h2">Анатомия</h2>
+    <div class="anatomy" style="margin-top:16px;">
+      <div class="stage">
+        <div class="btn-fit">
+          <button class="btn btn--primary btn--l"><span class="btn__icon" set:html={ICON}></span><span class="btn__label">Продолжить</span></button>
+        </div>
+      </div>
+      <ol class="callout-list">
+        <li><span class="callout-num">1</span><span><strong>Контейнер</strong> — <code>.btn</code> + тип + размер. Радиус <code>999</code> (full), flex по центру.</span></li>
+        <li><span class="callout-num">2</span><span><strong>Иконка</strong> — <code>.btn__icon</code> с вложенным <code>&lt;svg&gt;</code>, размер по размеру кнопки.</span></li>
+        <li><span class="callout-num">3</span><span><strong>Лейбл</strong> — <code>.btn__label</code>, шрифт Halvar 700, без переноса.</span></li>
+        <li><span class="callout-num">4</span><span><strong>Gap</strong> между иконкой и лейблом — 4px.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================ 8. Variants ========================== -->
+  <section id="variants" class="doc-section">
+    <h2 class="doc-h2">Все варианты</h2>
+    <p class="doc-body prose">
+      Полная матрица: 5 типов × 4 состояния, в каждом из трёх размеров — 60
+      инстансов на реальных классах. Сгенерировано из тех же правил, что и код.
+    </p>
+    <div id="variantMatrix" style="margin-top:16px; display:flex; flex-direction:column; gap:32px;"></div>
+  </section>
+
+  <!-- ============================ 9. Usage ============================= -->
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование в контексте</h2>
+    <p class="doc-body prose">
+      Скриншоты из приложения (App Figma, экспорт 2×). До экспорта — помеченные
+      слоты-плейсхолдеры.
+    </p>
+    <div class="shot-grid" style="margin-top:16px;">
+      <div class="shot">
+        <div class="shot__frame">Profile / Invite — full-width Primary CTA</div>
+        <span class="shot__tag shot__tag--do">✓ Do</span>
+        <span class="shot__caption">Profile · Primary CTA на всю ширину.</span>
+      </div>
+      <div class="shot">
+        <div class="shot__frame">CTA Dock — Primary + Secondary stacked</div>
+        <span class="shot__tag shot__tag--do">✓ Do</span>
+        <span class="shot__caption">Док · Primary + Secondary.</span>
+      </div>
+      <div class="shot">
+        <div class="shot__frame">Shop (Dr Axi) — Tertiary в карточке</div>
+        <span class="shot__tag shot__tag--do">✓ Do</span>
+        <span class="shot__caption">Магазин · Tertiary в карточке способности.</span>
+      </div>
+      <div class="shot">
+        <div class="shot__frame">Analytics Journal — Text-critical / control</div>
+        <span class="shot__tag shot__tag--do">✓ Do</span>
+        <span class="shot__caption">Аналитика · Text-critical как control.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 10. Placement ======================== -->
+  <section id="placement" class="doc-section prose">
+    <h2 class="doc-h2">Размещение</h2>
+    <ul>
+      <li>Главный CTA — в доке внизу экрана, на всю ширину (<code>.btn</code> по умолчанию <code>width:100%</code>).</li>
+      <li>Пара действий — Primary первым (выше или слева), Secondary следом.</li>
+      <li>Внутри карточки — Tertiary или Text, не растягивая на всю ширину контейнера.</li>
+      <li>Не более одного Primary в зоне видимости одного блока.</li>
+    </ul>
+  </section>
+
+  <!-- ============================ 11. A11y ============================= -->
+  <section id="a11y" class="doc-section prose">
+    <h2 class="doc-h2">Доступность</h2>
+    <ul>
+      <li>Используйте семантический <code>&lt;button&gt;</code>; для переходов — <code>&lt;a&gt;</code> со стилем кнопки.</li>
+      <li>Состояние <code>disabled</code> ставится атрибутом <code>disabled</code> вместе с классом <code>.btn--disabled</code>.</li>
+      <li>В состоянии loading кнопка не кликается (<code>pointer-events:none</code>); сообщите статус через <code>aria-busy</code>.</li>
+      <li>Минимальная зона нажатия 44×44 — для размера S добавляйте отступ вокруг.</li>
+      <li>Контраст текста к фону соответствует WCAG AA на всех типах.</li>
+    </ul>
+  </section>
+
+  <!-- ============================ 12. Content ========================== -->
+  <section id="content" class="doc-section prose">
+    <h2 class="doc-h2">Контент</h2>
+    <ul>
+      <li>Глагол действия: «Начать», «Сохранить», «Продолжить» — не «ОК».</li>
+      <li>1–2 слова, без точки; не переносить — лейбл не оборачивается.</li>
+      <li>Тон тёплый, к родителю на «вы»; без капса и без восклицаний.</li>
+      <li>Critical называет последствие явно: «Удалить», «Выйти».</li>
+    </ul>
+  </section>
+
+  <!-- ============================ 13. Specs ============================ -->
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="matrix" style="margin-top:16px;">
+      <table class="spec-table">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
+        <tbody>
+          <tr><td>Радиус</td><td>999px (full)</td><td><code>--radius-full</code></td></tr>
+          <tr><td>Gap иконка/лейбл</td><td>4px</td><td><code>--space-4</code></td></tr>
+          <tr><td>Высота L</td><td>58px · текст 18/23</td><td><code>.btn--l</code> · <code>--size-control-l</code></td></tr>
+          <tr><td>Высота M</td><td>40px · текст 16/21</td><td><code>.btn--m</code> · <code>--size-control-m</code></td></tr>
+          <tr><td>Высота S</td><td>30px · текст 14/18</td><td><code>.btn--s</code> · <code>--size-control-s</code></td></tr>
+          <tr><td>Иконка L / M / S</td><td>24 / 20 / 16</td><td><code>.btn__icon svg</code></td></tr>
+          <tr><td>Шрифт</td><td>Halvar Mittelschrift, 700</td><td><code>--font-body</code></td></tr>
+          <tr><td>Ширина по умолчанию</td><td>100% (full)</td><td><code>.btn</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================ 14. Availability ===================== -->
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="matrix" style="margin-top:16px;">
+      <table class="spec-table">
+        <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Primary</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Secondary</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Tertiary</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Text</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Critical</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================ playground + matrix JS =============== -->
+  <script is:inline>
+    (function () {
+      // Real DS SVGs — kept compact so the copied markup stays readable yet works.
+      var ICON_LEFT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
+      var ICON_RIGHT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+      var SPINNER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9"/></svg>';
+
+      var TYPES = ['primary', 'secondary', 'tertiary', 'text', 'critical'];
+      var SIZES = ['l', 'm', 's'];
+      var STATES = ['default', 'pressed', 'disabled', 'loading'];
+
+      function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      function classList(o) {
+        var c = ['btn', 'btn--' + o.type, 'btn--' + o.size];
+        if (o.state === 'pressed') c.push('btn--pressed');
+        if (o.state === 'disabled') c.push('btn--disabled');
+        if (o.state === 'loading') c.push('btn--loading');
+        return c.join(' ');
+      }
+
+      // Build real markup string for a given config.
+      function markup(o) {
+        var cls = classList(o);
+        var attr = o.state === 'disabled' ? ' disabled' : '';
+        if (o.state === 'loading') {
+          return '<button class="' + cls + '"' + attr + '>\n'
+            + '  <span class="btn__icon btn__spinner">' + SPINNER + '</span>\n'
+            + '</button>';
+        }
+        var inner = '';
+        if (o.leftIcon) inner += '  <span class="btn__icon">' + ICON_LEFT + '</span>\n';
+        inner += '  <span class="btn__label">' + esc(o.label || '') + '</span>\n';
+        if (o.rightIcon) inner += '  <span class="btn__icon">' + ICON_RIGHT + '</span>\n';
+        return '<button class="' + cls + '"' + attr + '>\n' + inner + '</button>';
+      }
+
+      // ---------------- Playground ----------------
+      var state = { type: 'primary', size: 'l', state: 'default', leftIcon: false, rightIcon: false, label: 'Начать' };
+      var preview = document.getElementById('pgPreview');
+      var code = document.getElementById('pgCode');
+
+      function render() {
+        var m = markup(state);
+        preview.innerHTML = m;
+        code.textContent = m;
+      }
+
+      document.querySelectorAll('.segmented[data-axis]').forEach(function (seg) {
+        var axis = seg.getAttribute('data-axis');
+        seg.querySelectorAll('button').forEach(function (b) {
+          b.addEventListener('click', function () {
+            seg.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); });
+            b.setAttribute('aria-pressed', 'true');
+            state[axis] = b.getAttribute('data-val');
+            render();
+          });
+        });
+      });
+
+      function bindToggle(id, key) {
+        var el = document.getElementById(id);
+        el.addEventListener('click', function () {
+          state[key] = !state[key];
+          el.setAttribute('aria-pressed', state[key] ? 'true' : 'false');
+          render();
+        });
+      }
+      bindToggle('tglLeft', 'leftIcon');
+      bindToggle('tglRight', 'rightIcon');
+
+      var labelInput = document.getElementById('pgLabel');
+      labelInput.addEventListener('input', function () { state.label = labelInput.value; render(); });
+
+      document.getElementById('pgCopy').addEventListener('click', function () {
+        var btn = this;
+        navigator.clipboard.writeText(code.textContent).then(function () {
+          btn.textContent = 'Скопировано';
+          setTimeout(function () { btn.textContent = 'Копировать'; }, 1400);
+        });
+      });
+
+      render();
+
+      // ---------------- Variant matrix ----------------
+      var host = document.getElementById('variantMatrix');
+      SIZES.forEach(function (sz) {
+        var sizeLabel = { l: 'L · 58px', m: 'M · 40px', s: 'S · 30px' }[sz];
+        var wrap = document.createElement('div');
+        var h = document.createElement('h3');
+        h.className = 'doc-h3';
+        h.textContent = 'Размер ' + sizeLabel;
+        wrap.appendChild(h);
+
+        var box = document.createElement('div');
+        box.className = 'matrix';
+        var html = '<table><thead><tr><th>Тип \\ Состояние</th>';
+        STATES.forEach(function (st) { html += '<th>' + st + '</th>'; });
+        html += '</tr></thead><tbody>';
+        TYPES.forEach(function (tp) {
+          html += '<tr><th>' + tp + '</th>';
+          STATES.forEach(function (st) {
+            var m = markup({ type: tp, size: sz, state: st, leftIcon: false, rightIcon: false, label: tp });
+            html += '<td><span class="btn-fit">' + m + '</span></td>';
+          });
+          html += '</tr>';
+        });
+        html += '</tbody></table>';
+        box.innerHTML = html;
+        wrap.appendChild(box);
+        host.appendChild(wrap);
+      });
+    })();
+  </script>
+</Docs>
