@@ -1,0 +1,39 @@
+/* ============================================================================
+   ds-compat.css — ALIAS SHIM that base.css depends on.
+
+   base.css is NOT self-contained: its navigation / trainer / status rules
+   reference token names that are defined NEITHER in tokens.css NOR in base.css —
+   --r-xs/s/m/l/xl/xxl, --font-heading, --bg-status-error(-light),
+   --border-status-error. In the product these aliases are supplied by the
+   landing (landing/src/components/app/appFlow.css). The docs site must supply
+   them too, or Top/Bottom Navigation, Trainer Block and error states render with
+   square corners and missing colours.
+
+   This file ONLY maps those legacy names onto the canonical tokens via var() —
+   no hex literals, no redefining of existing tokens. Single source of truth is
+   preserved (values still resolve from tokens.css).
+
+   ⚠ Upstream fix: fold these aliases into tokens.css (or rename base.css to the
+   canonical --radius-* / --font-display / --*-status-critical names) so the app,
+   landing and docs share one definition. Flagged, not silently "fixed".
+
+   Loaded after tokens.css. var() resolves live, so order only needs the canonical
+   tokens to exist somewhere in the cascade — which they do.
+   ============================================================================ */
+:root {
+  /* radius aliases → canonical --radius-* */
+  --r-xs: var(--radius-xs);
+  --r-s: var(--radius-s);
+  --r-m: var(--radius-m);
+  --r-l: var(--radius-l);
+  --r-xl: var(--radius-xl);
+  --r-xxl: var(--radius-full);
+
+  /* display family alias → canonical --font-display */
+  --font-heading: var(--font-display);
+
+  /* "error" status alias → canonical "critical" status */
+  --bg-status-error: var(--bg-status-critical);
+  --bg-status-error-light: var(--bg-status-critical-light);
+  --border-status-error: var(--border-status-critical);
+}

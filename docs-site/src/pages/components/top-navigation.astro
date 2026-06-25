@@ -1,0 +1,137 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'main', label: 'Main page' },
+  { id: 'sub', label: 'Sub page' },
+  { id: 'parts', label: 'Элементы' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+const back = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
+const bolt = '<svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>';
+const close = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+---
+
+<Docs title="Top Navigation" active="top-navigation" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Top Navigation</h1>
+    <p class="doc-lead">
+      Верхняя навигация экрана — 375×108 (системная строка 52 + ряд 56). Два
+      каркаса: главная (аватар · лига · стрик · баланс) и подстраница (назад ·
+      заголовок · действие). Фон прозрачный — поверхность даёт экран.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="main" class="doc-section">
+    <h2 class="doc-h2">Main page (Student)</h2>
+    <div class="device-stage">
+      <div class="tnav" style="width:375px;">
+        <div class="tnav__bar tnav__bar--main">
+          <div class="tnav__left">
+            <span class="tnav-ava">А</span>
+            <span class="tnav-league"><img src="/ds/icons/league-button.png" alt="Лига" /></span>
+          </div>
+          <div class="tnav__right">
+            <span class="tnav-streak"><img src="/ds/icons/streak-on.png" alt="Стрик" /><span>3</span></span>
+            <span class="tnav-bal">
+              <span class="tnav-bal__seg tnav-bal__seg--l">1500<img src="/ds/icons/coin.png" alt="" /></span>
+              <span class="tnav-bal__seg tnav-bal__seg--r">100<img src="/ds/icons/diamond.png" alt="" /></span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="doc-body prose">Левый кластер — личность и лига, правый — ресурсы и прогресс.</p>
+  </section>
+
+  <section id="sub" class="doc-section">
+    <h2 class="doc-h2">Sub page</h2>
+    <div class="device-stage">
+      <div class="tnav" style="width:375px;">
+        <div class="tnav__bar tnav__bar--sub">
+          <button class="tnav-btn tnav-btn--ability" set:html={back}></button>
+          <span class="tnav-title">Деление натуральных чисел</span>
+          <button class="tnav-btn tnav-btn--ability" set:html={close}></button>
+        </div>
+      </div>
+    </div>
+    <h3 class="doc-h3">Sub page — тренажёр (с прогрессом)</h3>
+    <div class="device-stage">
+      <div class="tnav" style="width:375px;">
+        <div class="tnav__bar tnav__bar--sub">
+          <button class="tnav-btn tnav-btn--ability" set:html={close}></button>
+          <span class="tnav-progress"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+          <span class="tnav-hearts"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-8-4.5-8-10a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 5.5-8 10-8 10z"/></svg><span>3</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="parts" class="doc-section">
+    <h2 class="doc-h2">Элементы</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));">
+      <div class="example"><div class="example__preview"><span class="tnav-ava">А</span></div><div class="example__caption"><b>Avatar</b> 40 · <code>.tnav-ava</code></div></div>
+      <div class="example"><div class="example__preview"><span class="tnav-league"><img src="/ds/icons/league-button.png" alt="" /></span></div><div class="example__caption"><b>League</b> · <code>.tnav-league</code></div></div>
+      <div class="example"><div class="example__preview"><span class="tnav-streak"><img src="/ds/icons/streak-on.png" alt="" /><span>3</span></span></div><div class="example__caption"><b>Streak</b> · <code>.tnav-streak</code></div></div>
+      <div class="example"><div class="example__preview"><span class="tnav-bal"><span class="tnav-bal__seg tnav-bal__seg--l">1500<img src="/ds/icons/coin.png" alt="" /></span><span class="tnav-bal__seg tnav-bal__seg--r">100<img src="/ds/icons/diamond.png" alt="" /></span></span></div><div class="example__caption"><b>Balance</b> · <code>.tnav-bal</code></div></div>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Главная — Top Nav (Student)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Аватар, лига, стрик и баланс.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Тренажёр — Sub page с прогрессом</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Закрыть · прогресс · жизни.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Класс</th></tr></thead>
+        <tbody>
+          <tr><td>Высота</td><td>108 (52 + 56)</td><td><code>.tnav</code></td></tr>
+          <tr><td>Ряд</td><td>min-height 56, padding 8×16</td><td><code>.tnav__bar</code></td></tr>
+          <tr><td>Контрол-кнопка</td><td>h40, белая пилюля</td><td><code>.tnav-btn</code></td></tr>
+          <tr><td>Аватар / лига</td><td>40 / 40</td><td><code>.tnav-ava</code> · <code>.tnav-league</code></td></tr>
+          <tr><td>Прогресс</td><td>5 сегментов h3</td><td><code>.tnav-progress</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Каркас</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Main page</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Sub page</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>
+
+<style>
+  /* phone-width surface so the transparent nav reads as on-screen chrome */
+  .device-stage {
+    background: var(--bg-canvas);
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    overflow-x: auto;
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'anatomy', label: 'Анатомия' },
+  { id: 'types', label: 'Типы' },
+  { id: 'states', label: 'Состояния' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+const chevron = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+const bell = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
+
+const states = [
+  { mod: '', label: 'Default' },
+  { mod: 'li--pressed', label: 'Pressed' },
+  { mod: 'li--disabled', label: 'Disabled' },
+  { mod: 'li--active', label: 'Active' },
+  { mod: 'li--success', label: 'Success' },
+  { mod: 'li--error', label: 'Error' },
+];
+---
+
+<Docs title="List Item" active="list-item" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">List Item</h1>
+    <p class="doc-lead">
+      Строка списка — единый каркас под выбор, навигацию и профиль. Один скелет:
+      контрол · префикс · лейбл (надзаголовок / заголовок / описание) · суффикс.
+      Тип меняет начинку слотов, не структуру.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="anatomy" class="doc-section">
+    <h2 class="doc-h2">Анатомия</h2>
+    <div class="anatomy">
+      <div class="stage">
+        <button class="li">
+          <span class="li__control"><span class="li__check li__check--on"></span></span>
+          <span class="li__content">
+            <span class="li__prefix" set:html={bell}></span>
+            <span class="li__label">
+              <span class="li__overline">Уведомления</span>
+              <span class="li__title li__title--bold">Пуш о прогрессе</span>
+              <span class="li__desc">Раз в день, вечером</span>
+            </span>
+          </span>
+          <span class="li__suffix" set:html={chevron}></span>
+        </button>
+      </div>
+      <ol class="callout-list">
+        <li><span class="callout-num">1</span><span><strong>Контрол</strong> — <code>.li__control</code>: чекбокс или радио (для выбора).</span></li>
+        <li><span class="callout-num">2</span><span><strong>Префикс</strong> — <code>.li__prefix</code>: иконка 24 или аватар 40.</span></li>
+        <li><span class="callout-num">3</span><span><strong>Лейбл</strong> — <code>.li__label</code>: надзаголовок · заголовок (<code>--bold</code>) · описание.</span></li>
+        <li><span class="callout-num">4</span><span><strong>Суффикс</strong> — <code>.li__suffix</code>: шеврон или иконка действия.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="types" class="doc-section">
+    <h2 class="doc-h2">Типы</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__control"><span class="li__check li__check--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Чекбокс</span></span></span></button>
+        </div>
+        <div class="example__caption"><b>Checkbox</b> — множественный выбор. <code>.li__check</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__control"><span class="li__radio li__radio--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Радио</span></span></span></button>
+        </div>
+        <div class="example__caption"><b>Radio</b> — один из вариантов. <code>.li__radio</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__content"><span class="li__prefix" set:html={bell}></span><span class="li__label"><span class="li__title">Навигация</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        </div>
+        <div class="example__caption"><b>Navigation</b> — переход, шеврон справа.</div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__content"><span class="li__prefix"><span class="li__avatar" style="background:var(--bg-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">А</span></span><span class="li__label"><span class="li__overline">Профиль</span><span class="li__title li__title--bold">Амина</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        </div>
+        <div class="example__caption"><b>Profile</b> — аватар 40 + имя.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="states" class="doc-section">
+    <h2 class="doc-h2">Состояния</h2>
+    <p class="doc-body prose">Модификаторы рута меняют рамку и фон, высоту не трогают.</p>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
+      {states.map((s) => (
+        <div class="example">
+          <div class="example__preview" style="padding:20px;">
+            <button class:list={['li', s.mod]} disabled={s.mod === 'li--disabled'}>
+              <span class="li__control"><span class="li__check li__check--on"></span></span>
+              <span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span>
+            </button>
+          </div>
+          <div class="example__caption"><b>{s.label}</b>{s.mod ? <> · <code>.{s.mod}</code></> : null}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <p class="doc-body prose">Реальные экраны (экспорт 2× из Figma). Слот под скриншот.</p>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Профиль — список настроек (Navigation)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Профиль · ряд навигационных строк.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Выбор языка (Radio)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Язык · один выбор радио-строкой.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
+        <tbody>
+          <tr><td>Мин. высота</td><td>58px (hug, тянется)</td><td><code>.li</code></td></tr>
+          <tr><td>Паддинг</td><td>16px (15 при 2px рамке)</td><td><code>--space-16</code></td></tr>
+          <tr><td>Радиус</td><td>16px</td><td><code>--radius-l</code></td></tr>
+          <tr><td>Gap</td><td>8px</td><td><code>--space-8</code></td></tr>
+          <tr><td>Заголовок</td><td>18/23, опц. bold</td><td><code>.li__title</code></td></tr>
+          <tr><td>Описание</td><td>16/21, secondary</td><td><code>.li__desc</code></td></tr>
+          <tr><td>Аватар / иконка</td><td>40 / 24</td><td><code>.li__avatar</code> · <code>.li__prefix</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Checkbox</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Radio</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Navigation</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Profile</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>

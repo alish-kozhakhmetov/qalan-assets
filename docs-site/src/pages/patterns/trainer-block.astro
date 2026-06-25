@@ -1,0 +1,107 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'anatomy', label: 'Анатомия' },
+  { id: 'parts', label: 'Элементы' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+---
+
+<Docs title="Trainer Block" active="trainer-block" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Trainer Block</h1>
+    <p class="doc-lead">
+      Главный блок домашнего экрана — карточка с вырезом-«язычком» под пилюлю.
+      Собирает фазу тренажёра: пилюля темы, заголовок, метрики и основной CTA.
+      Фон — масштабируемый SVG, контент поверх.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="anatomy" class="doc-section">
+    <h2 class="doc-h2">Анатомия</h2>
+    <div class="anatomy">
+      <div class="stage" data-theme="light">
+        <div class="tblock tblock--demo">
+          <div class="tblock__back"><img src="/ds/shapes/trainer-back.svg" alt="" /></div>
+          <div class="tblock__head">
+            <span class="tblock__pill" style="background:var(--bg-accent-yellow-light)"><span>Фокус дня</span></span>
+            <h3 class="tblock__title">Деление натуральных чисел</h3>
+          </div>
+          <div class="metric-row">
+            <div class="metric"><div class="metric__ico"><img src="/ds/icons/metric-task-on.png" alt="" /><span class="metric__val">2/15</span></div><div class="metric__label">Задачи</div></div>
+            <div class="metric"><div class="metric__ico"><img src="/ds/icons/metric-accuracy-on.png" alt="" /><span class="metric__val">87%</span></div><div class="metric__label">Точность</div></div>
+            <div class="metric"><div class="metric__ico"><img src="/ds/icons/metric-time-on.png" alt="" /><span class="metric__val">4м</span></div><div class="metric__label">Время</div></div>
+          </div>
+          <div class="tblock__cta"><button class="cta__btn cta__btn--brand">Начать</button></div>
+        </div>
+      </div>
+      <ol class="callout-list">
+        <li><span class="callout-num">1</span><span><strong>Фон</strong> — <code>.tblock__back</code>: SVG-карточка с вырезом под пилюлю.</span></li>
+        <li><span class="callout-num">2</span><span><strong>Шапка</strong> — <code>.tblock__head</code>: пилюля темы + заголовок (Platform LC 28).</span></li>
+        <li><span class="callout-num">3</span><span><strong>Метрики</strong> — <code>.metric-row</code>: задачи · точность · время.</span></li>
+        <li><span class="callout-num">4</span><span><strong>CTA</strong> — <code>.tblock__cta</code>: основная кнопка на всю ширину.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="parts" class="doc-section">
+    <h2 class="doc-h2">Элементы</h2>
+    <div class="example-grid" data-theme="light" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));">
+      <div class="example"><div class="example__preview"><span class="tblock__pill" style="background:var(--bg-accent-yellow-light)"><span>Фокус дня</span></span></div><div class="example__caption"><b>Pill</b> темы · <code>.tblock__pill</code></div></div>
+      <div class="example"><div class="example__preview"><div class="metric"><div class="metric__ico"><img src="/ds/icons/metric-task-on.png" alt="" /><span class="metric__val">2/15</span></div><div class="metric__label">Задачи</div></div></div><div class="example__caption"><b>Metric</b> · <code>.metric</code></div></div>
+      <div class="example"><div class="example__preview"><div class="metric metric--off"><div class="metric__ico"><img src="/ds/icons/metric-time-off.png" alt="" /></div><div class="metric__label">Время</div></div></div><div class="example__caption"><b>Metric · off</b> · <code>.metric--off</code></div></div>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Главная — Trainer Block [Ready]</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Фаза готовности с CTA «Начать».</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Главная — Trainer Block [Completed]</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Завершённая фаза с метриками.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Класс</th></tr></thead>
+        <tbody>
+          <tr><td>Ширина</td><td>343</td><td><code>.tblock</code></td></tr>
+          <tr><td>Радиус</td><td>24</td><td><code>--radius-xl</code></td></tr>
+          <tr><td>Паддинг</td><td>0 20 20</td><td><code>--space-20</code></td></tr>
+          <tr><td>Заголовок</td><td>28/34 (Platform LC)</td><td><code>.tblock__title</code></td></tr>
+          <tr><td>Метрика</td><td>иконка 70 + значение</td><td><code>.metric</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Фаза</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Ready</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
+          <tr><td>In progress</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
+          <tr><td>Completed</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>
+
+<style>
+  .tblock--demo { width: 343px; }
+  /* the static back SVG is 343×305; let it define height, content sits over it */
+  .tblock--demo .tblock__back img { width: 343px; height: auto; display: block; }
+</style>

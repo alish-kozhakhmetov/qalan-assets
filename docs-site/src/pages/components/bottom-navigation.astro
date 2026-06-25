@@ -1,0 +1,121 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'student', label: 'Text + Icon' },
+  { id: 'text', label: 'Text only' },
+  { id: 'badge', label: 'Badge' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+const icCourses = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 0 1 2-2h10v16H6a2 2 0 0 0-2 2z"/><path d="M16 3h2a2 2 0 0 1 2 2v14a2 2 0 0 0-2 2h-2"/></svg>';
+const icTrainer = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>';
+const icShop = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>';
+const icProfile = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+---
+
+<Docs title="Bottom Navigation" active="bottom-navigation" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Bottom Navigation</h1>
+    <p class="doc-lead">
+      Нижняя навигация — корневые разделы приложения. Фон canvas, линия сверху,
+      ряд табов. Таб бывает «текст + иконка» и «только текст»; активный —
+      залитая иконка или точка, опционально бейдж.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="student" class="doc-section">
+    <h2 class="doc-h2">Text + Icon (Student)</h2>
+    <div class="device-stage">
+      <div class="bnav" style="width:375px;">
+        <div class="bnav__row">
+          <button class="btab btab--icon"><span class="btab__ico" set:html={icCourses}></span><span class="btab__label">Курсы</span></button>
+          <button class="btab btab--icon btab--on"><span class="btab__ico" set:html={icTrainer}></span><span class="btab__label">Тренажёр</span></button>
+          <button class="btab btab--icon"><span class="btab__ico" set:html={icShop}></span><span class="btab__label">Магазин</span></button>
+          <button class="btab btab--icon"><span class="btab__ico" set:html={icProfile}></span><span class="btab__label">Профиль</span></button>
+        </div>
+      </div>
+    </div>
+    <p class="doc-body prose">Активный таб — залитая иконка (тёмный сквиркл) и тёмный лейбл.</p>
+  </section>
+
+  <section id="text" class="doc-section">
+    <h2 class="doc-h2">Text only</h2>
+    <div class="device-stage">
+      <div class="bnav" style="width:375px;">
+        <div class="bnav__row">
+          <button class="btab btab--text"><span class="btab__label">Курсы</span></button>
+          <button class="btab btab--text btab--on"><span class="btab__label">Тренажёр</span><span class="btab__dot"></span></button>
+          <button class="btab btab--text"><span class="btab__label">Магазин</span></button>
+        </div>
+      </div>
+    </div>
+    <p class="doc-body prose">Активный — точка 8px под лейблом. <code>.btab__dot</code></p>
+  </section>
+
+  <section id="badge" class="doc-section">
+    <h2 class="doc-h2">Badge</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(160px,1fr));">
+      <div class="example"><div class="example__preview"><span class="badge badge--m">3</span></div><div class="example__caption"><b>M</b> — счётчик 22 · <code>.badge--m</code></div></div>
+      <div class="example"><div class="example__preview"><span class="badge badge--s"></span></div><div class="example__caption"><b>S</b> — точка 12 · <code>.badge--s</code></div></div>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Главная — Bottom Nav (Student)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">4 раздела, активный — Тренажёр.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Профиль — бейдж непрочитанного</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Счётчик на иконке профиля.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Класс</th></tr></thead>
+        <tbody>
+          <tr><td>Фон / линия</td><td>canvas + border-top</td><td><code>.bnav</code></td></tr>
+          <tr><td>Паддинг</td><td>12×8</td><td><code>--space-12</code></td></tr>
+          <tr><td>Таб (текст)</td><td>h44, лейбл 18/23</td><td><code>.btab--text</code></td></tr>
+          <tr><td>Таб (иконка)</td><td>иконка 24, лейбл 14/18</td><td><code>.btab--icon</code></td></tr>
+          <tr><td>Бейдж</td><td>22 / 12, фон critical</td><td><code>.badge</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Роль</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Student</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Parent</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Alternative</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>
+
+<style>
+  .device-stage {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-xl);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+    overflow: hidden;
+  }
+</style>

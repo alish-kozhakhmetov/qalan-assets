@@ -1,0 +1,92 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'states', label: 'Состояния' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+const pills = [
+  { mod: '', label: 'Дроби', cap: 'Default' },
+  { mod: 'pill--active', label: 'Уравнения', cap: 'Active' },
+  { mod: 'pill--disabled', label: 'Геометрия', cap: 'Disabled' },
+];
+---
+
+<Docs title="Pill" active="pill" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Pill</h1>
+    <p class="doc-lead">
+      Пилюля-фильтр: компактный переключаемый чип для тем и категорий. Высота 48,
+      радиус полный. Три состояния — обычное, активное, отключённое.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="states" class="doc-section">
+    <h2 class="doc-h2">Состояния</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));">
+      {pills.map((p) => (
+        <div class="example">
+          <div class="example__preview">
+            <button class:list={['pill', p.mod]} disabled={p.mod === 'pill--disabled'}>{p.label}</button>
+          </div>
+          <div class="example__caption"><b>{p.cap}</b>{p.mod ? <> · <code>.{p.mod}</code></> : <> · <code>.pill</code></>}</div>
+        </div>
+      ))}
+    </div>
+
+    <h3 class="doc-h3">В ряду фильтров</h3>
+    <div class="stage" style="justify-content:flex-start; gap:8px; flex-wrap:wrap;">
+      <button class="pill pill--active">Все</button>
+      <button class="pill">Дроби</button>
+      <button class="pill">Уравнения</button>
+      <button class="pill">Проценты</button>
+      <button class="pill">Геометрия</button>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Курсы — фильтр тем</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Горизонтальный ряд пилюль-фильтров.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Дуэль — выбор темы</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Активная пилюля = выбранная тема.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
+        <tbody>
+          <tr><td>Высота</td><td>48px</td><td><code>.pill</code></td></tr>
+          <tr><td>Паддинг</td><td>0 16px</td><td><code>--space-16</code></td></tr>
+          <tr><td>Радиус</td><td>полный</td><td><code>--radius-full</code></td></tr>
+          <tr><td>Текст</td><td>16/21, 700</td><td><code>--font-body</code></td></tr>
+          <tr><td>Активный</td><td>фон brand, текст белый</td><td><code>--bg-brand</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Состояние</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Default</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Active</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Disabled</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>

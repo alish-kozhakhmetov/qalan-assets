@@ -1,0 +1,137 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'anatomy', label: 'Анатомия' },
+  { id: 'states', label: 'Состояния' },
+  { id: 'multiline', label: 'Multiline' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+
+const search = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>';
+const eye = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>';
+const warn = '<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 4v5M8 12h.01"/><circle cx="8" cy="8" r="7"/></svg>';
+
+const states = [
+  { mod: '', text: 'Введите имя', filled: false, help: 'Как к ребёнку обращаться' },
+  { mod: 'tf--hover', text: 'Введите имя', filled: false, help: 'Наведение' },
+  { mod: 'tf--focus', text: 'Амина|', filled: true, help: 'В фокусе' },
+  { mod: 'tf--filled', text: 'Амина', filled: true, help: 'Заполнено' },
+  { mod: 'tf--disabled', text: 'Недоступно', filled: false, help: 'Отключено' },
+  { mod: 'tf--error', text: 'А', filled: true, help: '', error: 'Имя слишком короткое' },
+];
+---
+
+<Docs title="Text Field" active="text-field" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Text Field</h1>
+    <p class="doc-lead">
+      Поле ввода: лейбл, контейнер с префиксом/суффиксом и подсказкой снизу.
+      Восемь состояний и многострочный вариант. Высота 58, радиус 16.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="anatomy" class="doc-section">
+    <h2 class="doc-h2">Анатомия</h2>
+    <div class="anatomy">
+      <div class="stage">
+        <div class="tf tf--focus">
+          <label class="tf__label">Имя ребёнка <span class="tf__label-action" style="color:var(--text-brand)">Очистить</span></label>
+          <div class="tf__input">
+            <span class="tf__affix" set:html={search}></span>
+            <span class="tf__text tf__text--filled">Амина</span>
+            <span class="tf__affix" set:html={eye}></span>
+          </div>
+          <div class="tf__help">Как к ребёнку обращаться</div>
+        </div>
+      </div>
+      <ol class="callout-list">
+        <li><span class="callout-num">1</span><span><strong>Лейбл</strong> — <code>.tf__label</code> + опц. действие справа.</span></li>
+        <li><span class="callout-num">2</span><span><strong>Контейнер</strong> — <code>.tf__input</code>: префикс · текст · суффикс.</span></li>
+        <li><span class="callout-num">3</span><span><strong>Аффиксы</strong> — <code>.tf__affix</code> 24px (иконка/флаг/счётчик).</span></li>
+        <li><span class="callout-num">4</span><span><strong>Подсказка</strong> — <code>.tf__help</code> или <code>.tf__error-msg</code>.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="states" class="doc-section">
+    <h2 class="doc-h2">Состояния</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));">
+      {states.map((s) => (
+        <div class="example">
+          <div class="example__preview" style="padding:24px; align-items:flex-start;">
+            <div class:list={['tf', s.mod]} style="width:100%;">
+              <label class="tf__label">Имя ребёнка</label>
+              <div class="tf__input">
+                <span class:list={['tf__text', { 'tf__text--filled': s.filled }]}>{s.text}</span>
+              </div>
+              {s.error
+                ? <div class="tf__error-msg"><span set:html={warn}></span>{s.error}</div>
+                : <div class="tf__help">{s.help}</div>}
+            </div>
+          </div>
+          <div class="example__caption"><b>{s.mod ? s.mod.replace('tf--', '') : 'default'}</b>{s.mod ? <> · <code>.{s.mod}</code></> : null}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="multiline" class="doc-section">
+    <h2 class="doc-h2">Multiline</h2>
+    <p class="doc-body prose">Многострочный ввод — <code>.tf--multiline</code>, мин. высота 120, ресайз-хэндл.</p>
+    <div class="stage">
+      <div class="tf tf--multiline" style="width:360px;">
+        <label class="tf__label">Комментарий ментору</label>
+        <div class="tf__input">
+          <span class="tf__text tf__text--filled">Рахим хорошо решает дроби, но путается в порядке действий.</span>
+          <span class="tf__resize"><svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 6L6 14M14 11l-3 3"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Авторизация — ввод номера (Prefix: флаг)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Номер телефона с флагом-префиксом.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Профиль — имя ребёнка</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Одно поле, подсказка под ним.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
+        <tbody>
+          <tr><td>Высота контейнера</td><td>58px (multiline 120)</td><td><code>.tf__input</code></td></tr>
+          <tr><td>Радиус</td><td>16px</td><td><code>--radius-l</code></td></tr>
+          <tr><td>Текст</td><td>18/23</td><td><code>.tf__text</code></td></tr>
+          <tr><td>Фокус</td><td>2px brand + glow</td><td><code>--border-focus</code></td></tr>
+          <tr><td>Ошибка</td><td>фон + рамка critical</td><td><code>--border-status-critical</code></td></tr>
+          <tr><td>Аффикс</td><td>24px</td><td><code>.tf__affix</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Вариант</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Text Field</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Multiline</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>

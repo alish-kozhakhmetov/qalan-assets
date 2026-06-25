@@ -26,16 +26,16 @@ export const nav: NavData = {
   ],
   components: [
     { slug: 'button', title: 'Button', status: 'ready' },
-    { slug: 'list-item', title: 'List Item', status: 'soon' },
-    { slug: 'text-field', title: 'Text Field', status: 'soon' },
-    { slug: 'pill', title: 'Pill', status: 'soon' },
-    { slug: 'tabs', title: 'Tabs', status: 'soon' },
-    { slug: 'switch', title: 'Switch · Checkbox · Radio', status: 'soon' },
-    { slug: 'top-navigation', title: 'Top Navigation', status: 'soon' },
-    { slug: 'bottom-navigation', title: 'Bottom Navigation', status: 'soon' },
+    { slug: 'list-item', title: 'List Item', status: 'ready' },
+    { slug: 'text-field', title: 'Text Field', status: 'ready' },
+    { slug: 'pill', title: 'Pill', status: 'ready' },
+    { slug: 'tabs', title: 'Tabs', status: 'ready' },
+    { slug: 'switch', title: 'Switch · Checkbox · Radio', status: 'ready' },
+    { slug: 'top-navigation', title: 'Top Navigation', status: 'ready' },
+    { slug: 'bottom-navigation', title: 'Bottom Navigation', status: 'ready' },
   ],
   patterns: [
-    { slug: 'trainer-block', title: 'Trainer Block', status: 'soon' },
+    { slug: 'trainer-block', title: 'Trainer Block', status: 'ready' },
   ],
 };
 

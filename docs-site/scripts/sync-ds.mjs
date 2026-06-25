@@ -13,5 +13,7 @@ mkdirSync(new URL('fonts/', out), { recursive: true });
 cpSync(new URL('tokens.css', root), new URL('tokens.css', out));
 cpSync(new URL('base.css', root), new URL('base.css', out));
 cpSync(new URL('fonts/', root), new URL('fonts/', out), { recursive: true });
+cpSync(new URL('icons/', root), new URL('icons/', out), { recursive: true });
+cpSync(new URL('shapes/', root), new URL('shapes/', out), { recursive: true });
 
-console.log('DS assets synced → public/ds/ (tokens.css, base.css, fonts/)');
+console.log('DS assets synced → public/ds/ (tokens.css, base.css, fonts/, icons/, shapes/)');

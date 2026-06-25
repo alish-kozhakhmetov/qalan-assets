@@ -1,0 +1,133 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'types', label: 'Типы' },
+  { id: 'sizes', label: 'Размеры' },
+  { id: 'live', label: 'Живой пример' },
+  { id: 'usage', label: 'Использование' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+---
+
+<Docs title="Tabs" active="tabs" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Tabs</h1>
+    <p class="doc-lead">
+      Табы переключают разделы одного экрана. Два типа — сегментированные
+      (в пилюле) и подчёркнутые. Два размера — M (58) и S (48).
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="types" class="doc-section">
+    <h2 class="doc-h2">Типы</h2>
+    <div class="example-grid" style="grid-template-columns:1fr;">
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--segmented tabs--m" style="width:100%; max-width:420px;">
+            <button class="tab tab--active">Практика</button>
+            <button class="tab">Тест</button>
+            <button class="tab">Теория</button>
+          </div>
+        </div>
+        <div class="example__caption"><b>Segmented</b> — выбор внутри пилюли. <code>.tabs--segmented</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--underlined tabs--m" style="width:100%; max-width:420px;">
+            <button class="tab tab--active">Практика</button>
+            <button class="tab">Тест</button>
+            <button class="tab">Теория</button>
+          </div>
+        </div>
+        <div class="example__caption"><b>Underlined</b> — подчёркивание активного. <code>.tabs--underlined</code></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sizes" class="doc-section">
+    <h2 class="doc-h2">Размеры</h2>
+    <div class="example-grid" style="grid-template-columns:1fr 1fr;">
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--segmented tabs--m" style="width:100%;"><button class="tab tab--active">M</button><button class="tab">58px</button></div>
+        </div>
+        <div class="example__caption"><b>M — 58px</b>, текст 18/23. <code>.tabs--m</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--segmented tabs--s" style="width:100%;"><button class="tab tab--active">S</button><button class="tab">48px</button></div>
+        </div>
+        <div class="example__caption"><b>S — 48px</b>, текст 16/21. <code>.tabs--s</code></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="live" class="doc-section">
+    <h2 class="doc-h2">Живой пример</h2>
+    <p class="doc-body prose">Кликабельно — активный таб переключается на реальных классах.</p>
+    <div class="stage">
+      <div class="tabs tabs--segmented tabs--m" id="liveTabs" style="width:100%; max-width:460px;">
+        <button class="tab tab--active" data-tab>Дроби</button>
+        <button class="tab" data-tab>Проценты</button>
+        <button class="tab" data-tab>Уравнения</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="usage" class="doc-section">
+    <h2 class="doc-h2">Использование</h2>
+    <div class="shot-grid">
+      <figure class="shot"><div class="shot__frame">Тема курса — Практика / Тест (Segmented)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Сегмент-табы над контентом темы.</span></figcaption></figure>
+      <figure class="shot"><div class="shot__frame">Аналитика — Месяц / Год (Underlined)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Подчёркнутые табы периода.</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
+        <tbody>
+          <tr><td>Высота M / S</td><td>58 / 48</td><td><code>.tabs--m</code> · <code>.tabs--s</code></td></tr>
+          <tr><td>Радиус (segmented)</td><td>16 контейнер, 12 таб</td><td><code>--radius-l</code> · <code>--radius-m</code></td></tr>
+          <tr><td>Текст</td><td>18/23 (M), 16/21 (S), 700</td><td><code>--font-body</code></td></tr>
+          <tr><td>Активный (segmented)</td><td>фон surface</td><td><code>--bg-surface</code></td></tr>
+          <tr><td>Активный (underlined)</td><td>линия 2px снизу</td><td><code>--text-primary</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Segmented</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Underlined</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  <script is:inline>
+    (function () {
+      var box = document.getElementById('liveTabs');
+      if (!box) return;
+      box.querySelectorAll('[data-tab]').forEach(function (t) {
+        t.addEventListener('click', function () {
+          box.querySelectorAll('[data-tab]').forEach(function (x) { x.classList.remove('tab--active'); });
+          t.classList.add('tab--active');
+        });
+      });
+    })();
+  </script>
+  </section>
+</Docs>

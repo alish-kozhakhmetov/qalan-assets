@@ -1,5 +1,8 @@
 ---
 import { nav, navGroups } from '../data/nav';
+// Alias shim base.css depends on (--r-*, --font-heading, --*-status-error).
+// Must load after tokens.css; bundled CSS is hoisted after the <link>s below.
+import '../styles/ds-compat.css';
 import '../styles/docs.css';
 
 export interface TocItem { id: string; label: string; }

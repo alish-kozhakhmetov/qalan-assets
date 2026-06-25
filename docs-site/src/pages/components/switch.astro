@@ -1,0 +1,129 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+const toc = [
+  { id: 'switch', label: 'Switch' },
+  { id: 'checkbox', label: 'Checkbox' },
+  { id: 'radio', label: 'Radio' },
+  { id: 'specs', label: 'Характеристики' },
+  { id: 'availability', label: 'Платформы' },
+];
+---
+
+<Docs title="Switch · Checkbox · Radio" active="switch" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Switch · Checkbox · Radio</h1>
+    <p class="doc-lead">
+      Три контрола выбора. <strong>Switch</strong> — мгновенное вкл/выкл.{' '}
+      <strong>Checkbox</strong> — множественный выбор. <strong>Radio</strong> —
+      один из вариантов. У каждого размеры M и S и состояние disabled.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+    </div>
+  </section>
+
+  <section id="switch" class="doc-section">
+    <h2 class="doc-h2">Switch</h2>
+    <p class="doc-body prose">M 65×40 / S 46×30. Включённый — фон brand, кноб справа.</p>
+    <div class="table-wrap matrix">
+      <table class="ds-table">
+        <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Off · disabled</th><th>On · disabled</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>M · 65×40</th>
+            <td><button class="sw sw--m"><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--m sw--on"><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--m sw--disabled" disabled><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--m sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td>
+          </tr>
+          <tr>
+            <th>S · 46×30</th>
+            <td><button class="sw sw--s"><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--s sw--on"><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--s sw--disabled" disabled><span class="sw__knob"></span></button></td>
+            <td><button class="sw sw--s sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="checkbox" class="doc-section">
+    <h2 class="doc-h2">Checkbox</h2>
+    <p class="doc-body prose">M 20 / S 16. Радиус 4, галочка на фоне brand.</p>
+    <div class="table-wrap matrix">
+      <table class="ds-table">
+        <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Disabled</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>M · 20</th>
+            <td><span class="cb"></span></td>
+            <td><span class="cb cb--on"></span></td>
+            <td><span class="cb cb--disabled"></span></td>
+          </tr>
+          <tr>
+            <th>S · 16</th>
+            <td><span class="cb cb--s"></span></td>
+            <td><span class="cb cb--s cb--on"></span></td>
+            <td><span class="cb cb--s cb--disabled"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="radio" class="doc-section">
+    <h2 class="doc-h2">Radio</h2>
+    <p class="doc-body prose">M 20 / S 16. Выбранный — кольцо brand 6px.</p>
+    <div class="table-wrap matrix">
+      <table class="ds-table">
+        <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Disabled</th></tr></thead>
+        <tbody>
+          <tr>
+            <th>M · 20</th>
+            <td><span class="rb"></span></td>
+            <td><span class="rb rb--on"></span></td>
+            <td><span class="rb rb--disabled"></span></td>
+          </tr>
+          <tr>
+            <th>S · 16</th>
+            <td><span class="rb rb--s"></span></td>
+            <td><span class="rb rb--s rb--on"></span></td>
+            <td><span class="rb rb--s rb--disabled"></span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="specs" class="doc-section">
+    <h2 class="doc-h2">Характеристики</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Контрол</th><th>Размеры</th><th>Вкл — цвет</th><th>Класс</th></tr></thead>
+        <tbody>
+          <tr><td>Switch</td><td>65×40 / 46×30</td><td>brand, кноб справа</td><td><code>.sw</code></td></tr>
+          <tr><td>Checkbox</td><td>20 / 16</td><td>brand + галочка</td><td><code>.cb</code></td></tr>
+          <tr><td>Radio</td><td>20 / 16</td><td>кольцо brand 6px</td><td><code>.rb</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="availability" class="doc-section">
+    <h2 class="doc-h2">Платформы</h2>
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
+        <thead><tr><th>Контрол</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <tbody>
+          <tr><td>Switch</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Checkbox</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>Radio</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</Docs>
