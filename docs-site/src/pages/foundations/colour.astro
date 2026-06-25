@@ -1,0 +1,89 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import { PRIMITIVE_FAMILIES, getRamp, getSemantic } from '../../lib/tokens';
+
+const FAMILY_RU: Record<string, string> = {
+  brand: 'Brand', orange: 'Orange', graphit: 'Graphit',
+  red: 'Red', green: 'Green', yellow: 'Yellow', purple: 'Purple',
+};
+
+const ramps = PRIMITIVE_FAMILIES.map((f) => ({ family: f, steps: getRamp(f) }));
+const bg = getSemantic('bg');
+const text = getSemantic('text');
+const border = getSemantic('border');
+
+const toc = [
+  { id: 'primitives', label: 'Примитивы' },
+  { id: 'semantic', label: 'Семантика' },
+];
+
+const semanticGroups = [
+  { id: 'sem-bg', title: 'Background', rows: bg },
+  { id: 'sem-text', title: 'Text', rows: text },
+  { id: 'sem-border', title: 'Border', rows: border },
+];
+---
+
+<Docs title="Цвета" active="colour" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Цвета</h1>
+    <p class="doc-lead">
+      Палитра дизайн-системы: примитивные рампы и семантические токены. Все
+      значения читаются напрямую из <code>tokens.css</code> и резолвятся до
+      финального hex — ничего не захардкожено.
+    </p>
+  </section>
+
+  <section id="primitives" class="doc-section">
+    <h2 class="doc-h2">Примитивы</h2>
+    <p class="doc-body">
+      Семь рамп по 10 ступеней (50 → 900). Имя токена и итоговый hex под каждым
+      образцом.
+    </p>
+    {ramps.map((r) => (
+      <div class="ramp">
+        <div class="ramp__name">{FAMILY_RU[r.family]}</div>
+        <div class="ramp__row">
+          {r.steps.map((s) => (
+            <div class="swatch">
+              <div class="swatch__chip" style={`background:${s.value}`}></div>
+              <div class="swatch__token">{s.token.replace('--', '')}</div>
+              <div class="swatch__hex">{s.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section id="semantic" class="doc-section">
+    <h2 class="doc-h2">Семантика</h2>
+    <p class="doc-body">
+      Семантические токены ссылаются на примитивы и переключаются темой. Слева —
+      значение в светлой теме, справа — в тёмной.
+    </p>
+    {semanticGroups.map((g) => (
+      <div style="margin-top:32px;">
+        <h3 class="doc-h3" id={g.id}>{g.title}</h3>
+        <div class="semantic-grid">
+          <div class="semantic-row" style="border:none; color:var(--text-tertiary); font-size:11px; text-transform:uppercase; letter-spacing:0.06em;">
+            <div>Токен</div><div>Light</div><div>Dark</div>
+          </div>
+          {g.rows.map((row) => (
+            <div class="semantic-row">
+              <div class="semantic-row__token">{row.token.replace('--', '')}</div>
+              <div class="semantic-cell">
+                <span class="semantic-cell__chip" style={`background:${row.light}`}></span>
+                <span class="semantic-cell__val">{row.light}</span>
+              </div>
+              <div class="semantic-cell">
+                <span class="semantic-cell__chip" style={`background:${row.dark}; border-color:var(--border-strong)`}></span>
+                <span class="semantic-cell__val">{row.dark}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </section>
+</Docs>

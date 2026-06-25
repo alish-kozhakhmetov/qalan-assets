@@ -1,0 +1,84 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+// The type scale is documented in base.css (lines ~265–287). NOTE: base.css's
+// .display-*/.heading-* utilities reference var(--font-heading), which is not
+// defined anywhere (only --font-display and --font-body exist) — so those
+// classes fall back to a system font. We render specimens with the correct
+// var(--font-display) here and surface the bug rather than editing base.css.
+
+const display = [
+  { cls: 'display-xl', size: '64 / 72', weight: 700, sample: 'Qalan' },
+  { cls: 'display-l', size: '48 / 56', weight: 700, sample: 'Учим математике' },
+  { cls: 'heading-l', size: '32 / 38', weight: 700, sample: 'Тренируем персонально' },
+  { cls: 'heading-s', size: '24 / 28', weight: 700, sample: 'Фокус дня' },
+];
+
+const body = [
+  { cls: 'body-xl-bold', size: '24 / 29', weight: 700, sample: 'Решай задачи, копи награды' },
+  { cls: 'body-xl', size: '24 / 29', weight: 400, sample: 'Решай задачи, копи награды' },
+  { cls: 'body-l-bold', size: '20 / 25', weight: 700, sample: 'Поможем ребёнку учиться сам' },
+  { cls: 'body-l', size: '20 / 25', weight: 400, sample: 'Поможем ребёнку учиться сам' },
+  { cls: 'body-m-bold', size: '18 / 23', weight: 700, sample: 'Объясняем через лекции и примеры' },
+  { cls: 'body-m', size: '18 / 23', weight: 400, sample: 'Объясняем через лекции и примеры' },
+  { cls: 'body-s-bold', size: '16 / 21', weight: 700, sample: 'Анализируем прогресс ребёнка' },
+  { cls: 'body-s', size: '16 / 21', weight: 400, sample: 'Анализируем прогресс ребёнка' },
+  { cls: 'caption-m-bold', size: '14 / 18', weight: 700, sample: 'На связи с родителями' },
+  { cls: 'caption-m', size: '14 / 18', weight: 400, sample: 'На связи с родителями' },
+];
+
+const toc = [
+  { id: 'platform', label: 'Platform LC' },
+  { id: 'halvar', label: 'Halvar Mittelschrift' },
+];
+
+const sizePx = (s: string) => s.split(' / ')[0];
+const lhPx = (s: string) => s.split(' / ')[1];
+---
+
+<Docs title="Типографика" active="typography" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Типографика</h1>
+    <p class="doc-lead">
+      Два семейства: <strong>Platform LC</strong> для заголовков и дисплея и{' '}
+      <strong>Halvar Mittelschrift</strong> для текста. Ниже — живая шкала из{' '}
+      <code>base.css</code>: образец, имя класса и размер / интерлиньяж.
+    </p>
+  </section>
+
+  <section id="platform" class="doc-section">
+    <h2 class="doc-h2">Platform LC — заголовки</h2>
+    <p class="doc-body">
+      Семейство <code>--font-display</code>. Применяется к дисплею и заголовкам.
+    </p>
+    {display.map((r) => (
+      <div class="type-row">
+        <div style={`font-family:var(--font-display); font-weight:${r.weight}; font-size:${sizePx(r.size)}px; line-height:${lhPx(r.size)}px; letter-spacing:-0.02em; color:var(--text-primary);`}>
+          {r.sample}
+        </div>
+        <div class="type-meta">
+          <b>.{r.cls}</b>
+          {r.size} · {r.weight}
+        </div>
+      </div>
+    ))}
+  </section>
+
+  <section id="halvar" class="doc-section">
+    <h2 class="doc-h2">Halvar Mittelschrift — текст</h2>
+    <p class="doc-body">
+      Семейство <code>--font-body</code>. Основной текст, подписи и лейблы.
+    </p>
+    {body.map((r) => (
+      <div class="type-row">
+        <div style={`font-family:var(--font-body); font-weight:${r.weight}; font-size:${sizePx(r.size)}px; line-height:${lhPx(r.size)}px; color:var(--text-primary);`}>
+          {r.sample}
+        </div>
+        <div class="type-meta">
+          <b>.{r.cls}</b>
+          {r.size} · {r.weight}
+        </div>
+      </div>
+    ))}
+  </section>
+</Docs>

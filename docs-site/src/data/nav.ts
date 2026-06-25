@@ -16,11 +16,11 @@ export interface NavData {
 
 export const nav: NavData = {
   foundations: [
-    { slug: 'colour', title: 'Цвета', status: 'soon' },
-    { slug: 'typography', title: 'Типографика', status: 'soon' },
-    { slug: 'spacing', title: 'Spacing', status: 'soon' },
-    { slug: 'radius', title: 'Radius', status: 'soon' },
-    { slug: 'size', title: 'Size', status: 'soon' },
+    { slug: 'colour', title: 'Цвета', status: 'ready' },
+    { slug: 'typography', title: 'Типографика', status: 'ready' },
+    { slug: 'spacing', title: 'Spacing', status: 'ready' },
+    { slug: 'radius', title: 'Radius', status: 'ready' },
+    { slug: 'size', title: 'Size', status: 'ready' },
     { slug: 'icons', title: 'Иконки', status: 'soon' },
     { slug: 'motion', title: 'Motion', status: 'soon' },
   ],

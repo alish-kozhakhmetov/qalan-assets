@@ -1,0 +1,30 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import { getScale, px } from '../../lib/tokens';
+
+// radius scale; cap the visual corner so --radius-full (999) reads as a pill box
+const radii = getScale('--radius-');
+---
+
+<Docs title="Radius" active="radius">
+  <section class="prose">
+    <h1 class="doc-h1">Radius</h1>
+    <p class="doc-lead">
+      Скругления <code>--radius-*</code> из <code>tokens.css</code>. Образец
+      скруглён на соответствующий радиус, рядом — токен и размер.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:32px;">
+      {radii.map((r) => (
+        <div class="example">
+          <div class="radius-box" style={`border-radius:${Math.min(px(r.value), 48)}px`}></div>
+          <div class="example__caption">
+            <b>{r.token.replace('--', '')}</b><br />{r.value}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Docs>

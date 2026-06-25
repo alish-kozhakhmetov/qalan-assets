@@ -232,7 +232,7 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
       Полная матрица: 5 типов × 4 состояния, в каждом из трёх размеров — 60
       инстансов на реальных классах. Сгенерировано из тех же правил, что и код.
     </p>
-    <div id="variantMatrix" style="margin-top:16px; display:flex; flex-direction:column; gap:32px;"></div>
+    <div id="variantMatrix" style="margin-top:28px;"></div>
   </section>
 
   <!-- ============================ 9. Usage ============================= -->
@@ -303,8 +303,8 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
   <!-- ============================ 13. Specs ============================ -->
   <section id="specs" class="doc-section">
     <h2 class="doc-h2">Характеристики</h2>
-    <div class="matrix" style="margin-top:16px;">
-      <table class="spec-table">
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
         <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
         <tbody>
           <tr><td>Радиус</td><td>999px (full)</td><td><code>--radius-full</code></td></tr>
@@ -323,8 +323,8 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
   <!-- ============================ 14. Availability ===================== -->
   <section id="availability" class="doc-section">
     <h2 class="doc-h2">Платформы</h2>
-    <div class="matrix" style="margin-top:16px;">
-      <table class="spec-table">
+    <div class="table-wrap">
+      <table class="ds-table ds-table--spec">
         <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
         <tbody>
           <tr><td>Primary</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
@@ -429,14 +429,15 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
       SIZES.forEach(function (sz) {
         var sizeLabel = { l: 'L · 58px', m: 'M · 40px', s: 'S · 30px' }[sz];
         var wrap = document.createElement('div');
-        var h = document.createElement('h3');
-        h.className = 'doc-h3';
+        wrap.className = 'matrix';
+        var h = document.createElement('div');
+        h.className = 'matrix__title';
         h.textContent = 'Размер ' + sizeLabel;
         wrap.appendChild(h);
 
         var box = document.createElement('div');
-        box.className = 'matrix';
-        var html = '<table><thead><tr><th>Тип \\ Состояние</th>';
+        box.className = 'table-wrap';
+        var html = '<table class="ds-table"><thead><tr><th>Тип \\ Состояние</th>';
         STATES.forEach(function (st) { html += '<th>' + st + '</th>'; });
         html += '</tr></thead><tbody>';
         TYPES.forEach(function (tp) {

@@ -6,9 +6,11 @@ export interface TocItem { id: string; label: string; }
 
 interface Props {
   title: string;
-  /** Active page slug, e.g. 'button' — highlights the sidebar link. */
+  /** Active page slug, e.g. 'button' — highlights the sidebar link and
+      reveals its in-page section anchors nested underneath. */
   active?: string;
-  /** Right-rail anchors; omit/empty to hide the TOC for index pages. */
+  /** In-page anchors, shown nested under the active sidebar item (single
+      navigation surface — no separate right rail). */
   toc?: TocItem[];
 }
 
@@ -29,7 +31,6 @@ const { title, active, toc = [] } = Astro.props;
     <link rel="stylesheet" href="/ds/base.css" />
     <link rel="stylesheet" href="/ds/tokens.css" />
     <script is:inline>
-      // Apply stored theme before paint to avoid a flash.
       (function () {
         try {
           var t = localStorage.getItem('qalan-docs-theme');
@@ -44,19 +45,19 @@ const { title, active, toc = [] } = Astro.props;
       <button class="hamburger" id="navOpen" aria-label="Открыть навигацию">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
-      <a href="/" class="sidebar__logo">Qalan<span> DS</span></a>
+      <a href="/" class="brand__logo">Qalan<span> DS</span></a>
     </div>
     <div class="scrim" id="navScrim"></div>
 
     <div class="docs">
       <!-- ============================ sidebar ========================== -->
       <aside class="sidebar" id="sidebar">
-        <div class="sidebar__brand">
+        <div class="brand">
           <div>
-            <a href="/" class="sidebar__logo">Qalan<span> DS</span></a>
-            <div class="sidebar__sub">Design System</div>
+            <a href="/" class="brand__logo">Qalan<span> DS</span></a>
+            <div class="brand__sub">Design System</div>
           </div>
-          <div style="display:flex;gap:8px;align-items:center;">
+          <div class="brand__actions">
             <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему" title="Светлая / тёмная тема">
               <span class="icon-sun"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg></span>
               <span class="icon-moon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
@@ -67,46 +68,43 @@ const { title, active, toc = [] } = Astro.props;
           </div>
         </div>
 
-        {navGroups.map((group) => (
-          <nav class="nav-group">
-            <div class="nav-group__label">{group.label}</div>
-            {nav[group.key].map((item) => (
-              item.status === 'ready' ? (
-                <a
-                  href={`${group.base}/${item.slug}`}
-                  class:list={['nav-link', { active: item.slug === active }]}
-                >
-                  <span>{item.title}</span>
-                </a>
-              ) : (
-                <span class="nav-link nav-link--soon">
-                  <span>{item.title}</span>
-                  <span class="nav-pill">скоро</span>
-                </span>
-              )
-            ))}
-          </nav>
-        ))}
+        <nav class="nav">
+          {navGroups.map((group) => (
+            <div class="nav-group">
+              <div class="nav-group__label">{group.label}</div>
+              {nav[group.key].map((item) => (
+                item.status === 'ready' ? (
+                  <div>
+                    <a
+                      href={`${group.base}/${item.slug}`}
+                      class:list={['nav-link', { active: item.slug === active }]}
+                    >{item.title}</a>
+                    {item.slug === active && toc.length > 0 && (
+                      <div class="subnav" id="subnav">
+                        {toc.map((t) => (
+                          <a href={`#${t.id}`} class="subnav__link" data-toc={t.id}>{t.label}</a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <span class="nav-link nav-link--soon">
+                    <span>{item.title}</span>
+                    <span class="nav-pill">скоро</span>
+                  </span>
+                )
+              ))}
+            </div>
+          ))}
+        </nav>
       </aside>
 
       <!-- ============================ content ========================== -->
       <main class="content" id="docContent">
-        <slot />
+        <div class="content__inner">
+          <slot />
+        </div>
       </main>
-
-      <!-- ============================ TOC ============================== -->
-      {toc.length > 0 ? (
-        <aside class="toc">
-          <div class="toc__label">На странице</div>
-          <nav id="tocNav">
-            {toc.map((t) => (
-              <a href={`#${t.id}`} class="toc__link" data-toc={t.id}>{t.label}</a>
-            ))}
-          </nav>
-        </aside>
-      ) : (
-        <aside class="toc" aria-hidden="true"></aside>
-      )}
     </div>
 
     <script is:inline>
@@ -135,14 +133,13 @@ const { title, active, toc = [] } = Astro.props;
         if (scrim) scrim.addEventListener('click', close);
       })();
 
-      // ---- scroll-spy: TOC link whose section top <= 120px is active ----
+      // ---- scroll-spy on the nested in-page anchors (single nav surface) ----
       (function () {
-        var links = Array.prototype.slice.call(document.querySelectorAll('[data-toc]'));
+        var links = Array.prototype.slice.call(document.querySelectorAll('.subnav__link[data-toc]'));
         if (!links.length) return;
         var sections = links
           .map(function (l) { return document.getElementById(l.getAttribute('data-toc')); })
           .filter(Boolean);
-
         function onScroll() {
           var active = sections[0];
           for (var i = 0; i < sections.length; i++) {

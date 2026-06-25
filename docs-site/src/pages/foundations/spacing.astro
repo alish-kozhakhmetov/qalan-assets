@@ -1,0 +1,28 @@
+---
+import Docs from '../../layouts/Docs.astro';
+import { getScale, px } from '../../lib/tokens';
+
+const spaces = getScale('--space-');
+---
+
+<Docs title="Spacing" active="spacing">
+  <section class="prose">
+    <h1 class="doc-h1">Spacing</h1>
+    <p class="doc-lead">
+      Шкала отступов <code>--space-*</code> из <code>tokens.css</code>. Каждое
+      значение — визуальный бар, имя токена и размер в пикселях.
+    </p>
+  </section>
+
+  <section class="doc-section">
+    {spaces.map((s) => (
+      <div class="measure-row">
+        <div class="measure-meta">
+          <b>{s.token.replace('--', '')}</b>
+          <span>{s.value}</span>
+        </div>
+        <div class="measure-bar" style={`width:${Math.max(px(s.value), 2)}px`}></div>
+      </div>
+    ))}
+  </section>
+</Docs>
