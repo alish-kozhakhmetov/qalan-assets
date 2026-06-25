@@ -18,7 +18,7 @@
 /* ---- reset the prototype body that base.css ships with ------------------- */
 html { scroll-behavior: smooth; }
 body {
-  background: var(--bg-canvas);
+  background: var(--bg-surface);
   color: var(--text-primary);
   font-family: var(--font-body);
   display: block;
@@ -60,13 +60,15 @@ body {
 .brand__logo {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 27px;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--brand-800);
   text-decoration: none;
 }
-.brand__logo span { color: var(--text-brand); }
+.brand__logo span { color: var(--brand-800); }
+[data-theme='dark'] .brand__logo,
+[data-theme='dark'] .brand__logo span { color: var(--brand-300); }
 .brand__sub {
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -162,11 +164,12 @@ body {
 .doc-h1 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 44px;
-  line-height: 50px;
-  letter-spacing: -0.02em;
-  color: var(--text-primary);
+  font-size: 52px;
+  line-height: 56px;
+  letter-spacing: -0.025em;
+  color: var(--brand-800);
 }
+[data-theme='dark'] .doc-h1 { color: var(--brand-300); }
 .doc-lead {
   font-family: var(--font-body);
   font-size: 19px;
@@ -179,12 +182,13 @@ body {
 .doc-h2 {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 30px;
-  line-height: 36px;
-  letter-spacing: -0.015em;
-  color: var(--text-primary);
+  font-size: 32px;
+  line-height: 38px;
+  letter-spacing: -0.02em;
+  color: var(--brand-800);
   scroll-margin-top: 24px;
 }
+[data-theme='dark'] .doc-h2 { color: var(--brand-300); }
 .doc-h3 {
   font-family: var(--font-body);
   font-weight: 700;
@@ -226,11 +230,9 @@ strong { color: var(--text-primary); font-weight: 700; }
 /* ============================== preview stage ============================ */
 /* The one justified surface: a soft canvas that frames live, interactive
    components. No hard border; a very faint dot grid signals "stage". */
+/* The demo подложка — flat neutral panel (graphit-200 ≈ #E9EAEC), Wise-style. */
 .stage {
-  background-color: var(--bg-canvas);
-  background-image: radial-gradient(var(--border-default) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 10px 10px;
+  background: var(--bg-subtle);
   border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
@@ -238,17 +240,27 @@ strong { color: var(--text-primary); font-weight: 700; }
   padding: 56px 40px;
   min-height: 180px;
 }
-[data-theme='dark'] .stage { background-color: var(--bg-subtle); }
 .stage--tall { min-height: 280px; }
 
-/* live examples — borderless, whitespace-separated, caption beneath */
+/* live examples — each preview sits on its own neutral подложка, caption beneath */
 .example-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 40px 32px;
+  gap: 32px;
 }
-.example { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
-.example__preview { display: flex; align-items: center; gap: 12px; min-height: 58px; }
+.example { display: flex; flex-direction: column; align-items: stretch; gap: 14px; }
+.example__preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 112px;
+  padding: 28px;
+  /* one step lighter than the hero stages so .btn--tertiary (graphit-200,
+     == the E9EAEC подложка) stays visible in its own showcase tile. */
+  background: var(--bg-canvas);
+  border-radius: var(--radius-l);
+}
 .example__caption { font-size: 14px; line-height: 21px; color: var(--text-secondary); }
 .example__caption b { color: var(--text-primary); font-weight: 700; }
 
@@ -401,16 +413,25 @@ strong { color: var(--text-primary); font-weight: 700; }
   justify-content: center;
 }
 
-/* usage screenshots — real app screens framed as devices */
-.shot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px 32px; margin-top: 28px; }
+/* usage screenshots — element-focused crops, centered on a neutral подложка */
+.shot-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; margin-top: 28px; align-items: start; }
 .shot { display: flex; flex-direction: column; gap: 16px; margin: 0; }
 .shot__device {
+  background: var(--bg-subtle);
   border-radius: var(--radius-xl);
-  overflow: hidden;
-  background: var(--bg-canvas);
-  box-shadow: 0 1px 2px var(--black-10), 0 18px 40px -16px var(--black-30);
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.shot__device img { display: block; width: 100%; height: auto; }
+.shot__device img {
+  display: block;
+  max-width: 100%;
+  max-height: 440px;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-m);
+}
 .shot__meta { display: flex; flex-direction: column; gap: 8px; }
 .shot__tag {
   display: inline-flex;
@@ -441,10 +462,7 @@ strong { color: var(--text-primary); font-weight: 700; }
 .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 24px; }
 .dodont__cell { display: flex; flex-direction: column; gap: 14px; }
 .dodont__stage {
-  background-color: var(--bg-canvas);
-  background-image: radial-gradient(var(--border-default) 1px, transparent 1px);
-  background-size: 20px 20px;
-  background-position: 10px 10px;
+  background: var(--bg-subtle);
   border-radius: var(--radius-xl);
   padding: 36px;
   display: flex;
@@ -452,7 +470,6 @@ strong { color: var(--text-primary); font-weight: 700; }
   justify-content: center;
   min-height: 150px;
 }
-[data-theme='dark'] .dodont__stage { background-color: var(--bg-subtle); }
 .dodont__bar { display: flex; align-items: center; gap: 8px; font-size: 14px; line-height: 20px; }
 .dodont__bar--do { color: var(--text-status-success); }
 .dodont__bar--dont { color: var(--text-error); }
@@ -497,13 +514,12 @@ strong { color: var(--text-primary); font-weight: 700; }
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border: 1px solid var(--border-default);
   border-radius: var(--radius-l);
-  background: var(--bg-surface);
+  background: var(--bg-subtle);
   padding: 22px;
   text-decoration: none;
 }
-a.index-card:hover { border-color: var(--border-strong); }
+a.index-card:hover { background: var(--bg-disabled-strong); }
 .index-card--soon { opacity: 0.55; pointer-events: none; }
 .index-card__title { font-family: var(--font-body); font-weight: 700; font-size: 17px; color: var(--text-primary); }
 .index-card__status { font-size: 12px; color: var(--text-tertiary); }

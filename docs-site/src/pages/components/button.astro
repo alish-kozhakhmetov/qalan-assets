@@ -1,16 +1,17 @@
 ---
 import Docs from '../../layouts/Docs.astro';
-// Real app screens exported 2× from the Qalan App Figma file.
-import shotMain from './button/screenshots/main-trainer.png';
-import shotAxi from './button/screenshots/dr-axi-ability.png';
-import shotDuel from './button/screenshots/duel-result.png';
-import shotPaywall from './button/screenshots/paywall.png';
+// Real app screens exported 2× from the Qalan App Figma file, cropped to the
+// button's own container so the focus stays on the element.
+import shotMain from './button/screenshots/main-card.png';
+import shotPaywall from './button/screenshots/paywall-card.png';
+import shotDuel from './button/screenshots/duel-dock.png';
+import shotAxi from './button/screenshots/axi-dock.png';
 
 const usageShots = [
-  { img: shotMain, tag: 'Primary · L · full-width', caption: 'Главная — карточка «Фокус дня». Основной CTA «Начать» занимает всю ширину дока.' },
-  { img: shotPaywall, tag: 'Primary · L · над сноской', caption: 'Пейволл — выбор тарифа и CTA «Попробовать на 7 дней» над мелким текстом условий.' },
-  { img: shotDuel, tag: 'Primary · accent', caption: 'Дуэль — экран результата. Акцентный CTA «Новая дуэль» в фирменном фиолетовом.' },
-  { img: shotAxi, tag: 'Primary · L · в модале', caption: 'Магазин — карточка способности персонажа. CTA «Понятно» закрывает модал.' },
+  { img: shotMain, tag: 'Primary · L · в карточке', caption: 'Главная — основной CTA «Начать» внутри карточки «Фокус дня».' },
+  { img: shotPaywall, tag: 'Primary · L', caption: 'Пейволл — CTA «Попробовать на 7 дней» под выбором тарифа.' },
+  { img: shotDuel, tag: 'Primary · accent', caption: 'Дуэль — акцентный CTA «Новая дуэль» в доке результата.' },
+  { img: shotAxi, tag: 'Primary · L · в модале', caption: 'Магазин — CTA «Понятно» закрывает модал способности.' },
 ];
 
 const toc = [
