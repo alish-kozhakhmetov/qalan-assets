@@ -1,0 +1,166 @@
+---
+import Docs from '../../layouts/Docs.astro';
+
+// UI icon library — Untitled UI line set (open-source, free for commercial use),
+// inlined as raw SVG so currentColor themes them (incl. dark mode).
+const raw = import.meta.glob('../../icons-ui/*.svg', { query: '?raw', import: 'default', eager: true });
+const uiIcons = Object.entries(raw)
+  .map(([path, svg]) => ({ name: path.split('/').pop().replace('.svg', ''), svg: svg as string }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+// Product assets — raster, exported from the DS, served from /ds/icons (synced).
+const metrics = ['task', 'accuracy', 'time', 'score', 'streak'];
+const features = ['trainer', 'courses', 'tests', 'mentors', 'analysis', 'characters', 'cashback', 'aichat'];
+const states = ['success', 'warning', 'error', 'info', 'neutral', 'brand', 'ability', 'hero-success', 'hero-failed', 'hero-offline'];
+const resources = [
+  { src: 'coin.png', label: 'coin' },
+  { src: 'diamond.png', label: 'diamond' },
+  { src: 'points.png', label: 'points' },
+  { src: 'streak-on.png', label: 'streak' },
+  { src: 'league-button.png', label: 'league' },
+];
+
+const toc = [
+  { id: 'principles', label: 'Принципы' },
+  { id: 'ui', label: 'UI-иконки' },
+  { id: 'product', label: 'Продуктовые ассеты' },
+  { id: 'source', label: 'Источники' },
+];
+---
+
+<Docs title="Иконки и ассеты" active="icons" toc={toc}>
+  <section class="prose">
+    <h1 class="doc-h1">Иконки и ассеты</h1>
+    <p class="doc-lead">
+      Два слоя: системные <strong>UI-иконки</strong> (Untitled UI, line, 24×2,
+      currentColor) для интерфейса и <strong>продуктовые ассеты</strong>
+      (метрики, фичи, состояния, ресурсы) — растровые, экспортятся из DS.
+    </p>
+    <div class="pill-row">
+      <span class="meta-pill"><strong>UI-иконок:</strong> {uiIcons.length}</span>
+      <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 26.06.2026</span>
+    </div>
+  </section>
+
+  <section id="principles" class="doc-section prose">
+    <h2 class="doc-h2">Принципы</h2>
+    <ul>
+      <li><strong>UI-иконки</strong> — Untitled UI line: 24×24, обводка 2px, <code>currentColor</code>. Цвет наследуется от текста, тема переключает автоматически.</li>
+      <li>Размеры в интерфейсе: 24 (база), 20 (M-контролы), 16 (S). Не масштабировать произвольно.</li>
+      <li><strong>Продуктовые ассеты</strong> — растровые рендеры (метрики, персонажи, состояния). Источник — DS, выгрузка PNG @2x.</li>
+      <li>Кастомные геймификационные глифы (<code>g-coin</code>, звёзды рарности, лига, стрик) — в Figma <code>Icon-pack › Qalan Glyphs</code>.</li>
+    </ul>
+  </section>
+
+  <section id="ui" class="doc-section">
+    <h2 class="doc-h2">UI-иконки <span class="muted">· Untitled UI · {uiIcons.length}</span></h2>
+    <input class="icon-search" id="iconSearch" type="search" placeholder="Поиск по имени — arrow, user, check…" autocomplete="off" />
+    <div class="ui-grid" id="uiGrid">
+      {uiIcons.map((ic) => (
+        <button class="ui-icon" data-name={ic.name} title={ic.name} type="button">
+          <span class="ui-icon__glyph" set:html={ic.svg}></span>
+          <span class="ui-icon__name">{ic.name}</span>
+        </button>
+      ))}
+    </div>
+    <p class="ui-empty" id="uiEmpty" hidden>Ничего не найдено.</p>
+  </section>
+
+  <section id="product" class="doc-section">
+    <h2 class="doc-h2">Продуктовые ассеты</h2>
+
+    <h3 class="doc-h3">Метрики</h3>
+    <div class="asset-grid">
+      {metrics.map((m) => (
+        <figure class="asset"><img src={`/ds/icons/metric-${m}-on.png`} alt={m} loading="lazy" /><figcaption>{m}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3 class="doc-h3">Функции</h3>
+    <div class="asset-grid">
+      {features.map((f) => (
+        <figure class="asset"><img src={`/ds/icons/feat-${f}-on.png`} alt={f} loading="lazy" /><figcaption>{f}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3 class="doc-h3">Состояния (State Icon)</h3>
+    <div class="asset-grid asset-grid--wide">
+      {states.map((s) => (
+        <figure class="asset"><img src={`/ds/icons/state/state-${s}@2x.png`} alt={s} loading="lazy" /><figcaption>{s}</figcaption></figure>
+      ))}
+    </div>
+
+    <h3 class="doc-h3">Ресурсы и награды</h3>
+    <div class="asset-grid">
+      {resources.map((r) => (
+        <figure class="asset"><img src={`/ds/icons/${r.src}`} alt={r.label} loading="lazy" /><figcaption>{r.label}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+
+  <section id="source" class="doc-section prose">
+    <h2 class="doc-h2">Источники</h2>
+    <ul>
+      <li><strong>UI-иконки</strong> — <a href="https://www.untitledui.com/icons">Untitled UI Icons</a>, line-набор, бесплатно для коммерции. Мастера — <code>Icon-pack › Untitled UI</code>.</li>
+      <li><strong>Продуктовые ассеты</strong> — мастера в <code>DS › Patterns / Components</code>, export PNG @2x. В репо: <code>icons/</code> (+ <code>icons/state/</code>).</li>
+      <li><strong>Персонажи</strong> (192 рендера), <strong>флаги</strong> (266) — большие наборы, в Figma; выгружаются по требованию.</li>
+    </ul>
+  </section>
+
+  <script is:inline>
+    (function () {
+      var input = document.getElementById('iconSearch');
+      var grid = document.getElementById('uiGrid');
+      var empty = document.getElementById('uiEmpty');
+      if (!input || !grid) return;
+      var items = Array.prototype.slice.call(grid.children);
+      input.addEventListener('input', function () {
+        var q = input.value.trim().toLowerCase();
+        var shown = 0;
+        items.forEach(function (el) {
+          var hit = !q || el.getAttribute('data-name').indexOf(q) !== -1;
+          el.style.display = hit ? '' : 'none';
+          if (hit) shown++;
+        });
+        empty.hidden = shown > 0;
+      });
+    })();
+  </script>
+</Docs>
+
+<style>
+  .muted { color: var(--text-tertiary); font-size: 16px; font-weight: 400; }
+  .icon-search {
+    width: 100%; max-width: 420px; margin: 4px 0 24px;
+    font: 400 15px/1.4 var(--font-body); color: var(--text-primary);
+    background: var(--bg-surface); border: 1px solid var(--border-default);
+    border-radius: var(--radius-s); padding: 10px 14px;
+  }
+  .icon-search:focus { outline: none; border-color: var(--border-focus); }
+  .ui-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 4px; }
+  .ui-icon {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 16px 8px 12px; border: none; background: transparent; cursor: pointer;
+    border-radius: var(--radius-m); color: var(--text-primary);
+  }
+  .ui-icon:hover { background: var(--bg-subtle); }
+  .ui-icon__glyph { display: inline-flex; }
+  .ui-icon__glyph svg { width: 24px; height: 24px; display: block; }
+  .ui-icon__name {
+    font: 400 10px/1.3 ui-monospace, monospace; color: var(--text-tertiary);
+    text-align: center; word-break: break-word; max-width: 100%;
+  }
+  .ui-empty { color: var(--text-tertiary); }
+  .asset-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px; margin-top: 16px;
+  }
+  .asset-grid--wide { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .asset {
+    margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px;
+    padding: 20px; background: var(--bg-subtle); border-radius: var(--radius-l);
+  }
+  .asset img { width: auto; height: 56px; max-width: 100%; object-fit: contain; }
+  .asset figcaption { font: 400 12px/1.3 ui-monospace, monospace; color: var(--text-secondary); }
+</style>

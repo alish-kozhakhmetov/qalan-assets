@@ -21,7 +21,7 @@ export const nav: NavData = {
     { slug: 'spacing', title: 'Spacing', status: 'ready' },
     { slug: 'radius', title: 'Radius', status: 'ready' },
     { slug: 'size', title: 'Size', status: 'ready' },
-    { slug: 'icons', title: 'Иконки', status: 'soon' },
+    { slug: 'icons', title: 'Иконки и ассеты', status: 'ready' },
     { slug: 'motion', title: 'Motion', status: 'soon' },
   ],
   components: [
