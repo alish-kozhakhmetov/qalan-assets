@@ -1,0 +1,105 @@
+/* Order matters: tokens (CSS vars) + @font-face must load before Tailwind base reads them. */
+@import "./styles/tokens.css";
+@import "./styles/fonts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+  /* Honor reduced-motion globally for CSS-driven motion (Framer handled per-component). */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: var(--bg-canvas);
+    color: var(--text-primary);
+    font-family: "Halvar Mittelschrift", system-ui, sans-serif;
+    font-weight: 400;
+  }
+  h1, h2, h3, h4 {
+    font-family: "Platform LC", system-ui, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer base {
+  /* Accessible focus ring on every interactive element — brand outline, never removed. */
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-s);
+  }
+}
+
+@layer components {
+  /* Page container — DS max content width with responsive gutters. */
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 md:px-8;
+  }
+
+  /* Button system — mirrors the DS .btn family (base.css): pill, Halvar 700.
+     Sizes L (58) / M (40); types primary / secondary / ghost. */
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full font-sans font-bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 160ms ease, transform 120ms ease, box-shadow 160ms ease,
+      border-color 160ms ease;
+  }
+  .btn--l {
+    height: 58px;
+    padding: 8px 32px 10px;
+    font-size: 18px;
+    line-height: 23px;
+  }
+  .btn--m {
+    height: 40px;
+    padding: 8px 20px 10px;
+    font-size: 16px;
+    line-height: 21px;
+  }
+  .btn--primary {
+    background: var(--bg-brand);
+    color: var(--text-on-brand-primary);
+  }
+  .btn--primary:hover {
+    background: var(--brand-600);
+  }
+  .btn--primary:active {
+    background: var(--bg-brand-pressed);
+    transform: translateY(1px);
+  }
+  .btn--secondary {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+  }
+  .btn--secondary:hover {
+    background: var(--bg-subtle);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--text-primary);
+  }
+  .btn--ghost:hover {
+    background: var(--bg-subtle);
+  }
+}

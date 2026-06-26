@@ -1,0 +1,12 @@
+# OS / editor
+.DS_Store
+
+# dependencies / build output (subprojects also carry their own; this is a safety net)
+node_modules/
+dist/
+
+# Claude Code tooling — local workspace config and plugins, NOT part of the design system
+.claude/skills/
+.claude/settings.local.json
+.agents/
+skills-lock.json
