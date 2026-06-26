@@ -1,65 +1,128 @@
 ---
 import Docs from '../../layouts/Docs.astro';
 
+// Doc structure per qalan-docs/doc-page-layout.md (usage-first).
 const toc = [
+  { id: 'when', label: 'Когда использовать' },
+  { id: 'examples', label: 'Примеры в контексте' },
+  { id: 'anatomy', label: 'Анатомия' },
   { id: 'states', label: 'Состояния' },
-  { id: 'usage', label: 'Использование' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 
-const pills = [
-  { mod: '', label: 'Дроби', cap: 'Default' },
-  { mod: 'pill--active', label: 'Уравнения', cap: 'Active' },
-  { mod: 'pill--disabled', label: 'Геометрия', cap: 'Disabled' },
+// Real product content (Диагностика — классы-якоря; FAQ — категории).
+// Закрытые классы несут ведущую иконку-замок.
+const lock = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
+const classes = [
+  { label: '1 класс', active: true },
+  { label: '2 класс' },
+  { label: '3 класс', locked: true },
+  { label: '4 класс', locked: true },
+  { label: '5 класс', locked: true },
+  { label: '6 класс', locked: true },
 ];
+const faqCats = ['Все', 'Подписка', 'Тренажёр', 'Награды', 'Аккаунт'];
 ---
 
 <Docs title="Pill" active="pill" toc={toc}>
+  <!-- ===== Header ===== -->
   <section class="prose">
     <h1 class="doc-h1">Pill</h1>
     <p class="doc-lead">
-      Пилюля-фильтр: компактный переключаемый чип для тем и категорий. Высота 48,
-      радиус полный. Три состояния — обычное, активное, отключённое.
+      Пилюля — компактный якорный фильтр. Ряд пилюль прокручивает длинную
+      страницу к нужному разделу и помечает текущий. Высота 48, радиус полный.
     </p>
     <div class="pill-row">
-      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill"><strong>Платформы:</strong> iOS · Android · Web</span>
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
-      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 26.06.2026</span>
     </div>
   </section>
 
+  <!-- ===== When to use ===== -->
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <p>
+      Pill — это <strong>якорная ссылка</strong>, а не переключатель контента.
+      Ряд пилюль фильтрует или скроллит длинную страницу: классы на{' '}
+      <strong>Диагностике</strong>, категории в <strong>Частых вопросах</strong>.
+      Активная пилюля показывает, где читатель сейчас.
+    </p>
+    <h3 class="doc-h3">Не использовать</h3>
+    <ul>
+      <li>Для переключения контента на месте — это <strong>Tabs</strong>, не Pill.</li>
+      <li>Для запуска действия — это <strong>Button</strong>.</li>
+      <li>Для одиночного вкл/выкл — <strong>Switch</strong> или <strong>Checkbox</strong>.</li>
+    </ul>
+  </section>
+
+  <!-- ===== Examples in context ===== -->
+  <section id="examples" class="doc-section">
+    <h2 class="doc-h2">Примеры в контексте</h2>
+    <p class="doc-body prose">Реальные сценарии. Кликабельно — активная пилюля переключается.</p>
+
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="justify-content:flex-start; padding:24px; overflow-x:auto;">
+        <div style="display:flex; gap:8px;" data-pillrow>
+          {classes.map((c) => (
+            <button class:list={['pill', { 'pill--active': c.active }]}>
+              {c.locked && <span class="pill__icon" set:html={lock}></span>}
+              {c.label}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div class="example__caption"><b>Диагностика</b> — якоря по классам. Закрытые классы — с замком (ведущая иконка).</div>
+    </div>
+
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="justify-content:flex-start; padding:24px; overflow-x:auto;">
+        <div style="display:flex; gap:8px; flex-wrap:wrap;" data-pillrow>
+          {faqCats.map((c, i) => (
+            <button class:list={['pill', { 'pill--active': i === 0 }]}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <div class="example__caption"><b>Частые вопросы</b> — фильтр по категориям ответа.</div>
+    </div>
+  </section>
+
+  <!-- ===== Anatomy ===== -->
+  <section id="anatomy" class="doc-section">
+    <h2 class="doc-h2">Анатомия</h2>
+    <div class="anatomy">
+      <div class="stage">
+        <button class="pill"><span class="pill__icon" set:html={lock}></span>3 класс</button>
+      </div>
+      <ol class="callout-list">
+        <li><span class="callout-num">1</span><span><strong>Контейнер</strong> — <code>.pill</code>: высота 48, радиус полный, паддинг 0 16, gap 8.</span></li>
+        <li><span class="callout-num">2</span><span><strong>Ведущая иконка</strong> (опц.) — <code>.pill__icon</code>, svg 20. Например, замок у закрытого раздела.</span></li>
+        <li><span class="callout-num">3</span><span><strong>Лейбл</strong> — Halvar 16/21, вес <strong>400</strong>; в активной — на инверсном фоне.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== States ===== -->
   <section id="states" class="doc-section">
     <h2 class="doc-h2">Состояния</h2>
-    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr));">
-      {pills.map((p) => (
-        <div class="example">
-          <div class="example__preview">
-            <button class:list={['pill', p.mod]} disabled={p.mod === 'pill--disabled'}>{p.label}</button>
-          </div>
-          <div class="example__caption"><b>{p.cap}</b>{p.mod ? <> · <code>.{p.mod}</code></> : <> · <code>.pill</code></>}</div>
-        </div>
-      ))}
-    </div>
-
-    <h3 class="doc-h3">В ряду фильтров</h3>
-    <div class="stage" style="justify-content:flex-start; gap:8px; flex-wrap:wrap;">
-      <button class="pill pill--active">Все</button>
-      <button class="pill">Дроби</button>
-      <button class="pill">Уравнения</button>
-      <button class="pill">Проценты</button>
-      <button class="pill">Геометрия</button>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr));">
+      <div class="example">
+        <div class="example__preview"><button class="pill">Дроби</button></div>
+        <div class="example__caption"><b>Default</b> — поверхность + основной текст. <code>.pill</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview"><button class="pill pill--active">Дроби</button></div>
+        <div class="example__caption"><b>Active</b> — инверсный фон, текущий раздел. <code>.pill--active</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview"><button class="pill pill--disabled" disabled>Дроби</button></div>
+        <div class="example__caption"><b>Disabled</b> — раздел недоступен. <code>.pill--disabled</code></div>
+      </div>
     </div>
   </section>
 
-  <section id="usage" class="doc-section">
-    <h2 class="doc-h2">Использование</h2>
-    <div class="shot-grid">
-      <figure class="shot"><div class="shot__frame">Курсы — фильтр тем</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Горизонтальный ряд пилюль-фильтров.</span></figcaption></figure>
-      <figure class="shot"><div class="shot__frame">Дуэль — выбор темы</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Активная пилюля = выбранная тема.</span></figcaption></figure>
-    </div>
-  </section>
-
+  <!-- ===== Specs ===== -->
   <section id="specs" class="doc-section">
     <h2 class="doc-h2">Характеристики</h2>
     <div class="table-wrap">
@@ -69,24 +132,39 @@ const pills = [
           <tr><td>Высота</td><td>48px</td><td><code>.pill</code></td></tr>
           <tr><td>Паддинг</td><td>0 16px</td><td><code>--space-16</code></td></tr>
           <tr><td>Радиус</td><td>полный</td><td><code>--radius-full</code></td></tr>
-          <tr><td>Текст</td><td>16/21, 700</td><td><code>--font-body</code></td></tr>
-          <tr><td>Активный</td><td>фон brand, текст белый</td><td><code>--bg-brand</code></td></tr>
+          <tr><td>Текст</td><td>Halvar 16/21, вес 400</td><td><code>--font-body</code></td></tr>
+          <tr><td>Ведущая иконка</td><td>опц., svg 20, gap 8</td><td><code>.pill__icon</code></td></tr>
+          <tr><td>Default — фон / текст</td><td>surface / primary</td><td><code>--bg-surface</code> · <code>--text-primary</code></td></tr>
+          <tr><td>Active — фон / текст</td><td>inverse / on-inverse</td><td><code>--bg-inverse</code> · <code>--text-on-inverse-primary</code></td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <!-- ===== Changelog ===== -->
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Состояние</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Default</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Active</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Disabled</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>26.06.2026</td><td>Добавлена опциональная ведущая иконка (<code>.pill__icon</code>, gap 8) — замок у закрытых классов на Диагностике.</td><td>Added</td></tr>
+          <tr><td>26.06.2026</td><td>Реген по мастеру 3393:6443: Default → surface/primary, Active → inverse, вес 400 (был subtle/brand/700).</td><td>Changed</td></tr>
+          <tr><td>13.06.2026</td><td>Первая сборка в base.css (Default / Active / Disabled).</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>
   </section>
+
+  <script is:inline>
+    // Anchor pills: clicking sets active within its row (real anchor behaviour).
+    document.querySelectorAll('[data-pillrow]').forEach(function (row) {
+      row.addEventListener('click', function (e) {
+        var p = e.target.closest('.pill');
+        if (!p || p.classList.contains('pill--disabled')) return;
+        row.querySelectorAll('.pill').forEach(function (x) { x.classList.remove('pill--active'); });
+        p.classList.add('pill--active');
+      });
+    });
+  </script>
 </Docs>

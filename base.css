@@ -320,12 +320,8 @@ input,button{font-family:inherit}
 .li--disabled .li__title, .li--disabled .li__desc { color: var(--text-disabled); }
 .li--disabled .li__check, .li--disabled .li__radio { border-color: var(--border-strong); background: var(--bg-disabled); }
 .li--active  { border: 2px solid var(--border-focus); padding: 15px; }
-.li--success { border: 2px solid var(--border-status-success); padding: 15px; }
-.li--success .li__check--on { background: var(--bg-status-success); border-color: var(--bg-status-success); }
-.li--success .li__radio--on { border-color: var(--bg-status-success); }
-.li--error   { border: 2px solid var(--border-status-error); padding: 15px; }
-.li--error .li__check--on { background: var(--bg-status-error); border-color: var(--bg-status-error); }
-.li--error .li__radio--on { border-color: var(--bg-status-error); }
+/* regen 26.06: states = Default/Pressed/Disabled/Active (мастер 94:829).
+   Success/Error удалены — в текущем DS их нет (нет status-токенов на ноде). */
 /* === Button — пересборка от мастера 12:2263 (60 вариантов: 5 type × 4 state × 3 size) === */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px;
   border-radius: 999px; border: none; cursor: pointer; font-family: var(--font-body);
@@ -428,11 +424,15 @@ input,button{font-family:inherit}
 .rb--on { border: 6px solid var(--bg-brand); }
 .rb--disabled { background: var(--bg-disabled); border-color: var(--border-strong); }
 
-/* === Pill — мастер 3393:6443 (Default/Active/Disabled) === */
-.pill { display: inline-flex; align-items: center; justify-content: center; height: 48px; padding: 0 16px; border-radius: 999px;
-  background: var(--bg-subtle); color: var(--text-secondary); font: 700 16px/21px var(--font-body); border: none; cursor: pointer; }
-.pill--active { background: var(--bg-brand); color: var(--text-on-brand-primary); }
+/* === Pill — мастер 3393:6443 — regen 26.06: Default=surface/primary 400,
+   Active=inverse/on-inverse (был bg-subtle/brand/700 — стейл) === */
+.pill { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 16px; border-radius: 999px;
+  background: var(--bg-surface); color: var(--text-primary); font: 400 16px/21px var(--font-body); border: none; cursor: pointer; }
+.pill--active { background: var(--bg-inverse); color: var(--text-on-inverse-primary); }
 .pill--disabled { background: var(--bg-disabled); color: var(--text-disabled); cursor: default; }
+/* опциональная ведущая иконка (напр. замок у закрытого раздела на Диагностике) */
+.pill__icon { display: inline-flex; flex-shrink: 0; }
+.pill__icon svg { width: 20px; height: 20px; display: block; }
 
 /* ============================================================================
    ПАРТИЯ 2 — НАВИГАЦИЯ (пересборка от мастеров DS, 13.06.2026)
