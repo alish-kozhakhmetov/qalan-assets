@@ -1,54 +1,128 @@
 ---
 import Docs from '../../layouts/Docs.astro';
 
+// Doc structure per qalan-docs/doc-page-layout.md. List Item — FAMILY page
+// (List Item внутри List; Dropdown — родственник). Reflects live master 94:829:
+// types Checkbox/Radio/Navigation/Profile, states Default/Pressed/Disabled/Active
+// (NO success/error), each type uses its own slots — never icon+checkbox together.
 const toc = [
-  { id: 'anatomy', label: 'Анатомия' },
+  { id: 'when', label: 'Когда использовать' },
   { id: 'types', label: 'Типы' },
+  { id: 'examples', label: 'Примеры в контексте' },
+  { id: 'anatomy', label: 'Анатомия' },
   { id: 'states', label: 'Состояния' },
-  { id: 'usage', label: 'Использование' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 
 const chevron = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--text-tertiary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
-const bell = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
-
-const states = [
-  { mod: '', label: 'Default' },
-  { mod: 'li--pressed', label: 'Pressed' },
-  { mod: 'li--disabled', label: 'Disabled' },
-  { mod: 'li--active', label: 'Active' },
-  { mod: 'li--success', label: 'Success' },
-  { mod: 'li--error', label: 'Error' },
-];
+const icGlobe = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>';
+const icBell = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
+const icChat = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 21l2.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>';
 ---
 
 <Docs title="List Item" active="list-item" toc={toc}>
+  <!-- ===== Header ===== -->
   <section class="prose">
     <h1 class="doc-h1">List Item</h1>
     <p class="doc-lead">
-      Строка списка — единый каркас под выбор, навигацию и профиль. Один скелет:
-      контрол · префикс · лейбл (надзаголовок / заголовок / описание) · суффикс.
-      Тип меняет начинку слотов, не структуру.
+      Строка списка. Один каркас под четыре типа — выбор (Checkbox / Radio),
+      переход (Navigation) и сущность (Profile). Живёт внутри <strong>List</strong>,
+      отдельно не используется.
     </p>
     <div class="pill-row">
-      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill"><strong>Платформы:</strong> iOS · Android · Web</span>
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
-      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 26.06.2026</span>
     </div>
   </section>
 
+  <!-- ===== When to use ===== -->
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <p>
+      List Item — строка внутри <strong>List</strong>: группа настроек, выбор из
+      вариантов, ряд сущностей. Тип строки определяется задачей, а не оформлением.
+    </p>
+    <h3 class="doc-h3">Не использовать</h3>
+    <ul>
+      <li>Отдельно от List — строки всегда идут группой.</li>
+      <li>Как кнопку действия — это <strong>Button</strong>.</li>
+      <li>Не смешивать слоты: у строки либо контрол (чекбокс / радио), либо ведущая иконка — <strong>не одновременно</strong>.</li>
+    </ul>
+    <p>
+      Родственник по семье — <strong>Dropdown</strong>: свёрнутый выбор (класс,
+      страна), который раскрывается списком тех же строк.
+    </p>
+  </section>
+
+  <!-- ===== Types ===== -->
+  <section id="types" class="doc-section">
+    <h2 class="doc-h2">Типы</h2>
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));">
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__control"><span class="li__check li__check--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Прогресс ребёнка</span></span></span></button>
+        </div>
+        <div class="example__caption"><b>Checkbox</b> — множественный выбор (чекбокс + лейбл).</div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__control"><span class="li__radio li__radio--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Русский</span></span></span></button>
+        </div>
+        <div class="example__caption"><b>Radio</b> — один из вариантов (радио + лейбл).</div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__content"><span class="li__prefix" set:html={icGlobe}></span><span class="li__label"><span class="li__title">Язык</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        </div>
+        <div class="example__caption"><b>Navigation</b> — переход (иконка + лейбл + шеврон).</div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;">
+          <button class="li"><span class="li__content"><span class="li__prefix"><span class="li__avatar" style="background:var(--bg-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">Р</span></span><span class="li__label"><span class="li__title li__title--bold">Рахимжан</span><span class="li__desc">5 класс</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        </div>
+        <div class="example__caption"><b>Profile</b> — сущность (аватар + имя).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Examples in context ===== -->
+  <section id="examples" class="doc-section">
+    <h2 class="doc-h2">Примеры в контексте</h2>
+    <p class="doc-body prose">Реальные списки. Radio и Checkbox кликабельны.</p>
+
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="flex-direction:column; align-items:flex-start; gap:8px; padding:24px;">
+        <span class="li-group__title">Настройки</span>
+        <button class="li"><span class="li__content"><span class="li__prefix" set:html={icGlobe}></span><span class="li__label"><span class="li__title">Язык</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        <button class="li"><span class="li__content"><span class="li__prefix" set:html={icBell}></span><span class="li__label"><span class="li__title">Уведомления</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+        <button class="li"><span class="li__content"><span class="li__prefix" set:html={icChat}></span><span class="li__label"><span class="li__title">Менторы</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
+      </div>
+      <div class="example__caption"><b>Настройки профиля</b> — List из Navigation-строк.</div>
+    </div>
+
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="flex-direction:column; align-items:flex-start; gap:8px; padding:24px;" data-radiolist>
+        <span class="li-group__title">Язык интерфейса</span>
+        <button class="li" data-radio><span class="li__control"><span class="li__radio li__radio--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Қазақша</span></span></span></button>
+        <button class="li" data-radio><span class="li__control"><span class="li__radio"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Русский</span></span></span></button>
+        <button class="li" data-radio><span class="li__control"><span class="li__radio"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Oʻzbekcha</span></span></span></button>
+      </div>
+      <div class="example__caption"><b>Выбор языка</b> — List из Radio-строк, один выбор.</div>
+    </div>
+  </section>
+
+  <!-- ===== Anatomy ===== -->
   <section id="anatomy" class="doc-section">
     <h2 class="doc-h2">Анатомия</h2>
     <div class="anatomy">
       <div class="stage">
-        <button class="li">
-          <span class="li__control"><span class="li__check li__check--on"></span></span>
+        <button class="li" style="width:320px;">
           <span class="li__content">
-            <span class="li__prefix" set:html={bell}></span>
+            <span class="li__prefix" set:html={icBell}></span>
             <span class="li__label">
-              <span class="li__overline">Уведомления</span>
-              <span class="li__title li__title--bold">Пуш о прогрессе</span>
+              <span class="li__title li__title--bold">Уведомления</span>
               <span class="li__desc">Раз в день, вечером</span>
             </span>
           </span>
@@ -56,101 +130,94 @@ const states = [
         </button>
       </div>
       <ol class="callout-list">
-        <li><span class="callout-num">1</span><span><strong>Контрол</strong> — <code>.li__control</code>: чекбокс или радио (для выбора).</span></li>
+        <li><span class="callout-num">1</span><span><strong>Контрол</strong> — <code>.li__control</code>: чекбокс или радио (для типов выбора).</span></li>
         <li><span class="callout-num">2</span><span><strong>Префикс</strong> — <code>.li__prefix</code>: иконка 24 или аватар 40.</span></li>
-        <li><span class="callout-num">3</span><span><strong>Лейбл</strong> — <code>.li__label</code>: надзаголовок · заголовок (<code>--bold</code>) · описание.</span></li>
-        <li><span class="callout-num">4</span><span><strong>Суффикс</strong> — <code>.li__suffix</code>: шеврон или иконка действия.</span></li>
+        <li><span class="callout-num">3</span><span><strong>Лейбл</strong> — <code>.li__label</code>: заголовок (<code>--bold</code>) + описание.</span></li>
+        <li><span class="callout-num">4</span><span><strong>Суффикс</strong> — <code>.li__suffix</code>: шеврон или действие.</span></li>
       </ol>
     </div>
   </section>
 
-  <section id="types" class="doc-section">
-    <h2 class="doc-h2">Типы</h2>
-    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
-      <div class="example">
-        <div class="example__preview" style="padding:20px;">
-          <button class="li"><span class="li__control"><span class="li__check li__check--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Чекбокс</span></span></span></button>
-        </div>
-        <div class="example__caption"><b>Checkbox</b> — множественный выбор. <code>.li__check</code></div>
-      </div>
-      <div class="example">
-        <div class="example__preview" style="padding:20px;">
-          <button class="li"><span class="li__control"><span class="li__radio li__radio--on"></span></span><span class="li__content"><span class="li__label"><span class="li__title">Радио</span></span></span></button>
-        </div>
-        <div class="example__caption"><b>Radio</b> — один из вариантов. <code>.li__radio</code></div>
-      </div>
-      <div class="example">
-        <div class="example__preview" style="padding:20px;">
-          <button class="li"><span class="li__content"><span class="li__prefix" set:html={bell}></span><span class="li__label"><span class="li__title">Навигация</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
-        </div>
-        <div class="example__caption"><b>Navigation</b> — переход, шеврон справа.</div>
-      </div>
-      <div class="example">
-        <div class="example__preview" style="padding:20px;">
-          <button class="li"><span class="li__content"><span class="li__prefix"><span class="li__avatar" style="background:var(--bg-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;">А</span></span><span class="li__label"><span class="li__overline">Профиль</span><span class="li__title li__title--bold">Амина</span></span></span><span class="li__suffix" set:html={chevron}></span></button>
-        </div>
-        <div class="example__caption"><b>Profile</b> — аватар 40 + имя.</div>
-      </div>
-    </div>
-  </section>
-
+  <!-- ===== States ===== -->
   <section id="states" class="doc-section">
     <h2 class="doc-h2">Состояния</h2>
     <p class="doc-body prose">Модификаторы рута меняют рамку и фон, высоту не трогают.</p>
-    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(280px,1fr));">
-      {states.map((s) => (
-        <div class="example">
-          <div class="example__preview" style="padding:20px;">
-            <button class:list={['li', s.mod]} disabled={s.mod === 'li--disabled'}>
-              <span class="li__control"><span class="li__check li__check--on"></span></span>
-              <span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span>
-            </button>
-          </div>
-          <div class="example__caption"><b>{s.label}</b>{s.mod ? <> · <code>.{s.mod}</code></> : null}</div>
-        </div>
-      ))}
+    <div class="example-grid" style="grid-template-columns:repeat(auto-fill,minmax(300px,1fr));">
+      <div class="example">
+        <div class="example__preview" style="padding:20px;"><button class="li"><span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span><span class="li__suffix" set:html={chevron}></span></button></div>
+        <div class="example__caption"><b>Default</b> — <code>.li</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;"><button class="li li--pressed"><span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span><span class="li__suffix" set:html={chevron}></span></button></div>
+        <div class="example__caption"><b>Pressed</b> — при нажатии. <code>.li--pressed</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;"><button class="li li--disabled" disabled><span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span><span class="li__suffix" set:html={chevron}></span></button></div>
+        <div class="example__caption"><b>Disabled</b> — недоступно. <code>.li--disabled</code></div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:20px;"><button class="li li--active"><span class="li__content"><span class="li__label"><span class="li__title">Пункт списка</span></span></span><span class="li__suffix" set:html={chevron}></span></button></div>
+        <div class="example__caption"><b>Active</b> — текущий/выбранный. <code>.li--active</code></div>
+      </div>
     </div>
   </section>
 
-  <section id="usage" class="doc-section">
-    <h2 class="doc-h2">Использование</h2>
-    <p class="doc-body prose">Реальные экраны (экспорт 2× из Figma). Слот под скриншот.</p>
-    <div class="shot-grid">
-      <figure class="shot"><div class="shot__frame">Профиль — список настроек (Navigation)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Профиль · ряд навигационных строк.</span></figcaption></figure>
-      <figure class="shot"><div class="shot__frame">Выбор языка (Radio)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Язык · один выбор радио-строкой.</span></figcaption></figure>
-    </div>
-  </section>
-
+  <!-- ===== Specs ===== -->
   <section id="specs" class="doc-section">
     <h2 class="doc-h2">Характеристики</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
         <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
         <tbody>
-          <tr><td>Мин. высота</td><td>58px (hug, тянется)</td><td><code>.li</code></td></tr>
+          <tr><td>Мин. высота</td><td>58px (hug, тянется)</td><td><code>--size-control-l</code></td></tr>
           <tr><td>Паддинг</td><td>16px (15 при 2px рамке)</td><td><code>--space-16</code></td></tr>
           <tr><td>Радиус</td><td>16px</td><td><code>--radius-l</code></td></tr>
           <tr><td>Gap</td><td>8px</td><td><code>--space-8</code></td></tr>
-          <tr><td>Заголовок</td><td>18/23, опц. bold</td><td><code>.li__title</code></td></tr>
-          <tr><td>Описание</td><td>16/21, secondary</td><td><code>.li__desc</code></td></tr>
+          <tr><td>Заголовок</td><td>Halvar 18/23, опц. bold</td><td><code>.li__title</code></td></tr>
+          <tr><td>Active — рамка</td><td>2px focus</td><td><code>--border-focus</code></td></tr>
           <tr><td>Аватар / иконка</td><td>40 / 24</td><td><code>.li__avatar</code> · <code>.li__prefix</code></td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <!-- ===== Changelog ===== -->
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Checkbox</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Radio</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Navigation</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Profile</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>26.06.2026</td><td>Состояния сведены к Default/Pressed/Disabled/Active — Success/Error удалены (нет в мастере 94:829).</td><td>Removed</td></tr>
+          <tr><td>13.06.2026</td><td>Единый каркас .li для всех типов (Checkbox/Radio/Navigation/Profile), min-h 58.</td><td>Changed</td></tr>
         </tbody>
       </table>
     </div>
   </section>
+
+  <script is:inline>
+    // Radio list — single select within a [data-radiolist] group.
+    document.querySelectorAll('[data-radiolist]').forEach(function (group) {
+      group.addEventListener('click', function (e) {
+        var row = e.target.closest('[data-radio]');
+        if (!row) return;
+        group.querySelectorAll('[data-radio]').forEach(function (r) {
+          var dot = r.querySelector('.li__radio');
+          if (dot) dot.classList.remove('li__radio--on');
+        });
+        var d = row.querySelector('.li__radio');
+        if (d) d.classList.add('li__radio--on');
+      });
+    });
+  </script>
 </Docs>
+
+<style>
+  .li-group__title {
+    font: 700 14px/18px var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    padding-left: 4px;
+  }
+</style>
