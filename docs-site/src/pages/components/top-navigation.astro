@@ -2,12 +2,13 @@
 import Docs from '../../layouts/Docs.astro';
 
 const toc = [
+  { id: 'when', label: 'Когда использовать' },
   { id: 'main', label: 'Main page' },
   { id: 'sub', label: 'Sub page' },
   { id: 'parts', label: 'Элементы' },
   { id: 'usage', label: 'Использование' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 
 const back = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>';
@@ -28,6 +29,20 @@ const close = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" strok
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
       <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
     </div>
+  </section>
+
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <p>
+      Верхний чром экрана. Два каркаса под задачу: <strong>Main page</strong> на
+      корневых экранах (личность, лига, ресурсы) и <strong>Sub page</strong> на
+      вложенных (назад, заголовок, прогресс тренажёра).
+    </p>
+    <h3 class="doc-h3">Не использовать</h3>
+    <ul>
+      <li>Для корневой навигации между разделами — это <strong>Bottom Navigation</strong>.</li>
+      <li>Не мешать каркасы: на вложенном экране — Sub page, не Main.</li>
+    </ul>
   </section>
 
   <section id="main" class="doc-section">
@@ -109,14 +124,14 @@ const close = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" strok
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Каркас</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Main page</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Sub page</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>26.06.2026</td><td>Добавлен раздел «Когда использовать»; собраны живые Main / Sub каркасы из элементов.</td><td>Changed</td></tr>
+          <tr><td>13.06.2026</td><td>Сборка .tnav (Main page / Sub page), элементы: аватар, лига, стрик, баланс, прогресс.</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>

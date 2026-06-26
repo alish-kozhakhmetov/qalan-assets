@@ -2,12 +2,12 @@
 import Docs from '../../layouts/Docs.astro';
 
 const toc = [
+  { id: 'when', label: 'Когда использовать' },
   { id: 'types', label: 'Типы' },
+  { id: 'examples', label: 'Примеры в контексте' },
   { id: 'sizes', label: 'Размеры' },
-  { id: 'live', label: 'Живой пример' },
-  { id: 'usage', label: 'Использование' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 ---
 
@@ -15,14 +15,29 @@ const toc = [
   <section class="prose">
     <h1 class="doc-h1">Tabs</h1>
     <p class="doc-lead">
-      Табы переключают разделы одного экрана. Два типа — сегментированные
-      (в пилюле) и подчёркнутые. Два размера — M (58) и S (48).
+      Табы переключают контент на месте — между разделами одного экрана. Два
+      типа: сегментированные (в пилюле) и подчёркнутые. Размеры M (58) и S (48).
     </p>
     <div class="pill-row">
-      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill"><strong>Платформы:</strong> iOS · Android · Web</span>
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
-      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 26.06.2026</span>
     </div>
+  </section>
+
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <p>
+      Когда на одном экране несколько срезов одного контента и нужно
+      переключаться между ними <strong>на месте</strong>: «С ошибками / Все темы»
+      на Диагностике, «Месяц / Год» в Аналитике.
+    </p>
+    <h3 class="doc-h3">Не использовать</h3>
+    <ul>
+      <li>Для прыжка по разделам длинной страницы — это <strong>Pill</strong> (якорь), не Tabs.</li>
+      <li>Для перехода на другой экран — навигация или <strong>List Item</strong>.</li>
+      <li>Больше 3–4 табов в ряд — пересмотри структуру, ряд не должен скроллиться.</li>
+    </ul>
   </section>
 
   <section id="types" class="doc-section">
@@ -30,23 +45,48 @@ const toc = [
     <div class="example-grid" style="grid-template-columns:1fr;">
       <div class="example">
         <div class="example__preview" style="padding:24px;">
-          <div class="tabs tabs--segmented tabs--m" style="width:100%; max-width:420px;">
-            <button class="tab tab--active">Практика</button>
-            <button class="tab">Тест</button>
-            <button class="tab">Теория</button>
+          <div class="tabs tabs--segmented tabs--m" style="width:100%; max-width:440px;" data-tabs>
+            <button class="tab tab--active" data-tab>Практика</button>
+            <button class="tab" data-tab>Тест</button>
+            <button class="tab" data-tab>Теория</button>
           </div>
         </div>
-        <div class="example__caption"><b>Segmented</b> — выбор внутри пилюли. <code>.tabs--segmented</code></div>
+        <div class="example__caption"><b>Segmented</b> — выбор внутри пилюли, фон у активного. <code>.tabs--segmented</code></div>
       </div>
       <div class="example">
         <div class="example__preview" style="padding:24px;">
-          <div class="tabs tabs--underlined tabs--m" style="width:100%; max-width:420px;">
-            <button class="tab tab--active">Практика</button>
-            <button class="tab">Тест</button>
-            <button class="tab">Теория</button>
+          <div class="tabs tabs--underlined tabs--m" style="width:100%; max-width:440px;" data-tabs>
+            <button class="tab tab--active" data-tab>Практика</button>
+            <button class="tab" data-tab>Тест</button>
+            <button class="tab" data-tab>Теория</button>
           </div>
         </div>
         <div class="example__caption"><b>Underlined</b> — подчёркивание активного. <code>.tabs--underlined</code></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="examples" class="doc-section">
+    <h2 class="doc-h2">Примеры в контексте</h2>
+    <p class="doc-body prose">Реальные экраны. Кликабельно.</p>
+    <div class="example-grid" style="grid-template-columns:1fr 1fr; margin-top:24px;">
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--segmented tabs--m" style="width:100%;" data-tabs>
+            <button class="tab" data-tab>С ошибками, 4</button>
+            <button class="tab tab--active" data-tab>Все темы, 16</button>
+          </div>
+        </div>
+        <div class="example__caption"><b>Диагностика</b> — срез списка тем (Segmented).</div>
+      </div>
+      <div class="example">
+        <div class="example__preview" style="padding:24px;">
+          <div class="tabs tabs--underlined tabs--m" style="width:100%;" data-tabs>
+            <button class="tab tab--active" data-tab>Месяц</button>
+            <button class="tab" data-tab>Год</button>
+          </div>
+        </div>
+        <div class="example__caption"><b>Аналитика</b> — период отчёта (Underlined).</div>
       </div>
     </div>
   </section>
@@ -55,37 +95,13 @@ const toc = [
     <h2 class="doc-h2">Размеры</h2>
     <div class="example-grid" style="grid-template-columns:1fr 1fr;">
       <div class="example">
-        <div class="example__preview" style="padding:24px;">
-          <div class="tabs tabs--segmented tabs--m" style="width:100%;"><button class="tab tab--active">M</button><button class="tab">58px</button></div>
-        </div>
+        <div class="example__preview" style="padding:24px;"><div class="tabs tabs--segmented tabs--m" style="width:100%;"><button class="tab tab--active">M</button><button class="tab">58px</button></div></div>
         <div class="example__caption"><b>M — 58px</b>, текст 18/23. <code>.tabs--m</code></div>
       </div>
       <div class="example">
-        <div class="example__preview" style="padding:24px;">
-          <div class="tabs tabs--segmented tabs--s" style="width:100%;"><button class="tab tab--active">S</button><button class="tab">48px</button></div>
-        </div>
+        <div class="example__preview" style="padding:24px;"><div class="tabs tabs--segmented tabs--s" style="width:100%;"><button class="tab tab--active">S</button><button class="tab">48px</button></div></div>
         <div class="example__caption"><b>S — 48px</b>, текст 16/21. <code>.tabs--s</code></div>
       </div>
-    </div>
-  </section>
-
-  <section id="live" class="doc-section">
-    <h2 class="doc-h2">Живой пример</h2>
-    <p class="doc-body prose">Кликабельно — активный таб переключается на реальных классах.</p>
-    <div class="stage">
-      <div class="tabs tabs--segmented tabs--m" id="liveTabs" style="width:100%; max-width:460px;">
-        <button class="tab tab--active" data-tab>Дроби</button>
-        <button class="tab" data-tab>Проценты</button>
-        <button class="tab" data-tab>Уравнения</button>
-      </div>
-    </div>
-  </section>
-
-  <section id="usage" class="doc-section">
-    <h2 class="doc-h2">Использование</h2>
-    <div class="shot-grid">
-      <figure class="shot"><div class="shot__frame">Тема курса — Практика / Тест (Segmented)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Сегмент-табы над контентом темы.</span></figcaption></figure>
-      <figure class="shot"><div class="shot__frame">Аналитика — Месяц / Год (Underlined)</div><figcaption class="shot__meta"><span class="shot__tag shot__tag--do">✓ Do</span><span class="shot__caption">Подчёркнутые табы периода.</span></figcaption></figure>
     </div>
   </section>
 
@@ -97,37 +113,36 @@ const toc = [
         <tbody>
           <tr><td>Высота M / S</td><td>58 / 48</td><td><code>.tabs--m</code> · <code>.tabs--s</code></td></tr>
           <tr><td>Радиус (segmented)</td><td>16 контейнер, 12 таб</td><td><code>--radius-l</code> · <code>--radius-m</code></td></tr>
-          <tr><td>Текст</td><td>18/23 (M), 16/21 (S), 700</td><td><code>--font-body</code></td></tr>
+          <tr><td>Текст</td><td>Halvar 18/23 (M), 16/21 (S), 700</td><td><code>--font-body</code></td></tr>
           <tr><td>Активный (segmented)</td><td>фон surface</td><td><code>--bg-surface</code></td></tr>
           <tr><td>Активный (underlined)</td><td>линия 2px снизу</td><td><code>--text-primary</code></td></tr>
+          <tr><td>Платформы</td><td>iOS · Android · Web</td><td>—</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Тип</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Segmented</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Underlined</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>26.06.2026</td><td>Док пересобран usage-first: разведены Tabs (переключение на месте) и Pill (якорь); реальные экраны Диагностики и Аналитики.</td><td>Changed</td></tr>
+          <tr><td>13.06.2026</td><td>Сборка .tabs: Segmented / Underlined × M / S.</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>
+  </section>
 
   <script is:inline>
-    (function () {
-      var box = document.getElementById('liveTabs');
-      if (!box) return;
-      box.querySelectorAll('[data-tab]').forEach(function (t) {
-        t.addEventListener('click', function () {
-          box.querySelectorAll('[data-tab]').forEach(function (x) { x.classList.remove('tab--active'); });
-          t.classList.add('tab--active');
-        });
+    document.querySelectorAll('[data-tabs]').forEach(function (box) {
+      box.addEventListener('click', function (e) {
+        var t = e.target.closest('[data-tab]');
+        if (!t) return;
+        box.querySelectorAll('[data-tab]').forEach(function (x) { x.classList.remove('tab--active'); });
+        t.classList.add('tab--active');
       });
-    })();
+    });
   </script>
-  </section>
 </Docs>

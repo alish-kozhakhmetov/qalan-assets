@@ -2,11 +2,13 @@
 import Docs from '../../layouts/Docs.astro';
 
 const toc = [
+  { id: 'when', label: 'Когда использовать' },
+  { id: 'examples', label: 'Примеры в контексте' },
   { id: 'switch', label: 'Switch' },
   { id: 'checkbox', label: 'Checkbox' },
   { id: 'radio', label: 'Radio' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 ---
 
@@ -16,12 +18,47 @@ const toc = [
     <p class="doc-lead">
       Три контрола выбора. <strong>Switch</strong> — мгновенное вкл/выкл.{' '}
       <strong>Checkbox</strong> — множественный выбор. <strong>Radio</strong> —
-      один из вариантов. У каждого размеры M и S и состояние disabled.
+      один из вариантов. Размеры M и S, состояние disabled.
     </p>
     <div class="pill-row">
-      <span class="meta-pill"><strong>Платформы:</strong> Web · iOS · Android</span>
+      <span class="meta-pill"><strong>Платформы:</strong> iOS · Android · Web</span>
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
-      <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
+      <span class="meta-pill"><strong>Обновлено:</strong> 26.06.2026</span>
+    </div>
+  </section>
+
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <ul>
+      <li><strong>Switch</strong> — настройка применяется сразу, без подтверждения (уведомления, звук).</li>
+      <li><strong>Checkbox</strong> — выбрать несколько из набора; или согласие с условием.</li>
+      <li><strong>Radio</strong> — выбрать ровно один из взаимоисключающих вариантов.</li>
+    </ul>
+    <h3 class="doc-h3">Не путать</h3>
+    <ul>
+      <li>Бинарное вкл/выкл — <strong>Switch</strong>, не одиночный Checkbox.</li>
+      <li>Один из многих — <strong>Radio</strong>, не несколько Checkbox.</li>
+    </ul>
+  </section>
+
+  <section id="examples" class="doc-section">
+    <h2 class="doc-h2">Примеры в контексте</h2>
+    <p class="doc-body prose">Настройки приложения. Контролы кликабельны.</p>
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="flex-direction:column; align-items:stretch; gap:4px; padding:24px;">
+        <div class="set-row"><span>Уведомления о прогрессе</span><button class="sw sw--m sw--on" data-switch><span class="sw__knob"></span></button></div>
+        <div class="set-row"><span>Звук в тренажёре</span><button class="sw sw--m" data-switch><span class="sw__knob"></span></button></div>
+        <div class="set-row"><span>Напоминания о занятиях</span><button class="sw sw--m sw--on" data-switch><span class="sw__knob"></span></button></div>
+      </div>
+      <div class="example__caption"><b>Настройки</b> — мгновенные переключатели (Switch).</div>
+    </div>
+    <div class="example" style="margin-top:24px;">
+      <div class="example__preview" style="flex-direction:column; align-items:stretch; gap:12px; padding:24px;">
+        <div class="set-row set-row--lead"><span class="cb cb--on" data-checkbox></span><span>Присылать отчёт о прогрессе</span></div>
+        <div class="set-row set-row--lead"><span class="cb" data-checkbox></span><span>Уведомлять о новых наградах</span></div>
+        <div class="set-row set-row--lead"><span class="cb cb--on" data-checkbox></span><span>Напоминать о пропусках</span></div>
+      </div>
+      <div class="example__caption"><b>Что присылать</b> — множественный выбор (Checkbox).</div>
     </div>
   </section>
 
@@ -32,20 +69,16 @@ const toc = [
       <table class="ds-table">
         <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Off · disabled</th><th>On · disabled</th></tr></thead>
         <tbody>
-          <tr>
-            <th>M · 65×40</th>
+          <tr><th>M · 65×40</th>
             <td><button class="sw sw--m"><span class="sw__knob"></span></button></td>
             <td><button class="sw sw--m sw--on"><span class="sw__knob"></span></button></td>
             <td><button class="sw sw--m sw--disabled" disabled><span class="sw__knob"></span></button></td>
-            <td><button class="sw sw--m sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td>
-          </tr>
-          <tr>
-            <th>S · 46×30</th>
+            <td><button class="sw sw--m sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td></tr>
+          <tr><th>S · 46×30</th>
             <td><button class="sw sw--s"><span class="sw__knob"></span></button></td>
             <td><button class="sw sw--s sw--on"><span class="sw__knob"></span></button></td>
             <td><button class="sw sw--s sw--disabled" disabled><span class="sw__knob"></span></button></td>
-            <td><button class="sw sw--s sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td>
-          </tr>
+            <td><button class="sw sw--s sw--on sw--disabled" disabled><span class="sw__knob"></span></button></td></tr>
         </tbody>
       </table>
     </div>
@@ -58,18 +91,8 @@ const toc = [
       <table class="ds-table">
         <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Disabled</th></tr></thead>
         <tbody>
-          <tr>
-            <th>M · 20</th>
-            <td><span class="cb"></span></td>
-            <td><span class="cb cb--on"></span></td>
-            <td><span class="cb cb--disabled"></span></td>
-          </tr>
-          <tr>
-            <th>S · 16</th>
-            <td><span class="cb cb--s"></span></td>
-            <td><span class="cb cb--s cb--on"></span></td>
-            <td><span class="cb cb--s cb--disabled"></span></td>
-          </tr>
+          <tr><th>M · 20</th><td><span class="cb"></span></td><td><span class="cb cb--on"></span></td><td><span class="cb cb--disabled"></span></td></tr>
+          <tr><th>S · 16</th><td><span class="cb cb--s"></span></td><td><span class="cb cb--s cb--on"></span></td><td><span class="cb cb--s cb--disabled"></span></td></tr>
         </tbody>
       </table>
     </div>
@@ -82,18 +105,8 @@ const toc = [
       <table class="ds-table">
         <thead><tr><th>Размер \ Состояние</th><th>Off</th><th>On</th><th>Disabled</th></tr></thead>
         <tbody>
-          <tr>
-            <th>M · 20</th>
-            <td><span class="rb"></span></td>
-            <td><span class="rb rb--on"></span></td>
-            <td><span class="rb rb--disabled"></span></td>
-          </tr>
-          <tr>
-            <th>S · 16</th>
-            <td><span class="rb rb--s"></span></td>
-            <td><span class="rb rb--s rb--on"></span></td>
-            <td><span class="rb rb--s rb--disabled"></span></td>
-          </tr>
+          <tr><th>M · 20</th><td><span class="rb"></span></td><td><span class="rb rb--on"></span></td><td><span class="rb rb--disabled"></span></td></tr>
+          <tr><th>S · 16</th><td><span class="rb rb--s"></span></td><td><span class="rb rb--s rb--on"></span></td><td><span class="rb rb--s rb--disabled"></span></td></tr>
         </tbody>
       </table>
     </div>
@@ -113,17 +126,33 @@ const toc = [
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Контрол</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Switch</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Checkbox</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
-          <tr><td>Radio</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td></tr>
+          <tr><td>26.06.2026</td><td>Док usage-first: когда какой контрол, реальные настройки, кликабельные примеры.</td><td>Changed</td></tr>
+          <tr><td>13.06.2026</td><td>Сборка .sw / .cb / .rb (M / S × состояния).</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>
   </section>
+
+  <script is:inline>
+    document.querySelectorAll('[data-switch]').forEach(function (s) {
+      s.addEventListener('click', function () { s.classList.toggle('sw--on'); });
+    });
+    document.querySelectorAll('[data-checkbox]').forEach(function (c) {
+      c.addEventListener('click', function () { c.classList.toggle('cb--on'); });
+    });
+  </script>
 </Docs>
+
+<style>
+  .set-row { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    min-height: 48px; padding: 8px 4px; font: 400 18px/23px var(--font-body); color: var(--text-primary); }
+  .set-row + .set-row { border-top: 1px solid var(--border-default); }
+  .set-row--lead { justify-content: flex-start; }
+  .set-row .sw, .set-row .cb { cursor: pointer; }
+</style>

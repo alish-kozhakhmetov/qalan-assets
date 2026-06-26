@@ -2,11 +2,12 @@
 import Docs from '../../layouts/Docs.astro';
 
 const toc = [
+  { id: 'when', label: 'Когда использовать' },
   { id: 'anatomy', label: 'Анатомия' },
   { id: 'parts', label: 'Элементы' },
   { id: 'usage', label: 'Использование' },
   { id: 'specs', label: 'Характеристики' },
-  { id: 'availability', label: 'Платформы' },
+  { id: 'changelog', label: 'Журнал изменений' },
 ];
 ---
 
@@ -23,6 +24,19 @@ const toc = [
       <span class="meta-pill meta-pill--ok"><strong>Статус:</strong> Stable</span>
       <span class="meta-pill"><strong>Обновлено:</strong> 25.06.2026</span>
     </div>
+  </section>
+
+  <section id="when" class="doc-section prose">
+    <h2 class="doc-h2">Когда использовать</h2>
+    <p>
+      Главный блок домашнего экрана — точка входа в тренажёр. Показывает текущую
+      фазу (тема, метрики, награды) и ведёт основным CTA. Один на экран.
+    </p>
+    <h3 class="doc-h3">Не использовать</h3>
+    <ul>
+      <li>Как обычную карточку контента — это паттерн именно тренажёра.</li>
+      <li>Несколько на экране — главный блок один.</li>
+    </ul>
   </section>
 
   <section id="anatomy" class="doc-section">
@@ -85,15 +99,14 @@ const toc = [
     </div>
   </section>
 
-  <section id="availability" class="doc-section">
-    <h2 class="doc-h2">Платформы</h2>
+  <section id="changelog" class="doc-section">
+    <h2 class="doc-h2">Журнал изменений</h2>
     <div class="table-wrap">
       <table class="ds-table ds-table--spec">
-        <thead><tr><th>Фаза</th><th>iOS</th><th>Android</th><th>Web</th></tr></thead>
+        <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>Ready</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
-          <tr><td>In progress</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
-          <tr><td>Completed</td><td class="avail-yes">✓</td><td class="avail-yes">✓</td><td class="avail-no">—</td></tr>
+          <tr><td>26.06.2026</td><td>Добавлен раздел «Когда использовать».</td><td>Changed</td></tr>
+          <tr><td>13.06.2026</td><td>Сборка .tblock: notched-карточка (SVG-фон) + пилюля + метрики + CTA.</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>
