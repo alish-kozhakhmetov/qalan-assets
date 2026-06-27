@@ -2,25 +2,38 @@
 import Docs from '../../layouts/Docs.astro';
 
 // Trainer Keyboard — custom math-input keyboard for the trainer.
-// Source of truth: DS file `_Trainer Keyboard` (COMPONENT_SET, Type variants).
-// Layouts transcribed 1:1 from the Figma variants (Basic / Advanced /
-// Additional / abc / ABC). Operator column = bg-accent-orange.
+// Source of truth: DS `_Trainer Keyboard` (COMPONENT_SET) + `_Trainer Expanded-keys`.
+// Geometry verified against Figma: keys 65×62 r12, gap 4, padding 16; action
+// bar h58 (pill buttons); iOS home-indicator 135×5; long-press popovers.
 
 const icEdit = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>';
 const icChat = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3 21l1.9-5.7A8.5 8.5 0 1 1 21 11.5z"/></svg>';
-const icBack = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H8.5a2 2 0 0 0-1.5.7L2.6 11a1.5 1.5 0 0 0 0 2l4.4 5.3a2 2 0 0 0 1.5.7H21a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="M12 9.5l4 5M16 9.5l-4 5"/></svg>';
-const icShift = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20 12h-4.5v7.5h-7V12H4z"/></svg>';
+const icBack = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 5H8.5a2 2 0 0 0-1.5.7L2.6 11a1.5 1.5 0 0 0 0 2l4.4 5.3a2 2 0 0 0 1.5.7H21a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="M12 9.5l4 5M16 9.5l-4 5"/></svg>';
+const icShift = '<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20 12h-4.5v7.5h-7V12H4z"/></svg>';
 
-// key shorthands
+// Long-press expansions (вкладыши) — from `_Trainer Expanded-keys`.
+// opts[] are the popover options; the option equal to the key label is active.
+const EXP = {
+  '<': { opts: ['<', '≤'], hint: '≤' },
+  '>': { opts: ['>', '≥'], hint: '≥' },
+  '√': { opts: ['√', 'ⁿ√'], hint: 'ⁿ√' },
+  '( )': { opts: ['( )', '[ ]', '{ }'], hint: '[ ]' },
+  ',': { opts: ['.', ';', ','], hint: ';' },
+  'sin': { opts: ['sin', 'arcsin'], hint: 'arc' },
+  'cos': { opts: ['cos', 'arccos'], hint: 'arc' },
+  'tan': { opts: ['tan', 'arctan'], hint: 'arc' },
+  'ctg': { opts: ['arcctg', 'ctg'], hint: 'arc' },
+};
+
 const op = (l) => ({ l, k: 'op' });
-const sym = (l, hint) => ({ l, k: 'sym', hint });
-const fn = (l, hint) => ({ l, k: 'fn', hint });
+const sym = (l) => ({ l, k: 'sym' });
+const fn = (l) => ({ l, k: 'fn' });
 const frac = (a, b) => ({ frac: [a, b], k: 'sym' });
 const back = { k: 'back' };
 
 const layouts = {
   basic: {
-    label: 'Basic', cols: 5, dot: 0,
+    label: 'Basic', cols: 5, kh: 62, dot: 0,
     rows: [
       ['<', '>', '≠', '=', back],
       [frac('x', 'y'), '7', '8', '9', op('÷')],
@@ -30,27 +43,27 @@ const layouts = {
     ],
   },
   advanced: {
-    label: 'Advanced', cols: 5, dot: 0,
+    label: 'Advanced', cols: 5, kh: 62, dot: 0,
     rows: [
-      [sym('<', '≤'), sym('>', '≥'), '=', '≠', back],
+      ['<', '>', '=', '≠', back],
       [frac('x', 'y'), '7', '8', '9', op('÷')],
       [sym('x²'), '4', '5', '6', op('×')],
       [sym('x³'), '1', '2', '3', op('−')],
-      [sym('√', 'ⁿ√'), sym('( )', '[ ]'), '0', sym(',', ';'), op('+')],
+      [sym('√'), sym('( )'), '0', ',', op('+')],
     ],
   },
   additional: {
-    label: 'Additional', cols: 5, dot: 1,
+    label: 'Additional', cols: 5, kh: 62, dot: 1,
     rows: [
-      [fn('sin', 'arc'), fn('cos', 'arc'), fn('tan', 'arc'), fn('ctg', 'arc'), back],
-      [sym('∑'), sym('∑', 'ᵇₐ'), sym('∫'), sym('∫', 'ᵇₐ'), sym('±')],
+      [fn('sin'), fn('cos'), fn('tan'), fn('ctg'), back],
+      [sym('∑'), sym('∑ᵇₐ'), sym('∫'), sym('∫ᵇₐ'), sym('±')],
       ['∈', '∉', '⊂', '⋃', '⋂'],
       ['∞', 'e', 'c', fn('log'), fn('lg')],
       ['∅', '!', sym('a⃗'), 'π', sym('‾')],
     ],
   },
   abc: {
-    label: 'abc', cols: 6, dot: 2,
+    label: 'abc', cols: 6, kh: 50, dot: 2,
     rows: [
       [{ k: 'shift' }, 'a', 'b', 'c', 'd', 'e'],
       ['f', 'g', 'h', 'i', 'j', 'k'],
@@ -61,7 +74,7 @@ const layouts = {
     ],
   },
   abcUpper: {
-    label: 'ABC', cols: 6, dot: 2,
+    label: 'ABC', cols: 6, kh: 50, dot: 2,
     rows: [
       [{ k: 'shift', on: true }, 'A', 'B', 'C', 'D', 'E'],
       ['F', 'G', 'H', 'I', 'J', 'K'],
@@ -78,6 +91,7 @@ const order = ['basic', 'advanced', 'additional', 'abc', 'abcUpper'];
 const toc = [
   { id: 'when', label: 'Когда использовать' },
   { id: 'types', label: 'Раскладки' },
+  { id: 'longpress', label: 'Долгие нажатия' },
   { id: 'anatomy', label: 'Анатомия' },
   { id: 'keys', label: 'Клавиши' },
   { id: 'specs', label: 'Характеристики' },
@@ -132,31 +146,49 @@ const toc = [
           {order.map((id) => {
             const lay = layouts[id];
             return (
-              <div class="kbd__grid" data-kbd={id} data-dot={lay.dot} hidden={id !== 'basic'} style={`grid-template-columns:repeat(${lay.cols},1fr)`}>
-                {lay.rows.flat().map(norm).map((k) => (
-                  <button
-                    class:list={['key', k.k && `key--${k.k}`, { 'key--on': k.on }]}
-                    type="button"
-                  >
-                    {k.k === 'back' ? <span class="key__ico" set:html={icBack}></span>
-                      : k.k === 'shift' ? <span class="key__ico" set:html={icShift}></span>
-                      : k.frac ? <span class="key__frac"><b>{k.frac[0]}</b><b>{k.frac[1]}</b></span>
-                      : <span class="key__l" set:html={k.l}></span>}
-                    {k.hint && <i class="key__hint">{k.hint}</i>}
-                  </button>
-                ))}
+              <div class="kbd__grid" data-kbd={id} data-dot={lay.dot} hidden={id !== 'basic'} style={`grid-template-columns:repeat(${lay.cols},1fr);--kh:${lay.kh}px`}>
+                {lay.rows.flat().map(norm).map((k) => {
+                  const e = !k.frac && k.l ? EXP[k.l] : null;
+                  return (
+                    <button class:list={['key', k.k && `key--${k.k}`, { 'key--on': k.on, 'key--exp': !!e }]} type="button">
+                      {k.k === 'back' ? <span class="key__ico" set:html={icBack}></span>
+                        : k.k === 'shift' ? <span class="key__ico" set:html={icShift}></span>
+                        : k.frac ? <span class="key__frac"><b>{k.frac[0]}</b><b>{k.frac[1]}</b></span>
+                        : <span class="key__l">{k.l}</span>}
+                      {e && <i class="key__hint">{e.hint}</i>}
+                      {e && <span class="key__pop"><span class="kopt-row">{e.opts.map((o) => (<b class:list={['kopt', { 'kopt--on': o === k.l }]}>{o}</b>))}</span></span>}
+                    </button>
+                  );
+                })}
               </div>
             );
           })}
         </div>
         <div class="kbd__dots" id="kbdDots"><i></i><i></i><i></i></div>
+        <div class="kbd__home"><i></i></div>
       </div>
     </div>
     <p class="doc-body prose">
-      Переключай раскладку пилюлями выше. Мелкая надпись в углу клавиши —
-      <strong>долгое нажатие</strong> (например <code>&lt;</code> → <code>≤</code>,
-      <code>sin</code> → <code>arcsin</code>).
+      Переключай раскладку пилюлями выше. Клавиши с уголком (значок в правом
+      верхнем углу) имеют <strong>долгое нажатие</strong> — наведи на такую,
+      чтобы увидеть вкладыш с альтернативами.
     </p>
+  </section>
+
+  <section id="longpress" class="doc-section">
+    <h2 class="doc-h2">Долгие нажатия</h2>
+    <p class="doc-body prose">
+      У части клавиш есть вкладыш по долгому нажатию (<code>_Trainer Expanded-keys</code>):
+      раскрывается карточка с альтернативами, активный символ — синий.
+    </p>
+    <div class="pop-grid">
+      {['<', '>', '√', '( )', ',', 'sin', 'cos', 'tan', 'ctg'].map((lbl) => (
+        <figure class="pop-card">
+          <span class="kopt-row">{EXP[lbl].opts.map((o) => (<b class:list={['kopt', { 'kopt--on': o === lbl }]}>{o}</b>))}</span>
+          <figcaption>Долгое нажатие на <code>{lbl}</code></figcaption>
+        </figure>
+      ))}
+    </div>
   </section>
 
   <section id="anatomy" class="doc-section">
@@ -169,7 +201,7 @@ const toc = [
             <button class="kbd__act" type="button" set:html={icChat}></button>
             <button class="kbd__check" type="button">Проверить</button>
           </div>
-          <div class="kbd__grid" style="grid-template-columns:repeat(5,1fr)">
+          <div class="kbd__grid" style="grid-template-columns:repeat(5,1fr);--kh:62px">
             {layouts.basic.rows.flat().map(norm).map((k) => (
               <button class:list={['key', k.k && `key--${k.k}`]} type="button">
                 {k.k === 'back' ? <span class="key__ico" set:html={icBack}></span>
@@ -179,14 +211,16 @@ const toc = [
             ))}
           </div>
           <div class="kbd__dots"><i class="on"></i><i></i><i></i></div>
+          <div class="kbd__home"><i></i></div>
         </div>
       </div>
       <ol class="callout-list">
-        <li><span class="callout-num">1</span><span><strong>Панель действий</strong> — <code>.kbd__bar</code>: заметка, чат и основной CTA «Проверить».</span></li>
+        <li><span class="callout-num">1</span><span><strong>Панель действий</strong> — <code>.kbd__bar</code>: заметка, чат (пилюли 64×58) + основной CTA «Проверить».</span></li>
         <li><span class="callout-num">2</span><span><strong>Ряд символов</strong> — сравнения и скобки; верхний-правый — <strong>Backspace</strong>.</span></li>
-        <li><span class="callout-num">3</span><span><strong>Цифербалт</strong> — числа 0–9 + формульные клавиши (дробь, степени).</span></li>
+        <li><span class="callout-num">3</span><span><strong>Цифербалт</strong> — числа 0–9 + формульные клавиши (дробь, степени). Клавиша 65×62, радиус 12.</span></li>
         <li><span class="callout-num">4</span><span><strong>Колонка операторов</strong> — <code>.key--op</code>, оранжевая: ÷ × − +.</span></li>
         <li><span class="callout-num">5</span><span><strong>Пагинация</strong> — <code>.kbd__dots</code>: 3 свайп-страницы (числа · функции · буквы).</span></li>
+        <li><span class="callout-num">6</span><span><strong>Home-indicator</strong> — <code>.kbd__home</code>: системная полоса iOS 135×5.</span></li>
       </ol>
     </div>
   </section>
@@ -198,8 +232,8 @@ const toc = [
       <div class="example"><div class="example__preview kbd-prev"><button class="key" type="button"><span class="key__l">7</span></button></div><div class="example__caption"><b>Число</b> · <code>Type=Number</code></div></div>
       <div class="example"><div class="example__preview kbd-prev"><button class="key key--sym" type="button"><span class="key__l">π</span></button></div><div class="example__caption"><b>Символ</b> · <code>Type=Symbol</code></div></div>
       <div class="example"><div class="example__preview kbd-prev"><button class="key key--op" type="button"><span class="key__l">÷</span></button></div><div class="example__caption"><b>Оператор</b> · <code>Type=Primary-symbol</code></div></div>
-      <div class="example"><div class="example__preview kbd-prev"><button class="key key--fn" type="button"><span class="key__l">sin</span><i class="key__hint">arc</i></button></div><div class="example__caption"><b>Функция</b> · долгое нажатие</div></div>
-      <div class="example"><div class="example__preview kbd-prev"><button class="key" type="button"><span class="key__l">a</span></button></div><div class="example__caption"><b>Буква</b> · <code>Type=Letter</code></div></div>
+      <div class="example"><div class="example__preview kbd-prev"><button class="key key--fn key--exp" type="button"><span class="key__l">sin</span><i class="key__hint">arc</i></button></div><div class="example__caption"><b>Функция</b> · с вкладышем</div></div>
+      <div class="example"><div class="example__preview kbd-prev"><button class="key key--letter" type="button"><span class="key__l">a</span></button></div><div class="example__caption"><b>Буква</b> · <code>Type=Letter</code></div></div>
       <div class="example"><div class="example__preview kbd-prev"><button class="key" type="button" disabled><span class="key__l">5</span></button></div><div class="example__caption"><b>Disabled</b> · <code>Disabled=True</code></div></div>
     </div>
   </section>
@@ -210,14 +244,16 @@ const toc = [
       <table class="ds-table ds-table--spec">
         <thead><tr><th>Свойство</th><th>Значение</th><th>Токен / класс</th></tr></thead>
         <tbody>
+          <tr><td>Ширина клавиатуры</td><td>375, паддинг 16</td><td><code>.kbd</code></td></tr>
           <tr><td>Фон клавиатуры</td><td>canvas</td><td><code>--bg-canvas</code></td></tr>
-          <tr><td>Клавиша</td><td>surface, радиус 12</td><td><code>--bg-surface</code> · <code>--radius-m</code></td></tr>
-          <tr><td>Высота клавиши</td><td>58</td><td><code>--size-control-l</code></td></tr>
+          <tr><td>Клавиша (числа)</td><td>65 × 62, радиус 12, gap 4</td><td><code>--bg-surface</code> · <code>--radius-m</code></td></tr>
+          <tr><td>Клавиша (буквы)</td><td>≈54 × 50, 6 колонок</td><td><code>Type=Letter</code></td></tr>
           <tr><td>Оператор</td><td>orange + белый текст</td><td><code>--bg-accent-orange</code></td></tr>
-          <tr><td>«Проверить»</td><td>brand + белый, bold</td><td><code>--bg-brand</code> · <code>--text-on-brand-primary</code></td></tr>
-          <tr><td>Сетка</td><td>числа 5 кол · буквы 6 кол</td><td><code>.kbd__grid</code></td></tr>
+          <tr><td>Панель действий</td><td>h58, пилюли 64 + «Проверить»</td><td><code>--radius-full</code></td></tr>
+          <tr><td>«Проверить»</td><td>brand + белый, 18 bold</td><td><code>--bg-brand</code> · <code>--text-on-brand-primary</code></td></tr>
+          <tr><td>Вкладыш (long-press)</td><td>попап с альтернативами, активный — brand</td><td><code>.key__pop</code> · <code>_Trainer Expanded-keys</code></td></tr>
+          <tr><td>Home-indicator</td><td>135 × 5, радиус 999</td><td><code>.kbd__home</code></td></tr>
           <tr><td>Шрифт клавиш</td><td>24/29 Regular</td><td>Halvar Mittelschrift</td></tr>
-          <tr><td>Disabled</td><td>bg-disabled, text-disabled</td><td><code>--bg-disabled</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -229,7 +265,8 @@ const toc = [
       <table class="ds-table ds-table--spec">
         <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>28.06.2026</td><td>Перенос из Figma в код: 5 раскладок (Basic / Advanced / Additional / abc / ABC), переключатель, состояния клавиш.</td><td>Added</td></tr>
+          <tr><td>28.06.2026</td><td>Сверка с Figma: точные размеры клавиш (65×62, gap 4), панель h58, home-indicator; добавлены вкладыши долгого нажатия.</td><td>Changed</td></tr>
+          <tr><td>28.06.2026</td><td>Перенос из Figma в код: 5 раскладок (Basic / Advanced / Additional / abc / ABC), переключатель.</td><td>Added</td></tr>
         </tbody>
       </table>
     </div>
@@ -257,6 +294,10 @@ const toc = [
         var b = e.target.closest('[data-kbd-btn]');
         if (b) show(b.getAttribute('data-kbd-btn'));
       });
+      // tap a long-press key to pin its popover (mobile / click)
+      document.querySelectorAll('#kbd .key--exp').forEach(function (k) {
+        k.addEventListener('click', function () { k.classList.toggle('is-open'); });
+      });
       show('basic');
     })();
   </script>
@@ -264,36 +305,41 @@ const toc = [
 
 <style>
   .device-stage {
-    background: var(--bg-canvas);
+    background: var(--bg-subtle);
     border-radius: var(--radius-xl);
-    padding: 16px;
+    padding: 24px 16px;
     display: flex;
     justify-content: center;
     margin-top: 16px;
   }
-  .kbd { width: 375px; max-width: 100%; }
-  .kbd--demo { width: 343px; }
-  /* action bar */
-  .kbd__bar { display: flex; gap: 8px; margin-bottom: 10px; }
+  .kbd {
+    width: 375px; max-width: 100%;
+    background: var(--bg-canvas);
+    border-radius: var(--radius-l);
+    padding: 10px 16px 4px;
+  }
+  .kbd--demo { width: 375px; }
+  /* action bar — pill buttons, h58 */
+  .kbd__bar { display: flex; gap: 4px; margin-bottom: 8px; }
   .kbd__act {
-    flex: none; width: 52px; height: 44px; display: inline-flex;
+    flex: none; width: 64px; height: 58px; display: inline-flex;
     align-items: center; justify-content: center; cursor: pointer;
     background: var(--bg-surface); color: var(--text-primary);
-    border: none; border-radius: var(--radius-m);
+    border: none; border-radius: var(--radius-full);
     box-shadow: 0 1px 1px rgba(10,10,10,.05);
   }
   .kbd__check {
-    flex: 1; height: 44px; cursor: pointer; border: none;
+    flex: 1; height: 58px; cursor: pointer; border: none;
     background: var(--bg-brand); color: var(--text-on-brand-primary);
-    border-radius: var(--radius-l);
+    border-radius: var(--radius-full);
     font: 700 18px/23px var(--font-body);
   }
   .kbd__check:active { background: var(--bg-brand-pressed); }
-  /* key grid */
-  .kbd__grid { display: grid; gap: 8px; }
+  /* key grid — 65×62 keys, gap 4 */
+  .kbd__grid { display: grid; gap: 4px; grid-auto-rows: var(--kh, 62px); }
   .kbd__grid[hidden] { display: none; }
   .key {
-    position: relative; height: 54px; cursor: pointer; border: none;
+    position: relative; cursor: pointer; border: none; width: 100%; height: 100%;
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--bg-surface); color: var(--text-primary);
     border-radius: var(--radius-m);
@@ -302,26 +348,64 @@ const toc = [
   }
   .key:active { background: var(--bg-canvas); }
   .key--op { background: var(--bg-accent-orange); color: var(--text-on-brand-primary); }
-  .key--op:active { filter: brightness(.95); background: var(--bg-accent-orange); }
-  .key--fn { font-size: 20px; }
+  .key--op:active { filter: brightness(.95); }
+  .key--fn { font-size: 19px; }
+  .key--letter { font-size: 22px; }
   .key[disabled] { background: var(--bg-disabled); color: var(--text-disabled); cursor: default; box-shadow: none; }
   .key__ico { display: inline-flex; }
-  .key__l { display: inline-flex; }
-  .key__frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; font-size: 19px; }
-  .key__frac b { font-weight: 400; padding: 1px 5px; }
+  .key__frac { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; font-size: 20px; }
+  .key__frac b { font-weight: 400; padding: 1px 6px; }
   .key__frac b:first-child { border-bottom: 1.5px solid currentColor; }
+  /* long-press corner hint */
   .key__hint {
     position: absolute; top: 5px; right: 8px; font-style: normal;
     font-size: 11px; line-height: 1; color: var(--text-tertiary);
   }
-  .key--op .key__hint { color: var(--text-on-brand-secondary); }
-  /* pagination */
-  .kbd__dots { display: flex; gap: 6px; justify-content: center; margin-top: 12px; }
+  /* popover (вкладыш) */
+  .key__pop {
+    position: absolute; bottom: calc(100% + 6px); left: 50%;
+    transform: translateX(-50%) translateY(4px) scale(.96);
+    opacity: 0; visibility: hidden; transition: .12s ease; z-index: 6;
+    pointer-events: none;
+    background: var(--bg-surface); border-radius: var(--radius-l);
+    padding: 6px; box-shadow: 0 10px 28px rgba(10,10,10,.18);
+  }
+  .key--exp:hover .key__pop,
+  .key--exp:focus-visible .key__pop,
+  .key--exp.is-open .key__pop {
+    opacity: 1; visibility: visible; pointer-events: auto;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  .kopt-row { display: flex; gap: 4px; }
+  .kopt {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 56px; height: 56px; padding: 0 10px; white-space: nowrap;
+    border-radius: var(--radius-m); background: var(--bg-surface);
+    color: var(--text-primary); font: 400 22px/1 var(--font-body);
+    box-shadow: inset 0 0 0 1px var(--border-default);
+  }
+  .kopt--on { background: var(--bg-brand); color: var(--text-on-brand-primary); box-shadow: none; }
+  /* pagination + home indicator */
+  .kbd__dots { display: flex; gap: 5px; justify-content: center; padding: 8px 0; }
   .kbd__dots i { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--border-default); }
   .kbd__dots i.on { background: var(--text-tertiary); }
+  .kbd__home { display: flex; justify-content: center; padding: 6px 0 4px; }
+  .kbd__home i { width: 135px; height: 5px; border-radius: var(--radius-full); background: var(--text-primary); }
+  /* long-press doc section */
+  .pop-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px; margin-top: 16px;
+  }
+  .pop-card {
+    margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px;
+    padding: 20px; background: var(--bg-subtle); border-radius: var(--radius-l);
+  }
+  .pop-card .kopt-row { background: var(--bg-surface); padding: 6px; border-radius: var(--radius-l); box-shadow: 0 4px 14px rgba(10,10,10,.08); }
+  .pop-card figcaption { font-size: 13px; color: var(--text-secondary); text-align: center; }
   /* key preview tiles */
-  .kbd-prev { background: var(--bg-canvas); }
-  .kbd-prev .key { width: 58px; }
+  .kbd-prev { background: var(--bg-canvas); padding: 16px; }
+  .kbd-prev .key { width: 65px; height: 62px; }
+  .kbd-prev .key--letter { width: 54px; height: 50px; }
   /* switcher pills a touch smaller */
   .pill--sm { padding: 6px 14px; font-size: 14px; }
   @media (max-width: 520px) { .kbd, .kbd--demo { width: 100%; } }
