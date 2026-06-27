@@ -33,6 +33,7 @@ export const nav: NavData = {
     { slug: 'switch', title: 'Switch · Checkbox · Radio', status: 'ready' },
     { slug: 'top-navigation', title: 'Top Navigation', status: 'ready' },
     { slug: 'bottom-navigation', title: 'Bottom Navigation', status: 'ready' },
+    { slug: 'trainer-keyboard', title: 'Trainer Keyboard', status: 'ready' },
   ],
   patterns: [
     { slug: 'trainer-block', title: 'Trainer Block', status: 'ready' },
