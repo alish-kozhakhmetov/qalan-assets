@@ -290,22 +290,27 @@ input,button{font-family:inherit}
    gap 8, py 16. Тип меняет только начинку слотов, не структуру. */
 .li {
   display: flex; align-items: center; gap: 8px;
-  min-height: 58px; padding: 16px; width: 300px; box-sizing: border-box;
-  background: var(--bg-surface); border: 1px solid var(--border-default);
-  border-radius: 16px; cursor: pointer; text-align: left;
-  font-family: var(--font-body);
+  min-height: 58px; padding: 16px; width: 100%; box-sizing: border-box;
+  background: var(--bg-surface); border: none;
+  border-top: 1px solid var(--border-default); border-radius: 0;
+  cursor: pointer; text-align: left; font-family: var(--font-body);
 }
 .li__control { flex-shrink: 0; display: flex; align-items: center; }
-.li__content { flex: 1 0 0; min-width: 0; display: flex; align-items: center; gap: 8px; }
-.li__prefix { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
-.li__prefix img { width: 24px; height: 24px; }
-.li__label { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+.li__content { flex: 1 0 0; min-width: 0; display: flex; align-items: flex-start; gap: 8px; }
+.li__prefix { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--text-primary); }
+.li__prefix img, .li__prefix svg { width: 24px; height: 24px; }
+.li__label { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.li__textblock { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; width: 100%; }
 .li__overline { font: 400 14px/18px var(--font-body); text-transform: uppercase; letter-spacing: 1px; color: var(--text-primary); }
 .li__title { font: 400 18px/23px var(--font-body); color: var(--text-primary); }
 .li__title--bold { font-weight: 700; }
 .li__desc { font: 400 16px/21px var(--font-body); color: var(--text-secondary); }
-.li__suffix { flex-shrink: 0; width: 24px; height: 24px; }
-.li__suffix img { width: 24px; height: 24px; }
+.li__button { flex-shrink: 0; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+  padding: 8px 16px 10px; border: none; border-radius: var(--radius-full);
+  background: var(--bg-brand); color: var(--text-on-brand-primary);
+  font: 700 16px/21px var(--font-body); cursor: pointer; }
+.li__suffix { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--text-tertiary); }
+.li__suffix img, .li__suffix svg { width: 24px; height: 24px; }
 
 /* контролы */
 .li__check { width: 20px; height: 20px; border: 2px solid var(--border-default); border-radius: 4px; background: var(--bg-surface); box-sizing: border-box; }
@@ -315,13 +320,14 @@ input,button{font-family:inherit}
 .li__avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 
 /* состояния (модификаторы рута, высоту НЕ трогают) */
-.li--pressed { background: var(--bg-subtle); border-color: var(--border-strong); }
-.li--disabled { background: var(--bg-disabled); border-color: var(--border-strong); cursor: default; }
-.li--disabled .li__title, .li--disabled .li__desc { color: var(--text-disabled); }
+.li--pressed { background: var(--bg-subtle); }
+.li--disabled { background: var(--bg-disabled); cursor: default; }
+.li--disabled .li__title, .li--disabled .li__desc, .li--disabled .li__overline { color: var(--text-disabled); }
 .li--disabled .li__check, .li--disabled .li__radio { border-color: var(--border-strong); background: var(--bg-disabled); }
-.li--active  { border: 2px solid var(--border-focus); padding: 15px; }
-/* regen 26.06: states = Default/Pressed/Disabled/Active (мастер 94:829).
-   Success/Error удалены — в текущем DS их нет (нет status-токенов на ноде). */
+.li--selected, .li--active { border: 2px solid var(--border-focus); border-radius: var(--radius-l); padding: 15px; }
+/* regen 28.06: пересборка от мастера 94:829 — плоская строка списка (border-top
+   hairline, radius 0), слоты Prefix/Label(overline·title·desc)/Button/Suffix,
+   состояния Default/Pressed/Disabled/Selected. Success/Error в DS нет. */
 /* === Button — пересборка от мастера 12:2263 (60 вариантов: 5 type × 4 state × 3 size) === */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 4px;
   border-radius: 999px; border: none; cursor: pointer; font-family: var(--font-body);
