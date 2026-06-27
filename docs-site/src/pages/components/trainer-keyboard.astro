@@ -30,6 +30,10 @@ const sym = (l) => ({ l, k: 'sym' });
 const fn = (l) => ({ l, k: 'fn' });
 const frac = (a, b) => ({ frac: [a, b], k: 'sym' });
 const back = { k: 'back' };
+// expandable keys (Nesting=true in the DS) — only these carry a long-press вкладыш
+const xp = (l) => ({ l, xp: l });
+const xpSym = (l) => ({ l, k: 'sym', xp: l });
+const xpFn = (l) => ({ l, k: 'fn', xp: l });
 
 const layouts = {
   basic: {
@@ -45,17 +49,17 @@ const layouts = {
   advanced: {
     label: 'Advanced', cols: 5, kh: 62, dot: 0,
     rows: [
-      ['<', '>', '=', '≠', back],
+      [xp('<'), xp('>'), '=', '≠', back],
       [frac('x', 'y'), '7', '8', '9', op('÷')],
       [sym('x²'), '4', '5', '6', op('×')],
       [sym('x³'), '1', '2', '3', op('−')],
-      [sym('√'), sym('( )'), '0', ',', op('+')],
+      [xpSym('√'), xpSym('( )'), '0', xp(','), op('+')],
     ],
   },
   additional: {
     label: 'Additional', cols: 5, kh: 62, dot: 1,
     rows: [
-      [fn('sin'), fn('cos'), fn('tan'), fn('ctg'), back],
+      [xpFn('sin'), xpFn('cos'), xpFn('tan'), xpFn('ctg'), back],
       [sym('∑'), sym('∑ᵇₐ'), sym('∫'), sym('∫ᵇₐ'), sym('±')],
       ['∈', '∉', '⊂', '⋃', '⋂'],
       ['∞', 'e', 'c', fn('log'), fn('lg')],
@@ -148,7 +152,7 @@ const toc = [
             return (
               <div class="kbd__grid" data-kbd={id} data-dot={lay.dot} hidden={id !== 'basic'} style={`grid-template-columns:repeat(${lay.cols},1fr);--kh:${lay.kh}px`}>
                 {lay.rows.flat().map(norm).map((k) => {
-                  const e = !k.frac && k.l ? EXP[k.l] : null;
+                  const e = k.xp ? EXP[k.xp] : null;
                   return (
                     <button class:list={['key', k.k && `key--${k.k}`, { 'key--on': k.on, 'key--exp': !!e }]} type="button"
                       data-opts={e ? JSON.stringify(e.opts) : undefined}
@@ -181,10 +185,13 @@ const toc = [
   <section id="longpress" class="doc-section">
     <h2 class="doc-h2">Долгие нажатия</h2>
     <p class="doc-body prose">
-      У части клавиш есть альтернативы по долгому нажатию (<code>_Trainer Expanded-keys</code>).
-      Клавиша <strong>раскрывается в сторону прямо по сетке</strong> — доп. символы ложатся
-      ровно в соседние ячейки (2–3 колонки), фон остальной клавиатуры затемняется, активный
-      символ — синий. Нажми клавишу с уголком на клавиатуре выше, чтобы увидеть вживую.
+      У части клавиш есть альтернативы по долгому нажатию (<code>_Trainer Expanded-keys</code>,
+      свойство <code>Nesting</code>). Клавиша <strong>раскрывается в сторону прямо по сетке</strong>
+      — доп. символы ложатся ровно в соседние ячейки (2–3 колонки), фон остальной клавиатуры
+      затемняется, активный символ — синий. Вложенности есть только в <strong>Advanced</strong>
+      (<code>&lt;</code> <code>&gt;</code> <code>√</code> <code>( )</code> <code>,</code>) и
+      <strong>Additional</strong> (<code>sin cos tan ctg</code>); в Basic их нет. Нажми клавишу
+      с уголком на клавиатуре выше, чтобы увидеть вживую.
     </p>
     <div class="pop-grid">
       {['<', '>', '√', '( )', ',', 'sin', 'cos', 'tan', 'ctg'].map((lbl) => (
@@ -270,6 +277,7 @@ const toc = [
       <table class="ds-table ds-table--spec">
         <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
+          <tr><td>28.06.2026</td><td>Вложенности привязаны по свойству <code>Nesting</code> из DS: Basic — без них, Advanced (&lt; &gt; √ ( ) ,) и Additional (sin cos tan ctg). Превью клавы и примеры — без canvas-подложки.</td><td>Changed</td></tr>
           <tr><td>28.06.2026</td><td>Долгое нажатие переделано на верный механизм: клавиша раскрывается в сторону по сетке (вкладыши в соседних ячейках) + затемнение фона, вместо плавающей карточки.</td><td>Changed</td></tr>
           <tr><td>28.06.2026</td><td>Сверка с Figma: точные размеры клавиш (65×62, gap 4), панель h58, home-indicator.</td><td>Changed</td></tr>
           <tr><td>28.06.2026</td><td>Перенос из Figma в код: 5 раскладок (Basic / Advanced / Additional / abc / ABC), переключатель.</td><td>Added</td></tr>
@@ -343,20 +351,18 @@ const toc = [
 </Docs>
 
 <style>
+  /* previews sit directly on the page — no canvas подложка */
   .device-stage {
-    background: var(--bg-subtle);
-    border-radius: var(--radius-xl);
-    padding: 24px 16px;
+    background: transparent;
+    padding: 8px 0;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     margin-top: 16px;
   }
   .kbd {
     position: relative;
     width: 375px; max-width: 100%;
-    background: var(--bg-canvas);
-    border-radius: var(--radius-l);
-    padding: 10px 16px 4px;
+    padding: 0;
   }
   .kbd--demo { width: 375px; }
   /* action bar — pill buttons, h58 */
@@ -366,7 +372,7 @@ const toc = [
     align-items: center; justify-content: center; cursor: pointer;
     background: var(--bg-surface); color: var(--text-primary);
     border: none; border-radius: var(--radius-full);
-    box-shadow: 0 1px 1px rgba(10,10,10,.05);
+    box-shadow: 0 1px 2px rgba(10,10,10,.07), 0 0 0 1px rgba(10,10,10,.05);
   }
   .kbd__check {
     flex: 1; height: 58px; cursor: pointer; border: none;
@@ -383,7 +389,7 @@ const toc = [
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--bg-surface); color: var(--text-primary);
     border-radius: var(--radius-m);
-    box-shadow: 0 1px 1px rgba(10,10,10,.05);
+    box-shadow: 0 1px 2px rgba(10,10,10,.07), 0 0 0 1px rgba(10,10,10,.05);
     font: 400 24px/29px var(--font-body);
   }
   .key:active { background: var(--bg-canvas); }
@@ -440,15 +446,17 @@ const toc = [
   }
   .pop-card {
     margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px;
-    padding: 20px; background: var(--bg-subtle); border-radius: var(--radius-l);
+    padding: 8px 8px 4px;
   }
-  .pop-card .kopt-row { background: var(--bg-surface); padding: 6px; border-radius: var(--radius-l); box-shadow: 0 4px 14px rgba(10,10,10,.08); }
+  .pop-card .kopt-row { gap: 4px; }
   .pop-card figcaption { font-size: 13px; color: var(--text-secondary); text-align: center; }
   /* key preview tiles */
   .kbd-prev { background: var(--bg-canvas); padding: 16px; }
   .kbd-prev .key { width: 65px; height: 62px; }
   .kbd-prev .key--letter { width: 54px; height: 50px; }
   /* switcher pills a touch smaller */
+  /* anatomy keyboard sits flat too — no stage подложка */
+  .anatomy .stage { background: transparent; border: none; padding: 8px 0; }
   .pill--sm { padding: 6px 14px; font-size: 14px; }
   @media (max-width: 520px) { .kbd, .kbd--demo { width: 100%; } }
 </style>
