@@ -150,13 +150,14 @@ const toc = [
                 {lay.rows.flat().map(norm).map((k) => {
                   const e = !k.frac && k.l ? EXP[k.l] : null;
                   return (
-                    <button class:list={['key', k.k && `key--${k.k}`, { 'key--on': k.on, 'key--exp': !!e }]} type="button">
+                    <button class:list={['key', k.k && `key--${k.k}`, { 'key--on': k.on, 'key--exp': !!e }]} type="button"
+                      data-opts={e ? JSON.stringify(e.opts) : undefined}
+                      data-active={e ? String(e.opts.indexOf(k.l)) : undefined}>
                       {k.k === 'back' ? <span class="key__ico" set:html={icBack}></span>
                         : k.k === 'shift' ? <span class="key__ico" set:html={icShift}></span>
                         : k.frac ? <span class="key__frac"><b>{k.frac[0]}</b><b>{k.frac[1]}</b></span>
                         : <span class="key__l">{k.l}</span>}
                       {e && <i class="key__hint">{e.hint}</i>}
-                      {e && <span class="key__pop"><span class="kopt-row">{e.opts.map((o) => (<b class:list={['kopt', { 'kopt--on': o === k.l }]}>{o}</b>))}</span></span>}
                     </button>
                   );
                 })}
@@ -166,20 +167,24 @@ const toc = [
         </div>
         <div class="kbd__dots" id="kbdDots"><i></i><i></i><i></i></div>
         <div class="kbd__home"><i></i></div>
+        <div class="kbd__scrim"></div>
+        <div class="kbd__expand" id="kbdExpand" hidden></div>
       </div>
     </div>
     <p class="doc-body prose">
       Переключай раскладку пилюлями выше. Клавиши с уголком (значок в правом
-      верхнем углу) имеют <strong>долгое нажатие</strong> — наведи на такую,
-      чтобы увидеть вкладыш с альтернативами.
+      верхнем углу) имеют <strong>долгое нажатие</strong> — нажми на такую:
+      клавиша раскроется в сторону прямо по сетке, фон затемнится.
     </p>
   </section>
 
   <section id="longpress" class="doc-section">
     <h2 class="doc-h2">Долгие нажатия</h2>
     <p class="doc-body prose">
-      У части клавиш есть вкладыш по долгому нажатию (<code>_Trainer Expanded-keys</code>):
-      раскрывается карточка с альтернативами, активный символ — синий.
+      У части клавиш есть альтернативы по долгому нажатию (<code>_Trainer Expanded-keys</code>).
+      Клавиша <strong>раскрывается в сторону прямо по сетке</strong> — доп. символы ложатся
+      ровно в соседние ячейки (2–3 колонки), фон остальной клавиатуры затемняется, активный
+      символ — синий. Нажми клавишу с уголком на клавиатуре выше, чтобы увидеть вживую.
     </p>
     <div class="pop-grid">
       {['<', '>', '√', '( )', ',', 'sin', 'cos', 'tan', 'ctg'].map((lbl) => (
@@ -265,7 +270,8 @@ const toc = [
       <table class="ds-table ds-table--spec">
         <thead><tr><th>Дата</th><th>Изменение</th><th>Тип</th></tr></thead>
         <tbody>
-          <tr><td>28.06.2026</td><td>Сверка с Figma: точные размеры клавиш (65×62, gap 4), панель h58, home-indicator; добавлены вкладыши долгого нажатия.</td><td>Changed</td></tr>
+          <tr><td>28.06.2026</td><td>Долгое нажатие переделано на верный механизм: клавиша раскрывается в сторону по сетке (вкладыши в соседних ячейках) + затемнение фона, вместо плавающей карточки.</td><td>Changed</td></tr>
+          <tr><td>28.06.2026</td><td>Сверка с Figma: точные размеры клавиш (65×62, gap 4), панель h58, home-indicator.</td><td>Changed</td></tr>
           <tr><td>28.06.2026</td><td>Перенос из Figma в код: 5 раскладок (Basic / Advanced / Additional / abc / ABC), переключатель.</td><td>Added</td></tr>
         </tbody>
       </table>
@@ -290,13 +296,46 @@ const toc = [
           b.classList.toggle('pill--active', b.getAttribute('data-kbd-btn') === id);
         });
       }
+      var kbd = document.getElementById('kbd');
+      var expand = document.getElementById('kbdExpand');
+      var openKey = null;
+      function closeExp() {
+        kbd.classList.remove('is-dimmed');
+        expand.hidden = true; expand.innerHTML = ''; openKey = null;
+      }
+      // Open a key's alternatives in-grid: the strip lands exactly on the cells
+      // (same width/gap), expanding toward the side with room; rest is dimmed.
+      function openExp(key) {
+        var opts = JSON.parse(key.getAttribute('data-opts') || '[]');
+        var active = parseInt(key.getAttribute('data-active'), 10) || 0;
+        var br = kbd.getBoundingClientRect(), kr = key.getBoundingClientRect();
+        var cw = kr.width, ch = kr.height, gap = 4, n = opts.length;
+        var stripW = n * cw + (n - 1) * gap;
+        // active option stays in the key's own cell → expand right if active is
+        // leftmost, else expand left so it ends on the key.
+        var left = active === 0 ? (kr.left - br.left) : (kr.right - br.left - stripW);
+        left = Math.max(4, Math.min(left, br.width - 4 - stripW));
+        expand.style.left = left + 'px';
+        expand.style.top = (kr.top - br.top) + 'px';
+        expand.style.height = ch + 'px';
+        expand.innerHTML = opts.map(function (o, i) {
+          return '<b class="kx' + (i === active ? ' kx--on' : '') + '" style="width:' + cw + 'px">' + o + '</b>';
+        }).join('');
+        kbd.classList.add('is-dimmed'); expand.hidden = false; openKey = key;
+      }
       sw.addEventListener('click', function (e) {
         var b = e.target.closest('[data-kbd-btn]');
-        if (b) show(b.getAttribute('data-kbd-btn'));
+        if (b) { closeExp(); show(b.getAttribute('data-kbd-btn')); }
       });
-      // tap a long-press key to pin its popover (mobile / click)
       document.querySelectorAll('#kbd .key--exp').forEach(function (k) {
-        k.addEventListener('click', function () { k.classList.toggle('is-open'); });
+        k.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (openKey === k) closeExp(); else openExp(k);
+        });
+      });
+      // click the dimmed area (or the strip) to dismiss
+      kbd.addEventListener('click', function (e) {
+        if (kbd.classList.contains('is-dimmed') && !e.target.closest('.key--exp')) closeExp();
       });
       show('basic');
     })();
@@ -313,6 +352,7 @@ const toc = [
     margin-top: 16px;
   }
   .kbd {
+    position: relative;
     width: 375px; max-width: 100%;
     background: var(--bg-canvas);
     border-radius: var(--radius-l);
@@ -361,21 +401,23 @@ const toc = [
     position: absolute; top: 5px; right: 8px; font-style: normal;
     font-size: 11px; line-height: 1; color: var(--text-tertiary);
   }
-  /* popover (вкладыш) */
-  .key__pop {
-    position: absolute; bottom: calc(100% + 6px); left: 50%;
-    transform: translateX(-50%) translateY(4px) scale(.96);
-    opacity: 0; visibility: hidden; transition: .12s ease; z-index: 6;
-    pointer-events: none;
-    background: var(--bg-surface); border-radius: var(--radius-l);
-    padding: 6px; box-shadow: 0 10px 28px rgba(10,10,10,.18);
+  /* long-press: dim scrim + in-grid expansion strip */
+  .kbd__scrim {
+    position: absolute; inset: 0; border-radius: inherit;
+    background: rgba(10,10,10,.45); opacity: 0; visibility: hidden;
+    transition: opacity .12s ease; z-index: 4;
   }
-  .key--exp:hover .key__pop,
-  .key--exp:focus-visible .key__pop,
-  .key--exp.is-open .key__pop {
-    opacity: 1; visibility: visible; pointer-events: auto;
-    transform: translateX(-50%) translateY(0) scale(1);
+  .kbd.is-dimmed .kbd__scrim { opacity: 1; visibility: visible; }
+  .kbd__expand { position: absolute; z-index: 5; display: flex; gap: 4px; }
+  .kbd__expand[hidden] { display: none; }
+  /* :global — strip cells are injected via JS innerHTML, so they miss the scope attr */
+  .kbd__expand :global(.kx) {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 100%; border-radius: var(--radius-m);
+    background: var(--bg-surface); color: var(--text-primary);
+    font: 400 24px/1 var(--font-body); box-shadow: 0 2px 6px rgba(10,10,10,.14);
   }
+  .kbd__expand :global(.kx--on) { background: var(--bg-brand); color: var(--text-on-brand-primary); box-shadow: 0 2px 10px rgba(0,102,254,.4); }
   .kopt-row { display: flex; gap: 4px; }
   .kopt {
     display: inline-flex; align-items: center; justify-content: center;
