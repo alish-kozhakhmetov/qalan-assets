@@ -8,6 +8,21 @@ const uiIcons = Object.entries(raw)
   .map(([path, svg]) => ({ name: path.split('/').pop().replace('.svg', ''), svg: svg as string }))
   .sort((a, b) => a.name.localeCompare(b.name));
 
+// ISO country flags — flag-icons (MIT), inlined raw SVG, searchable.
+const flagRaw = import.meta.glob('../../flags-iso/*.svg', { query: '?raw', import: 'default', eager: true });
+const flags = Object.entries(flagRaw)
+  .map(([path, svg]) => ({ code: path.split('/').pop().replace('.svg', ''), svg: svg as string }))
+  .sort((a, b) => a.code.localeCompare(b.code));
+
+// Qalan custom gamification glyphs — exported PNG @2x, served from /ds/icons/glyphs.
+// Coloured glyphs render on the light tile; monochrome-white overlay glyphs
+// (favorite/duel/league) carry a dark backdrop, so they sit on a dark tile.
+// Rarity stars are overlay layers on a coloured bg — omitted as standalone.
+const glyphs = [
+  { n: 'g-coin' }, { n: 'g-diamond' }, { n: 'g-point' }, { n: 'g-streak' },
+  { n: 'g-favorite', dark: true }, { n: 'g-duel', dark: true }, { n: 'g-league', dark: true },
+];
+
 // Product assets — raster, exported from the DS, served from /ds/icons (synced).
 const metrics = ['task', 'accuracy', 'time', 'score', 'streak'];
 const features = ['trainer', 'courses', 'tests', 'mentors', 'analysis', 'characters', 'cashback', 'aichat'];
@@ -23,6 +38,8 @@ const resources = [
 const toc = [
   { id: 'principles', label: 'Принципы' },
   { id: 'ui', label: 'UI-иконки' },
+  { id: 'glyphs', label: 'Qalan Glyphs' },
+  { id: 'flags', label: 'Флаги' },
   { id: 'product', label: 'Продуктовые ассеты' },
   { id: 'source', label: 'Источники' },
 ];
@@ -67,6 +84,31 @@ const toc = [
     <p class="ui-empty" id="uiEmpty" hidden>Ничего не найдено.</p>
   </section>
 
+  <section id="glyphs" class="doc-section">
+    <h2 class="doc-h2">Qalan Glyphs <span class="muted">· {glyphs.length}</span></h2>
+    <p class="doc-body prose">Кастомные геймификационные глифы — ресурсы, рарность персонажей, лига, стрик, дуэль. Мастера: <code>Icon-pack › Qalan Glyphs</code>.</p>
+    <div class="asset-grid">
+      {glyphs.map((g) => (
+        <figure class:list={['asset', { 'asset--dark': g.dark }]}><img src={`/ds/icons/glyphs/${g.n}@2x.png`} alt={g.n} loading="lazy" /><figcaption>{g.n}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+
+  <section id="flags" class="doc-section">
+    <h2 class="doc-h2">Флаги <span class="muted">· ISO · {flags.length}</span></h2>
+    <p class="doc-body prose">ISO-набор для выбора страны и поля телефона. Канон для UI — этот набор (<code>Icon-pack › Flags</code>); в <code>_Prefix</code> Text Field флаг ссылается на него.</p>
+    <input class="icon-search" id="flagSearch" type="search" placeholder="Поиск по коду — kz, ru, uz, az…" autocomplete="off" />
+    <div class="ui-grid" id="flagGrid">
+      {flags.map((f) => (
+        <button class="ui-icon" data-name={f.code} title={f.code} type="button">
+          <span class="flag-glyph" set:html={f.svg}></span>
+          <span class="ui-icon__name">{f.code}</span>
+        </button>
+      ))}
+    </div>
+    <p class="ui-empty" id="flagEmpty" hidden>Ничего не найдено.</p>
+  </section>
+
   <section id="product" class="doc-section">
     <h2 class="doc-h2">Продуктовые ассеты</h2>
 
@@ -103,28 +145,34 @@ const toc = [
     <h2 class="doc-h2">Источники</h2>
     <ul>
       <li><strong>UI-иконки</strong> — <a href="https://www.untitledui.com/icons">Untitled UI Icons</a>, line-набор, бесплатно для коммерции. Мастера — <code>Icon-pack › Untitled UI</code>.</li>
+      <li><strong>Qalan Glyphs</strong> — кастомные, мастера в <code>Icon-pack › Qalan Glyphs</code>, export PNG @2x. В репо: <code>icons/glyphs/</code>.</li>
+      <li><strong>Флаги</strong> — <a href="https://github.com/lipis/flag-icons">flag-icons</a> (MIT), ISO 4×3. В репо: <code>docs-site/src/flags-iso/</code>. Канон для UI — <code>Icon-pack › Flags</code>.</li>
       <li><strong>Продуктовые ассеты</strong> — мастера в <code>DS › Patterns / Components</code>, export PNG @2x. В репо: <code>icons/</code> (+ <code>icons/state/</code>).</li>
-      <li><strong>Персонажи</strong> (192 рендера), <strong>флаги</strong> (266) — большие наборы, в Figma; выгружаются по требованию.</li>
+      <li><strong>Персонажи</strong> (192 рендера) — большой набор, в Figma; выгружается по требованию.</li>
     </ul>
   </section>
 
   <script is:inline>
     (function () {
-      var input = document.getElementById('iconSearch');
-      var grid = document.getElementById('uiGrid');
-      var empty = document.getElementById('uiEmpty');
-      if (!input || !grid) return;
-      var items = Array.prototype.slice.call(grid.children);
-      input.addEventListener('input', function () {
-        var q = input.value.trim().toLowerCase();
-        var shown = 0;
-        items.forEach(function (el) {
-          var hit = !q || el.getAttribute('data-name').indexOf(q) !== -1;
-          el.style.display = hit ? '' : 'none';
-          if (hit) shown++;
+      function wire(inputId, gridId, emptyId) {
+        var input = document.getElementById(inputId);
+        var grid = document.getElementById(gridId);
+        var empty = document.getElementById(emptyId);
+        if (!input || !grid) return;
+        var items = Array.prototype.slice.call(grid.children);
+        input.addEventListener('input', function () {
+          var q = input.value.trim().toLowerCase();
+          var shown = 0;
+          items.forEach(function (el) {
+            var hit = !q || el.getAttribute('data-name').indexOf(q) !== -1;
+            el.style.display = hit ? '' : 'none';
+            if (hit) shown++;
+          });
+          if (empty) empty.hidden = shown > 0;
         });
-        empty.hidden = shown > 0;
-      });
+      }
+      wire('iconSearch', 'uiGrid', 'uiEmpty');
+      wire('flagSearch', 'flagGrid', 'flagEmpty');
     })();
   </script>
 </Docs>
@@ -152,6 +200,8 @@ const toc = [
     text-align: center; word-break: break-word; max-width: 100%;
   }
   .ui-empty { color: var(--text-tertiary); }
+  .flag-glyph { display: inline-flex; }
+  .flag-glyph :global(svg) { width: 30px; height: 22px; display: block; border-radius: 3px; box-shadow: 0 0 0 1px var(--border-default); }
   .asset-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 16px; margin-top: 16px;
@@ -163,4 +213,6 @@ const toc = [
   }
   .asset img { width: auto; height: 56px; max-width: 100%; object-fit: contain; }
   .asset figcaption { font: 400 12px/1.3 ui-monospace, monospace; color: var(--text-secondary); }
+  .asset--dark { background: var(--bg-inverse); }
+  .asset--dark figcaption { color: var(--graphit-400); }
 </style>
