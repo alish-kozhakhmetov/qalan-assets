@@ -1,62 +1,103 @@
 ---
 import Docs from '../layouts/Docs.astro';
-import { nav } from '../data/nav';
+import { nav, navGroups } from '../data/nav';
 
-const ready = (group: 'foundations' | 'components' | 'patterns') =>
-  nav[group].filter((i) => i.status === 'ready').length;
+// Status board — single source is nav.ts. Каждая группа: ready / soon.
+const stat = (key: 'foundations' | 'components' | 'patterns') => {
+  const items = nav[key];
+  return { ready: items.filter((i) => i.status === 'ready').length, total: items.length };
+};
+const totals = navGroups.reduce(
+  (acc, g) => {
+    const s = stat(g.key);
+    acc.ready += s.ready;
+    acc.total += s.total;
+    return acc;
+  },
+  { ready: 0, total: 0 }
+);
+const pct = Math.round((totals.ready / totals.total) * 100);
 ---
 
 <Docs title="Главная">
   <section class="prose">
     <h1 class="doc-h1">Qalan Design System</h1>
     <p class="doc-lead">
-      Документация и витрина дизайн-системы Qalan. Живые компоненты, токены и
-      правила — собраны из единого источника: <code>tokens.css</code>,
-      <code>base.css</code> и брендовых шрифтов в корне репозитория.
-    </p>
-    <p class="doc-body" style="margin-top:16px;">
-      Каждая страница компонента объединяет интерактивную «Песочницу» (props →
-      превью → копируемый код) с правилами применения и скриншотами в контексте.
+      Витрина и документация дизайн-системы Qalan. Живые компоненты, токены и
+      правила — из единого источника: <code>tokens.css</code>, <code>base.css</code>
+      и брендовых шрифтов в корне репозитория.
     </p>
   </section>
 
+  <!-- ===== Status board ===== -->
   <section class="doc-section">
-    <h2 class="doc-h2">Foundations</h2>
-    <p class="doc-body">Цвета, типографика, отступы, радиусы и размеры — прямо из токенов.</p>
-    <div class="index-grid">
-      {nav.foundations.map((item) => (
-        item.status === 'ready' ? (
-          <a class="index-card" href={`/foundations/${item.slug}`}>
-            <span class="index-card__title">{item.title}</span>
-            <span class="index-card__status index-card__status--ready">Готово</span>
-          </a>
-        ) : (
-          <div class="index-card index-card--soon">
-            <span class="index-card__title">{item.title}</span>
-            <span class="index-card__status">Скоро</span>
-          </div>
-        )
-      ))}
+    <div class="board">
+      <div class="board__head">
+        <span class="board__count">{totals.ready}<span class="board__slash">/{totals.total}</span></span>
+        <span class="board__label">разделов готово</span>
+        <span class="board__pct">{pct}%</span>
+      </div>
+      <div class="board__bar"><i style={`width:${pct}%`}></i></div>
+      <div class="board__stats">
+        {navGroups.map((g) => {
+          const s = stat(g.key);
+          return (
+            <a class="board__stat" href={`${g.base}`}>
+              <span class="board__stat-n">{s.ready}<span class="board__slash">/{s.total}</span></span>
+              <span class="board__stat-l">{g.label}</span>
+            </a>
+          );
+        })}
+      </div>
     </div>
   </section>
 
-  <section class="doc-section">
-    <h2 class="doc-h2">Components</h2>
-    <p class="doc-body">Кнопки, поля, списки и навигация — на реальных классах <code>base.css</code>.</p>
-    <div class="index-grid">
-      {nav.components.map((item) => (
-        item.status === 'ready' ? (
-          <a class="index-card" href={`/components/${item.slug}`}>
-            <span class="index-card__title">{item.title}</span>
-            <span class="index-card__status index-card__status--ready">Готово</span>
-          </a>
-        ) : (
-          <div class="index-card index-card--soon">
-            <span class="index-card__title">{item.title}</span>
-            <span class="index-card__status">Скоро</span>
-          </div>
-        )
-      ))}
-    </div>
-  </section>
+  <!-- ===== Group inventories ===== -->
+  {navGroups.map((g) => (
+    <section class="doc-section" id={g.key}>
+      <h2 class="doc-h2">{g.label}</h2>
+      <div class="index-grid">
+        {nav[g.key].map((item) => (
+          item.status === 'ready' ? (
+            <a class="index-card" href={`${g.base}/${item.slug}`}>
+              <span class="index-card__title">{item.title}</span>
+              <span class="index-card__status index-card__status--ready">Готово</span>
+            </a>
+          ) : (
+            <div class="index-card index-card--soon">
+              <span class="index-card__title">{item.title}</span>
+              <span class="index-card__status">Скоро</span>
+            </div>
+          )
+        ))}
+      </div>
+    </section>
+  ))}
 </Docs>
+
+<style>
+  .board {
+    background: var(--bg-subtle);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    margin-top: 8px;
+  }
+  .board__head { display: flex; align-items: baseline; gap: 10px; }
+  .board__count { font: 700 34px/1 var(--font-display); color: var(--brand-800, var(--brand-600)); }
+  .board__slash { color: var(--text-tertiary); font-weight: 400; }
+  .board__label { color: var(--text-secondary); font-size: 16px; }
+  .board__pct { margin-left: auto; font: 700 20px/1 var(--font-display); color: var(--success, #00b53f); }
+  .board__bar { height: 8px; background: var(--border-default); border-radius: var(--radius-full); margin: 16px 0 20px; overflow: hidden; }
+  .board__bar i { display: block; height: 100%; background: var(--bg-brand); border-radius: inherit; }
+  .board__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .board__stat {
+    display: flex; flex-direction: column; gap: 4px; text-decoration: none;
+    background: var(--bg-surface); border-radius: var(--radius-l); padding: 14px 16px;
+    transition: transform .12s ease;
+  }
+  .board__stat:hover { transform: translateY(-2px); }
+  .board__stat-n { font: 700 24px/1 var(--font-display); color: var(--text-primary); }
+  .board__stat-l { font-size: 14px; color: var(--text-secondary); }
+  [data-theme='dark'] .board__count { color: var(--brand-300, var(--brand-400)); }
+  @media (max-width: 560px) { .board__stats { grid-template-columns: 1fr; } }
+</style>
