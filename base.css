@@ -320,7 +320,7 @@ input,button{font-family:inherit}
 .li__avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
 
 /* состояния (модификаторы рута, высоту НЕ трогают) */
-.li--pressed { background: var(--bg-subtle); }
+.li--pressed, .li:not(.li--disabled):active { background: var(--bg-subtle); }
 .li--disabled { background: var(--bg-disabled); cursor: default; }
 .li--disabled .li__title, .li--disabled .li__desc, .li--disabled .li__overline { color: var(--text-disabled); }
 .li--disabled .li__check, .li--disabled .li__radio { border-color: var(--border-strong); background: var(--bg-disabled); }
@@ -343,29 +343,39 @@ input,button{font-family:inherit}
 .btn--s .btn__icon svg { width: 16px; height: 16px; }
 /* PRIMARY */
 .btn--primary { background: var(--bg-brand); color: var(--text-on-brand-primary); }
-.btn--primary.btn--pressed { background: var(--bg-brand-pressed); }
+.btn--primary.btn--pressed, .btn--primary:not(.btn--disabled):not(:disabled):active { background: var(--bg-brand-pressed); }
 .btn--primary.btn--disabled { background: var(--bg-disabled); color: var(--text-disabled); }
 /* SECONDARY */
 .btn--secondary { background: var(--bg-surface); border: 1px solid var(--border-default); color: var(--text-primary); }
-.btn--secondary.btn--pressed { background: var(--bg-subtle); }
+.btn--secondary.btn--pressed, .btn--secondary:not(.btn--disabled):not(:disabled):active { background: var(--bg-subtle); }
 .btn--secondary.btn--disabled { background: var(--bg-disabled); border-color: transparent; color: var(--text-disabled); }
 /* TERTIARY */
 .btn--tertiary { background: var(--bg-subtle); color: var(--text-primary); }
-.btn--tertiary.btn--pressed { color: var(--text-brand-pressed); }
+.btn--tertiary.btn--pressed, .btn--tertiary:not(.btn--disabled):not(:disabled):active { color: var(--text-brand-pressed); }
 .btn--tertiary.btn--disabled { background: var(--bg-disabled); color: var(--text-disabled); }
 /* TEXT */
 .btn--text { background: transparent; color: var(--text-primary); padding-left: 0; padding-right: 0; }
-.btn--text.btn--pressed { color: var(--text-brand-pressed); }
+.btn--text.btn--pressed, .btn--text:not(.btn--disabled):not(:disabled):active { color: var(--text-brand-pressed); }
 .btn--text.btn--disabled { color: var(--text-disabled); }
 /* TEXT-CRITICAL */
 .btn--critical { background: transparent; color: var(--text-error); padding-left: 0; padding-right: 0; }
-.btn--critical.btn--pressed { color: var(--text-error); }
+.btn--critical.btn--pressed, .btn--critical:not(.btn--disabled):not(:disabled):active { color: var(--text-error); opacity: .7; }
 .btn--critical.btn--disabled { color: var(--text-disabled); }
 /* LOADING — крутящийся спиннер вместо контента */
 .btn--loading { pointer-events: none; }
 .btn--loading .btn__label, .btn--loading .btn__icon:not(.btn__spinner) { display: none; }
 .btn__spinner { animation: btn-spin .7s linear infinite; }
 @keyframes btn-spin { to { transform: rotate(360deg); } }
+/* === Web press-feedback ===
+   Мобильная DS: hover нет, состояние взаимодействия — Pressed (касание). В вебе
+   Pressed срабатывает и по нажатию мыши: у Button/List Item — их родной Pressed
+   на токенах (см. правила выше, селектор :active); у остальных тапабельных
+   компонентов без явного Pressed — лёгкое затемнение при нажатии (iOS-подобный
+   touch-highlight). Hover в системе НЕ вводим — она мобильная. */
+.pill:not(:disabled):active,
+.tab:active,
+.btab:active,
+.tnav-btn:active { opacity: .72; }
 /* === Text field — мастер 19:6301 (14: TextField 8 состояний + Multiline 6) === */
 .tf { display: flex; flex-direction: column; gap: 4px; width: 320px; font-family: var(--font-body); }
 .tf__label { display: flex; gap: 8px; align-items: center; font: 400 16px/21px var(--font-body); color: var(--text-secondary); }

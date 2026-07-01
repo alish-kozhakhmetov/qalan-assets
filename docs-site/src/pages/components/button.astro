@@ -287,6 +287,7 @@ const ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-
     <ul>
       <li>Используйте семантический <code>&lt;button&gt;</code>; для переходов — <code>&lt;a&gt;</code> со стилем кнопки.</li>
       <li>Состояние <code>disabled</code> ставится атрибутом <code>disabled</code> вместе с классом <code>.btn--disabled</code>.</li>
+      <li><strong>Взаимодействие мобильное:</strong> hover-состояния в системе нет (тач). Реакция — <code>Pressed</code>: в приложении по касанию, в вебе по <code>:active</code> (клик). Здесь в песочнице переключатель «Pressed» показывает то же состояние.</li>
       <li>В состоянии loading кнопка не кликается (<code>pointer-events:none</code>); сообщите статус через <code>aria-busy</code>.</li>
       <li>Минимальная зона нажатия 44×44 — для размера S добавляйте отступ вокруг.</li>
       <li>Контраст текста к фону соответствует WCAG AA на всех типах.</li>
