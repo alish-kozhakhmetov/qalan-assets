@@ -91,6 +91,8 @@ const layouts = {
 };
 const norm = (k) => (typeof k === 'string' ? { l: k } : k);
 const order = ['basic', 'advanced', 'additional', 'abc', 'abcUpper'];
+// arc-варианты (arcsin…) не влезают в ячейку — рендерим в две строки: «arc» / база
+const optHtml = (o) => { const m = /^arc(.+)/.exec(o); return m ? `<span class="opt__arc">arc</span><span class="opt__base">${m[1]}</span>` : o; };
 
 const toc = [
   { id: 'when', label: 'Когда использовать' },
@@ -196,7 +198,7 @@ const toc = [
     <div class="pop-grid">
       {['<', '>', '√', '( )', ',', 'sin', 'cos', 'tan', 'ctg'].map((lbl) => (
         <figure class="pop-card">
-          <span class="kopt-row">{EXP[lbl].opts.map((o) => (<b class:list={['kopt', { 'kopt--on': o === lbl }]}>{o}</b>))}</span>
+          <span class="kopt-row">{EXP[lbl].opts.map((o) => (<b class:list={['kopt', { 'kopt--on': o === lbl, 'kopt--stack': /^arc./.test(o) }]} set:html={optHtml(o)}></b>))}</span>
           <figcaption>Долгое нажатие на <code>{lbl}</code></figcaption>
         </figure>
       ))}
@@ -327,7 +329,9 @@ const toc = [
         expand.style.top = (kr.top - br.top) + 'px';
         expand.style.height = ch + 'px';
         expand.innerHTML = opts.map(function (o, i) {
-          return '<b class="kx' + (i === active ? ' kx--on' : '') + '" style="width:' + cw + 'px">' + o + '</b>';
+          var m = /^arc(.+)/.exec(o);
+          var body = m ? '<span class="kx__arc">arc</span><span class="kx__base">' + m[1] + '</span>' : o;
+          return '<b class="kx' + (i === active ? ' kx--on' : '') + (m ? ' kx--stack' : '') + '" style="width:' + cw + 'px">' + body + '</b>';
         }).join('');
         kbd.classList.add('is-dimmed'); expand.hidden = false; openKey = key;
       }
@@ -419,20 +423,26 @@ const toc = [
   /* :global — strip cells are injected via JS innerHTML, so they miss the scope attr */
   .kbd__expand :global(.kx) {
     display: inline-flex; align-items: center; justify-content: center;
-    height: 100%; border-radius: var(--radius-m);
+    height: 100%; border-radius: var(--radius-m); overflow: hidden;
     background: var(--bg-surface); color: var(--text-primary);
     font: 400 24px/1 var(--font-body); box-shadow: 0 2px 6px rgba(10,10,10,.14);
   }
   .kbd__expand :global(.kx--on) { background: var(--bg-brand); color: var(--text-on-brand-primary); box-shadow: 0 2px 10px rgba(0,102,254,.4); }
+  .kbd__expand :global(.kx--stack) { flex-direction: column; gap: 0; line-height: 1.03; }
+  .kbd__expand :global(.kx__arc) { font-size: 12px; }
+  .kbd__expand :global(.kx__base) { font-size: 19px; }
   .kopt-row { display: flex; gap: 4px; }
   .kopt {
     display: inline-flex; align-items: center; justify-content: center;
-    min-width: 56px; height: 56px; padding: 0 10px; white-space: nowrap;
+    width: 56px; height: 56px; padding: 0 6px; overflow: hidden;
     border-radius: var(--radius-m); background: var(--bg-surface);
     color: var(--text-primary); font: 400 22px/1 var(--font-body);
     box-shadow: inset 0 0 0 1px var(--border-default);
   }
   .kopt--on { background: var(--bg-brand); color: var(--text-on-brand-primary); box-shadow: none; }
+  .kopt--stack { flex-direction: column; gap: 0; line-height: 1.03; }
+  .kopt :global(.opt__arc) { font-size: 12px; }
+  .kopt :global(.opt__base) { font-size: 19px; }
   /* pagination + home indicator */
   .kbd__dots { display: flex; gap: 5px; justify-content: center; padding: 8px 0; }
   .kbd__dots i { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--border-default); }
