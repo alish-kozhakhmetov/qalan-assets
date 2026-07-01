@@ -153,3 +153,61 @@ node landing/scripts/build-hero-flow.mjs --banner    # → banner.html (пром
 - **Headless WebGL**: Spine в Playwright требует флагов swiftshader (уже в рекордере).
 - **Размеры:** телефон базово 392px, viewport экрана 370×800; при зуме ×1.15 не вылезает
   за стейдж 600×1040.
+
+---
+
+## 7. Встройка персонажа (Spine) — все кастомизации
+
+Персонаж — Spine WebGL-виджет в `<iframe>`. Встраивался в **два уровня**.
+
+### Уровень 1 — сам виджет (`landing/scripts/make-characters.mjs`)
+Из сырого web-экспорта Spine делаем встраиваемый виджет:
+- `#spine-container` → `width:100vw;height:100vh` (на весь iframe);
+- `background:transparent`, в плеере `alpha:true`, `backgroundColor:'#00000000'`;
+- `showControls:false`;
+- добавлен `viewport:{ padLeft,padRight,padTop,padBottom }`, управляется query
+  `?pl= ?pr= ?pt= ?pb=` (доля 0..1; **меньше = персонаж крупнее**); дефолт 0.05;
+- анимация `?anim=` (дефолт Indiv), скин `?skin=` (дефолт A3).
+
+Файлы: `landing/public/characters/{buddy,tamina,bibot}.html` (ассеты вшиты base64).
+
+### Уровень 2 — баннер (Figma 460:5924)
+То, над чем бились: **у баннера нет фона** (один surface на экране — это блок тренажёра),
+персонаж крупный, прижат к низу-правому краю и биком вылезает за блок.
+```css
+.promo{position:relative;display:flex;align-items:center;background:transparent; /* без surface */
+  border-radius:16px;width:343px;min-height:200px;margin-top:24px;overflow:visible}
+.promo__text{display:flex;flex-direction:column;gap:8px;padding:16px;width:175px;position:relative;z-index:2}
+.promo__char{position:absolute;right:-2px;bottom:0;width:180px;height:236px;z-index:1;overflow:visible}
+.promo__char iframe{width:100%;height:100%;border:0;background:transparent;display:block}
+```
+```html
+<div class="promo__char">
+  <iframe src="/characters/buddy.html?anim=Hello&pb=0&pt=0.02&pl=0.02&pr=0.02" title="Дружок"></iframe>
+</div>
+```
+`pb=0` — нижний паддинг 0, чтобы Дружок стоял на дне баннера и вылезал за край.
+
+Бейдж «new» рядом (важно: SVG с фильтром инлайнится как raw `<svg>`, иначе пикселит):
+```css
+.promo__badge{position:absolute;left:148px;top:64px;width:82px;height:72px;transform:rotate(-15deg);z-index:3;pointer-events:none}
+.promo__badge-out{top:0;left:0;width:82px;height:72px}
+.promo__badge-in{top:7.66%;left:6.89%;width:85.82%;height:83.33%}
+.promo__badge-new{left:50%;top:49%;transform:translate(-50%,-50%);width:38.9px;height:11.7px}
+```
+
+### Экран успеха (Figma 428:19378) — тот же персонаж, LevelUp + свечение
+```css
+.succ-char{width:182px;height:250px;position:relative;z-index:1}
+.succ-char iframe{width:100%;height:100%;border:0;background:transparent;display:block}
+.succ-char::after{content:"";position:absolute;inset:-14% -10%;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,rgba(0,102,254,.20),transparent 64%);animation:ambient 4s ease-in-out infinite}
+```
+```html
+<div class="succ-char"><iframe src="/characters/buddy.html?anim=LevelUp" title="Дружок"></iframe></div>
+```
+
+### Анимации
+Скелет — бинарный `.skel`, имена анимаций в редакторе Spine. Подтверждённые в макете:
+**`Hello`** (баннер/главная), **`LevelUp`** (успех). Остальные (Idle/Talk и т.п.) есть, но
+имена видны только в Spine-редакторе.
